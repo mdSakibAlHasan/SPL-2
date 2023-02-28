@@ -58,9 +58,11 @@ export const login = (req, res) => {
   const em = req.body.email;
   const pa = req.body.password;
   console.log(em," ",pa)
-  const q = "SELECT * FROM users WHERE username = ?";
+  const q = "SELECT * FROM user WHERE email = ?";
   console.log("here in backend");
   db.query(q, [req.body.email], (err, data) => {
+    console.log(data)
+    console.log(data[0].password)
     if (err) return res.status(500).json(err);
     if (data.length === 0) return res.status(404).json("User not found!");
 
@@ -70,6 +72,7 @@ export const login = (req, res) => {
       data[0].password
     );
 
+  
     if (!isPasswordCorrect)
       return res.status(400).json("Wrong username or password!");
 
