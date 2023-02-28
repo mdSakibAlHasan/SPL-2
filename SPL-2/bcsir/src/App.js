@@ -7,6 +7,7 @@ import Home from "./Pages/Home";
 import Login from "./Pages/Login";
 import ForgotPass from "./Pages/ForgotPass";
 import "./style.scss";
+import Register from "./Pages/Register";
 
 
 const router = createBrowserRouter([
@@ -22,6 +23,10 @@ const router = createBrowserRouter([
   {
     path: "/ForgotPass",
     element: <ForgotPass/>,
+  },
+  {
+    path: "/Register",
+    element: <Register/>,
   }
 ]);
 

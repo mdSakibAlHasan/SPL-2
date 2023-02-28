@@ -1,33 +1,65 @@
 import express from "express";
-import authRoutes from "./path/auth.js";
-import userRoutes from "./path/users.js";
-import cookieParser from "cookie-parser";
-import multer from "multer";
+ import authRoutes from "./Path/auth.js";
+ //import userRoutes from "./path/users.js";
+ import cookieParser from "cookie-parser";
+// import multer from "multer";
+import cors from 'cors';
+
+
+
+import postROUTE from "./Path/post.js"
+//const cors = require('cors');
 
 const app = express();
-
 app.use(express.json());
 app.use(cookieParser());
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, "../client/public/upload");
-  },
-  filename: function (req, file, cb) {
-    cb(null, Date.now() + file.originalname);
-  },
+
+
+// //const upload = multer({ storage });
+
+
+
+// app.use(authRoutes);
+// app.use(userRoutes);
+
+
+// app.listen(3000, () => {
+//   console.log("Connected!");
+// });
+
+
+app.use(cors());
+
+// app.use(express.json());
+//app.use(express.text());
+//app.use(express.static(`${__dirname}/public/`));
+
+app.get('/',(req,res)=>{
+    res.send('This is home page');
 });
+app.use('/p',postROUTE);
+app.use('/api',authRoutes);
 
-const upload = multer({ storage });
+// app.post('/',(req,res)=>{
+//     //console.log(req.body);
+//     res.send('This is home page with post request');
+// });
 
-app.post("/api/upload", upload.single("file"), function (req, res) {
-  const file = req.file;
-  res.status(200).json(file.filename);
-});
+// const cors = require('cors');
+// const corsOptions ={
+//     origin:'http://localhost:3000', 
+//     credentials:true,            //access-control-allow-credentials:true
+//     optionSuccessStatus:200
+// }
+// app.use(cors(corsOptions));
 
-app.use("/api/auth", authRoutes);
-app.use("/api/users", userRoutes);
+// const corsOptions ={
+//     origin:'http://localhost:3000', 
+//     credentials:true,            //access-control-allow-credentials:true
+//     optionSuccessStatus:200
+// }
+// app.use(cors(corsOptions));
 
-
-app.listen(3306, () => {
-  console.log("Connected!");
+app.listen(3001,()=>{
+    console.log('lisening on port 3000');
 });

@@ -26,6 +26,7 @@ const Login = ()=>{
           await login(inputs)
           navigate("/");
         } catch (err) {
+          console.log("here");
           setError(err.response.data);
         }
       };
@@ -36,8 +37,8 @@ const Login = ()=>{
             <input
               required
               type="text"
-              placeholder="username"
-              name="username"
+              placeholder="email"
+              name="email"
               onChange={handleChange}
             />
             <input
