@@ -24,8 +24,9 @@ app.get('/',(req,res)=>{
 app.use('/p',postROUTE);
 app.use('/api',authRoutes);
 
-
+{/* <script src="https://smtpjs.com/v3/smtp.js">
+</script> */}
 
 app.listen(3001,()=>{
-    console.log('lisening on port 3000');
+    console.log('lisening on port 3001');
 });
