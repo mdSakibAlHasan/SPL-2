@@ -5,8 +5,8 @@ import bcrypt from "bcryptjs";
 // import nodemailer from 'nodemailer';
 import send_mail from "./sent_mail.js";
 
-var timeRemain = true;
-var randNum;
+var timeRemain = true,codeMatch=false;
+var randNum,emailName;
 
 function myFunc() {
   timeRemain = false;
@@ -15,8 +15,8 @@ function myFunc() {
 
 export const forgotPass = (req, res) => {
   //CHECK USER
-  const em = req.body.email;
-  console.log(em)
+  emailName = req.body.email;
+  console.log(emailName)
   const q = "SELECT * FROM user WHERE email = ?";
   console.log("here in backend");
   db.query(q, [req.body.email], (err, data) => {
@@ -56,7 +56,7 @@ export const forgotPass = (req, res) => {
     // })
       //
       const body = `${randNum} is your onetime password. Please don't share this with other`
-      send_mail(em,"Recovery password",body)
+      send_mail(emailName,"Recovery password",body)
 
     if (data.length === 0){ 
       console.log("email not found")
@@ -85,8 +85,10 @@ export const checkCode = (req, res) => {
   console.log(givenCode," is ",timeRemain," ",randNum);
 
   if(timeRemain){
-      if(givenCode == randNum)
+      if(givenCode == randNum){
+        codeMatch = true;
         return res.status(200).json("Code matched");
+      }
       else{
         myFunc();
         return res.status(404).json("Doesnot match");
@@ -97,5 +99,38 @@ export const checkCode = (req, res) => {
   }
 
 };
+
+
+export const inputPass = (req, res) => {
+  console.log(req.body.newPass)
+    if(!codeMatch){
+      return res.status(404).json("invalid access");
+    }
+    else{
+      // db.connect(function(err){
+      //   if (err) 
+      //     throw err;
+      //   else
+      //     console.log("Connected!");
+      //   });
+      const salt = bcrypt.genSaltSync(10);
+      const pass = bcrypt.hashSync(req.body.newPass, salt);
+
+      const qu = `update user set password = '${pass}' where email ='${emailName}';`
+      db.query(qu,function(err,result){
+      if(err){
+        console.log("Something happend to update password");
+        return res.status(409).json("password not updated");
+      }
+      else{
+        console.log("password updated");
+        codeMatch = false;
+        return res.status(200).json("Password updated");
+      }
+      });
+    }
+ 
+ };
+ 
 
 //export default forgotPass;

@@ -4,7 +4,7 @@ import {
 } from "react-router-dom";
 import Home from "./Pages/Home";
 import Login from "./Pages/Login";
-import {ForgotPass, CodePage} from "./Pages/ForgotPass";
+import {ForgotPass, CodePage, InputPass} from "./Pages/ForgotPass";
 import "./style.scss";
 import Register from "./Pages/Register";
 //import { BrowserRouter as  Route } from 'react-router-dom';
@@ -33,6 +33,10 @@ const router = createBrowserRouter([
   {
     path: "/CodePage",
     element: <CodePage/>,
+  },
+  {
+    path: "/inputPass",
+    element: <InputPass/>,
   },
 ]);
 
