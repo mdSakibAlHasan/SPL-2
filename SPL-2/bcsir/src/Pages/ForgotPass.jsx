@@ -76,6 +76,8 @@ export function CodePage() {
         try {
           console.log("in the rey");
           console.log(inputs.otp);
+          //await axios.post("http://localhost:3001/api/logout");
+          //console.log("It works")
           await axios.post("http://localhost:3001/api/match", inputs);
           navigate("/inputPass");       //mustChange
         } catch (err) {

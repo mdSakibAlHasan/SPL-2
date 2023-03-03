@@ -1,8 +1,5 @@
 import { db } from "../db.js";
 import bcrypt from "bcryptjs";
-// import jwt from "jsonwebtoken";
-// import emailjs from '@emailjs/browser';
-// import nodemailer from 'nodemailer';
 import send_mail from "./sent_mail.js";
 
 var timeRemain = true,codeMatch=false;
@@ -29,32 +26,6 @@ export const forgotPass = (req, res) => {
    randNum = getRandomInt(99999);
     console.log(randNum);
     setTimeout(myFunc, 300000);
-    //sendEmail(req.body.email);
-    // let mailTransporter = nodemailer.createTransport({
-    //   service: "gmail",
-    //   auth:{
-    //     user: "sakibalhasandu123@gmail.com",
-    //     pass: "ffkjpmhtroqslqxh"
-    //   }
-    // })
-    
-    // let details = {
-    //   from: "sakibalhasandu123@gmail.com",
-    //   to: em,
-    //   subject: "password recovery",
-    //   text: `${randNum} This is your one time passwod for recovery password. Don't share this with other`
-    // }
-
-    //  mailTransporter.sendMail(details,(err)=>{
-    //   if(err){
-    //     console.log("there are an error to send mail")
-    //     console.log(err)
-    //   }
-    //   else{
-    //     console.log("Email send successfully");
-    //   }
-    // })
-      //
       const body = `${randNum} is your onetime password. Please don't share this with other`
       send_mail(emailName,"Recovery password",body)
 
