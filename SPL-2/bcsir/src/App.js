@@ -7,6 +7,7 @@ import Login from "./Pages/Login";
 import {ForgotPass, CodePage, InputPass} from "./Pages/ForgotPass";
 import "./style.scss";
 import Register from "./Pages/Register";
+import ChangePass from "./Pages/ChangePass";
 //import { BrowserRouter as  Route } from 'react-router-dom';
 
 
@@ -37,6 +38,10 @@ const router = createBrowserRouter([
   {
     path: "/inputPass",
     element: <InputPass/>,
+  },
+  {
+    path: "/changePass",
+    element: <ChangePass/>,
   },
 ]);
 

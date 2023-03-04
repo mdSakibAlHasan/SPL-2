@@ -1,32 +1,44 @@
 import React, { useState } from "react";
-import { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { AuthContext } from "../compute/authContex.js";
+import axios from "axios";
+import Cookies from 'js-cookie';
+
+
+
 
 const ChangePass = ()=>{
     const [inputs, setInputs] = useState({
-        username: "",
-        password: "",
+        oldPass: "",
+        newPass: "",
+        confirmPass: "",
       });
       const [err, setError] = useState(null);
     
       const navigate = useNavigate();
     
-      //const { login } = useContext(AuthContext);
-      const { login } = useContext(AuthContext);
-    
-    
       const handleChange = (e) => {
         setInputs((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+        //console.log(inputs.email," ",inputs.password);
       };
-
+    
       const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-          await login(inputs)
-          navigate("/");
+          console.log("in the rey");
+          console.log(inputs.email," ",inputs.password);
+          //await axios.post("http://localhost:3001/api/changePass", inputs);
+          console.log(Cookies.get('token'));
+          const api = axios.create({
+            baseURL: 'http://localhost:3001/api',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${Cookies.get('token')}`
+            }
+          });
+
+         await api.post("/changePass",inputs);
+          navigate("/login");
         } catch (err) {
-          console.log("here");
           setError(err.response.data);
         }
       };

@@ -1,13 +1,14 @@
 import { db } from "../db.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import Cookies from 'js-cookie';
 
 export const register = (req, res) => {
-    db.connect(function(err){
-    if (err) throw err;
-    else
-    console.log("Connected!");
-    });
+    // db.connect(function(err){
+    // if (err) throw err;
+    // else
+    // console.log("Connected!");
+    // });
 
   const email = req.body.email;
   const salt = bcrypt.genSaltSync(10);
@@ -18,22 +19,36 @@ export const register = (req, res) => {
     if(err)
       console.log("Something happend for check user");
     else{
-      if(check_user(result,email))
-        return res.status(409).json("User already exists!");
+      if(check_user(result,email)){
+        console.log("user exits")
+        return res.status(409).json("User already exists! ");
+      }
+      else{
+        console.log("in last step")
+        //const myCookie = req.cookies.mycookie;
+        const token = jwt.sign({ email: email }, "jwtkey");
+        console.log(token," is the cookie")
+        res.cookie("accesstoken", token, {
+        httpOnly: true,
+        });
+      
+
+        const qu = `insert into user(email,password) values('${email}','${pass}');`
+        db.query(qu,function(err,result){
+        if(err){
+          console.log("Something happend to insert data");
+          return res.status(409).json("not able to insert data");
+        }
+        else{
+          console.log("Data inserted");
+          return res.status(200).json("User has been created.");
+        }
+        });
+      }
     }
   });
 
-  const qu = `insert into user(email,password) values('${email}','${pass}');`
-  db.query(qu,function(err,result){
-  if(err){
-    console.log("Something happend to insert data");
-    return res.status(409).json("not able to insert data");
-  }
-  else{
-    console.log("Data inserted");
-    return res.status(200).json("User has been created.");
-  }
-  });
+  
   
 };
 
@@ -41,9 +56,9 @@ export const register = (req, res) => {
 function check_user(result,email){
   var duplicate=false;
   result.forEach(users =>{
-    //console.log(users.email," ",email)
+    console.log(users.email," ",email)
     if(users.email === email){
-      //console.log("match")
+      console.log("match")
       duplicate= true;
     }
   });
@@ -75,15 +90,20 @@ export const login = (req, res) => {
   
     if (!isPasswordCorrect)
       return res.status(400).json("Wrong email or password!");
-
+      const myCookie = req.cookies.mycookie;
+      console.log(myCookie)
     const token = jwt.sign({ id: data[0].email }, "jwtkey");
     const { password, ...other } = data[0];
       console.log(token)
-    res.cookie("access_token", token, {
+      //res.sent(token)
+      Cookies.set('token', 'myCookies', { expires: 7 });
+      res.cookie('token',"access_token");
+      res
+      .cookie("access_token", token, {
         httpOnly: true,
       })
       .status(200)
-      .json(other);
+      .json(token);
   });
 };
 
