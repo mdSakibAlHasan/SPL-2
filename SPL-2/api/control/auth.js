@@ -4,11 +4,6 @@ import jwt from "jsonwebtoken";
 import Cookies from 'js-cookie';
 
 export const register = (req, res) => {
-    // db.connect(function(err){
-    // if (err) throw err;
-    // else
-    // console.log("Connected!");
-    // });
 
   const email = req.body.email;
   const salt = bcrypt.genSaltSync(10);
@@ -24,15 +19,6 @@ export const register = (req, res) => {
         return res.status(409).json("User already exists! ");
       }
       else{
-        console.log("in last step")
-        //const myCookie = req.cookies.mycookie;
-        const token = jwt.sign({ email: email }, "jwtkey");
-        console.log(token," is the cookie")
-        res.cookie("accesstoken", token, {
-        httpOnly: true,
-        });
-      
-
         const qu = `insert into user(email,password) values('${email}','${pass}');`
         db.query(qu,function(err,result){
         if(err){
@@ -92,25 +78,23 @@ export const login = (req, res) => {
       return res.status(400).json("Wrong email or password!");
       const myCookie = req.cookies.mycookie;
       console.log(myCookie)
-    const token = jwt.sign({ id: data[0].email }, "jwtkey");
-    const { password, ...other } = data[0];
+      const token = jwt.sign({ email: data[0].email }, "jwtkey");
       console.log(token)
       //res.sent(token)
-      Cookies.set('token', 'myCookies', { expires: 7 });
-      res.cookie('token',"access_token");
-      res
-      .cookie("access_token", token, {
-        httpOnly: true,
-      })
-      .status(200)
-      .json(token);
+      res.status(200).json(token);
+      // res
+      // .cookie("access_token", token, {
+      //   httpOnly: true,
+      // })
+      // .status(200)
+      // .json(token);
   });
 };
 
 export const logout = (req, res) => {
   console.log("here log out")
   //localStorage.removeItem("access_token");
-  res.clearCookie("access_token",{
+  res.clearCookie("myCookies",{
     sameSite:"none",
     secure:true
   }).status(200).json("User has been logged out.")

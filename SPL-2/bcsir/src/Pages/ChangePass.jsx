@@ -4,6 +4,18 @@ import axios from "axios";
 import Cookies from 'js-cookie';
 
 
+function getCookie(name) {
+  const cookieString = document.cookie;
+  const cookies = cookieString.split('; ');
+  for (let i = 0; i < cookies.length; i++) {
+    const cookie = cookies[i].split('=');
+    if (cookie[1] === name) {
+      return cookie[0];
+    }
+  }
+  return null;
+}
+
 
 
 const ChangePass = ()=>{
@@ -27,12 +39,13 @@ const ChangePass = ()=>{
           console.log("in the rey");
           console.log(inputs.email," ",inputs.password);
           //await axios.post("http://localhost:3001/api/changePass", inputs);
-          console.log(Cookies.get('token'));
+          const cookieString = document.cookie;
+          console.log(getCookie('my_cookies'));
           const api = axios.create({
             baseURL: 'http://localhost:3001/api',
             headers: {
               'Content-Type': 'application/json',
-              'Authorization': `Bearer ${Cookies.get('token')}`
+              'Authorization': getCookie('my_cookies')
             }
           });
 
