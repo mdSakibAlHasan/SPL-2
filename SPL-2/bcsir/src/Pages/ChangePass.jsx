@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import Cookies from 'js-cookie';
 
 
 function getCookie(name) {
@@ -39,7 +38,7 @@ const ChangePass = ()=>{
           console.log("in the rey");
           console.log(inputs.email," ",inputs.password);
           //await axios.post("http://localhost:3001/api/changePass", inputs);
-          const cookieString = document.cookie;
+          //const cookieString = document.cookie;
           console.log(getCookie('my_cookies'));
           const api = axios.create({
             baseURL: 'http://localhost:3001/api',

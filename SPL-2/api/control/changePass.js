@@ -1,5 +1,6 @@
 //import axios from "axios";
 import  Jwt  from "jsonwebtoken";
+import { db } from "../db.js";
 //import { logout } from "./auth";
 
 export const changePass = (req, res) => {
@@ -14,19 +15,26 @@ export const changePass = (req, res) => {
   
     Jwt.verify(token, "jwtkey", (err, userInfo) => {
       if (err){ 
-        console.log("not avai")
-        return res.status(403).json("Token is not valid!");}
-        console.log(userInfo);
-
-        res.status(200).json("authenticate");
-      //const postId = req.params.id;
-      //const q = "DELETE FROM posts WHERE `id` = ? AND `uid` = ?";
+      
+        return res.status(403).json("Token is not valid!");
+      }
+       else{
+          const email = userInfo.email;
+          const pass = req.body.newPass;
+          const qu = `update user set password = '${pass}' where email ='${email}';`
   
-    //   db.query(q, [postId, userInfo.id], (err, data) => {
-    //     if (err) return res.status(403).json("You can delete only your post!");
-  
-    //     return res.json("Post has been deleted!");
-    //   });
+          db.query(qu,function(err,result){
+            if(err){
+              console.log("Something happend to update password");
+              return res.status(409).json("password not updated");
+            }
+            else{
+              console.log("password updated");
+              //codeMatch = false;
+              return res.status(200).json("Password updated");
+            }
+            });
+       } 
      });
   };
   
