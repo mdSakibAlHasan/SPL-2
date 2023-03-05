@@ -8,6 +8,7 @@ import {ForgotPass, CodePage, InputPass} from "./Pages/ForgotPass";
 import "./style.scss";
 import Register from "./Pages/Register";
 import ChangePass from "./Pages/ChangePass";
+import AuthRequire from "./Pages/AuthRequire";
 //import { BrowserRouter as  Route } from 'react-router-dom';
 
 
@@ -42,6 +43,10 @@ const router = createBrowserRouter([
   {
     path: "/changePass",
     element: <ChangePass/>,
+  },
+  {
+    path: "/authRequire",
+    element: <AuthRequire/>,
   },
 ]);
 

@@ -1,5 +1,5 @@
 import express from "express";
-import { register, login, logout } from "../control/auth.js";
+import { register, login, logout, authRequire } from "../control/auth.js";
 import { forgotPass, checkCode, inputPass } from "../control/recovery.js";
 import { changePass } from "../control/changePass.js";
 
@@ -12,5 +12,6 @@ router.post("/forgotPass", forgotPass);
 router.post("/match", checkCode);
 router.post("/inputPass", inputPass);
 router.post("/changePass",changePass);
+router.post("/authRequire",changePass);
 
 export default router;

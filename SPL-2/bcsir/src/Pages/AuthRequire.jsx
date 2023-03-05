@@ -1,11 +1,11 @@
 import React from "react";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
 import axios from "axios";
 
-const Register = () => {
+const AuthRequire = () => {
   const [inputs, setInputs] = useState({
-    email: "",
+    pass: "",
     //password: "",
   });
   const [err, setError] = useState(null);
@@ -17,14 +17,21 @@ const Register = () => {
     //console.log(inputs.email," ",inputs.password);
   };
 
+  //const history = useHistory();
+
+//   function handleClick() {
+//     history.goBack();
+//   }
+
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       console.log("in the rey");
       //console.log(inputs.email," ",inputs.password);
-      await axios.post("http://localhost:3001/api/register", inputs);
-      navigate("/authRequire");
-      //navigate("/Home");
+      await axios.post("http://localhost:3001/api/authRequire", inputs);
+      //history.goBack();
+      navigate("/Register")
     } catch (err) {
       setError(err.response.data);
     }
@@ -36,9 +43,9 @@ const Register = () => {
       <form>
         <input
           required
-          type="email"
-          placeholder="email"
-          name="email"
+          type="password"
+          placeholder="pass"
+          name="Enter Password"
           onChange={handleChange}
         />
         {/* <input
@@ -55,4 +62,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default AuthRequire;
