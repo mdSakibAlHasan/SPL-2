@@ -14,7 +14,7 @@ export const forgotPass = (req, res) => {
   //CHECK USER
   emailName = req.body.email;
   console.log(emailName)
-  const q = "SELECT * FROM user WHERE email = ?";
+  const q = "SELECT * FROM login WHERE email = ?";
   console.log("here in backend");
   db.query(q, [req.body.email], (err, data) => {
     console.log(data)

@@ -17,14 +17,18 @@ const Register = () => {
     //console.log(inputs.email," ",inputs.password);
   };
 
+  const conformation = () =>{
+    navigate("/authRequire");
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      //conformation();
       console.log("in the rey");
       //console.log(inputs.email," ",inputs.password);
       await axios.post("http://localhost:3001/api/register", inputs);
-      navigate("/authRequire");
-      //navigate("/Home");
+      navigate("/");
     } catch (err) {
       setError(err.response.data);
     }

@@ -1,5 +1,6 @@
 //import axios from "axios";
 import  Jwt  from "jsonwebtoken";
+import bcrypt from "bcryptjs";
 import { db } from "../db.js";
 //import { logout } from "./auth";
 
@@ -20,8 +21,11 @@ export const changePass = (req, res) => {
       }
        else{
           const email = userInfo.email;
-          const pass = req.body.newPass;
-          const qu = `update user set password = '${pass}' where email ='${email}';`
+          console.log(email, " is chabge pass")
+          const newPassword = req.body.newPass;
+          const salt = bcrypt.genSaltSync(10);
+          const pass = bcrypt.hashSync(newPassword, salt);
+          const qu = `update login set password = '${pass}' where email ='${email}';`
   
           db.query(qu,function(err,result){
             if(err){

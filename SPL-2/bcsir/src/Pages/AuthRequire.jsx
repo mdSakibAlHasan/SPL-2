@@ -39,13 +39,13 @@ const AuthRequire = () => {
 
   return (
     <div className="auth">
-      <h1>Register</h1>
+      <h1>Authentication Required for conformation</h1>
       <form>
         <input
           required
           type="password"
-          placeholder="pass"
-          name="Enter Password"
+          placeholder="Enter Password"
+          name="pass"
           onChange={handleChange}
         />
         {/* <input

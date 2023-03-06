@@ -12,7 +12,7 @@ export const AuthContexProvider = ({ children }) => {
   const login = async (inputs) => {
     const res = await axios.post("http://localhost:3001/api/login", inputs);
     //console.log(res.data," is the respone data");
-    Cookies.set(res.data, 'my_cookies', { expires: 7 });
+    Cookies.set(res.data, 'my_cookies', { expires: 1 });
     setCurrentUser(res.data);
   };
 

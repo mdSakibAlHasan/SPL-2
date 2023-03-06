@@ -8,7 +8,7 @@ export const register = (req, res) => {
 
   const email = req.body.email;
 
-  var qur = "select * from user;";
+  var qur = "select * from login;";
   db.query(qur,function(err,result){
     if(err)
       console.log("Something happend for check user");
@@ -23,9 +23,9 @@ export const register = (req, res) => {
        const pass = bcrypt.hashSync(rand_num, salt);
         console.log(pass);
         const body = `${rand_num} is your onetime password to log in the website. Please don't share this with other`
-        // send_mail(email,"one time password for login",body)
+        send_mail(email,"one time password for login",body)
 
-        const qu = `insert into user(email,password) values('${email}','${pass}');`
+        const qu = `insert into login(ID,email,password,type) values('10000','${email}','${pass}','researcher');`
         db.query(qu,function(err,result){
         if(err){
           console.log("Something happend to insert data");
@@ -40,10 +40,13 @@ export const register = (req, res) => {
     }
   });
 
-  
-  
 };
 
+
+function getID(department){
+    var id = 10+department;
+    
+}
 
 function getRandomInt(max) {
   return Math.floor(Math.random() * Math.floor(max));
@@ -70,7 +73,7 @@ export const login = (req, res) => {
   const em = req.body.email;
   const pa = req.body.password;
   console.log(em," ",pa)
-  const q = "SELECT * FROM user WHERE email = ?";
+  const q = "SELECT * FROM login WHERE email = ?";
   console.log("here in backend");
   db.query(q, [req.body.email], (err, data) => {
     console.log(data)
