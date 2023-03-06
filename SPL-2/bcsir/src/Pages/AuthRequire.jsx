@@ -31,7 +31,7 @@ const AuthRequire = () => {
       //console.log(inputs.email," ",inputs.password);
       await axios.post("http://localhost:3001/api/authRequire", inputs);
       //history.goBack();
-      navigate("/Register")
+      navigate("/Home")
     } catch (err) {
       setError(err.response.data);
     }

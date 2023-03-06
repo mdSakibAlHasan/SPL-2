@@ -12,6 +12,6 @@ router.post("/forgotPass", forgotPass);
 router.post("/match", checkCode);
 router.post("/inputPass", inputPass);
 router.post("/changePass",changePass);
-router.post("/authRequire",changePass);
+router.post("/authRequire",authRequire);
 
 export default router;

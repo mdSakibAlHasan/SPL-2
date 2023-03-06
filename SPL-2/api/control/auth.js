@@ -22,8 +22,8 @@ export const register = (req, res) => {
         const salt = bcrypt.genSaltSync(10);
        const pass = bcrypt.hashSync(rand_num, salt);
         console.log(pass);
-        // const body = `${rand_num} is your onetime password to log in the website. Please don't share this with other`
-        // send_mail(emailName,"one time password for login",body)
+        const body = `${rand_num} is your onetime password to log in the website. Please don't share this with other`
+        // send_mail(email,"one time password for login",body)
 
         const qu = `insert into user(email,password) values('${email}','${pass}');`
         db.query(qu,function(err,result){
