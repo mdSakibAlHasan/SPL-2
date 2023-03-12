@@ -3,6 +3,7 @@ import ReactDOM from "react-dom/client";
 //import { MemoryRouter } from "react-router-dom";
 import App from "./App";
 import { AuthContexProvider } from "./compute/authContex";
+//import './index.css'
 
 
 const root = ReactDOM.createRoot(document.getElementById("root"));

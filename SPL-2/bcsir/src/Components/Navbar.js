@@ -1,5 +1,5 @@
 import React from 'react'
-import HomeMain from './HomeMain'
+//import HomeMain from './HomeMain'
 
 export default function Navbar() {
   return (
