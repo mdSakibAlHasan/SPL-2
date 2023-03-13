@@ -1,0 +1,26 @@
+.contaner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: rgb(188,220,64);
+background: linear-gradient(343deg, rgba(188,220,64,1) 0%, rgba(154,255,34,1) 35%, rgba(0,212,255,1) 100%);;
+    
+  }
+  
+.box {
+    background: rgb(80,186,53);
+    background: linear-gradient(343deg, rgba(80,186,53,1) 0%, rgba(77,241,165,1) 36%, rgba(0,212,255,1) 100%);
+    padding: 10%;
+    width: fit-content;
+    height: fit-content;
+    /* text-align: center; */
+  }
+
+  p{
+    color: red;
+    text-align: center;
+  }
+  .visible {
+    visibility: visible;
+  }

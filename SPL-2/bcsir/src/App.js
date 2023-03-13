@@ -3,10 +3,11 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import Home from "./Pages/Home";
-import Login from "./Pages/Login";
+import Login from "./Frame/Login";
 import {ForgotPass, CodePage, InputPass} from "./Pages/ForgotPass";
-import "./style.scss";
-import "./as.css";
+import RecoveryPassword from "./Frame/Recovery_Password";
+// import "./style.scss";
+// import "./as.css";
 import Register from "./Pages/Register";
 import ChangePass from "./Pages/ChangePass";
 import AuthRequire from "./Pages/AuthRequire";
@@ -31,7 +32,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/ForgotPass",
-    element: <ForgotPass/>,
+    element: <RecoveryPassword/>,
   },
   {
     path: "/CodePage",

@@ -27,6 +27,36 @@ export const forgotPass = (req, res) => {
     console.log(randNum);
     setTimeout(myFunc, 300000);
       const body = `${randNum} is your onetime password. Please don't share this with other`
+      //send_mail(emailName,"Recovery password",body)
+
+    if (data.length === 0){ 
+      console.log("email not found")
+      return res.status(404).json("email not found!");
+    }
+    else{
+      console.log("here in querey");
+      return res.status(200).json("email send");
+    }
+
+  });
+};
+
+
+
+export const sendEmail = (emailName, code) => {
+  //CHECK USER
+  console.log(emailName)
+  const q = "SELECT * FROM login WHERE email = ?";
+  console.log("here in backend");
+  db.query(q, [emailName], (err, data) => {
+    console.log(data)
+    if (err) return res.status(500).json(err);
+   
+   
+    //Send mail with code
+    // var isTime = true;
+    setTimeout(myFunc, 300000);
+      const body = `${code} is your onetime password. Please don't share this with other`
       send_mail(emailName,"Recovery password",body)
 
     if (data.length === 0){ 
@@ -52,13 +82,17 @@ function getRandomInt(max) {
 
 export const checkCode = (req, res) => {
  // import isTime from forgotPass;
-  const givenCode = req.body.otp;
+  const givenCode = req.body.code;
+  console.log(givenCode+" is my code");
   console.log(givenCode," is ",timeRemain," ",randNum);
 
   if(timeRemain){
       if(givenCode == randNum){
         codeMatch = true;
+        //myFunc();
+        console.log("Match inside the code")
         return res.status(200).json("Code matched");
+        
       }
       else{
         myFunc();
@@ -78,16 +112,10 @@ export const inputPass = (req, res) => {
       return res.status(404).json("invalid access");
     }
     else{
-      // db.connect(function(err){
-      //   if (err) 
-      //     throw err;
-      //   else
-      //     console.log("Connected!");
-      //   });
       const salt = bcrypt.genSaltSync(10);
       const pass = bcrypt.hashSync(req.body.newPass, salt);
 
-      const qu = `update user set password = '${pass}' where email ='${emailName}';`
+      const qu = `update login set password = '${pass}' where email ='${emailName}';`
       db.query(qu,function(err,result){
       if(err){
         console.log("Something happend to update password");
