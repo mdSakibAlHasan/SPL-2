@@ -3,11 +3,6 @@ import './Login.css'
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../compute/authContex';
 export default function Login() {
-    // const nav=useNavigate();
-    // const login_btn_clicked=()=>{
-    //     //database er sathe milano, true hoile
-    //     nav('/');
-    // }
 
     const [inputs, setInputs] = useState({
         username: "",

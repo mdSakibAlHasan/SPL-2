@@ -9,7 +9,7 @@ import RecoveryPassword from "./Frame/Recovery_Password";
 // import "./style.scss";
 // import "./as.css";
 import Register from "./Pages/Register";
-import ChangePass from "./Pages/ChangePass";
+import ChangePass from "./Frame/Change_Password";
 import AuthRequire from "./Pages/AuthRequire";
 //import { BrowserRouter as  Route } from 'react-router-dom';
 
