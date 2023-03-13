@@ -34,7 +34,7 @@ export default function Navbar() {
         </li>
       </ul>
       
-      <a href="/" className="btn btn-primary">User Login</a>
+      <a href="/Login" className="btn btn-primary">User Login</a>
     </div>
   </div>
 </nav>

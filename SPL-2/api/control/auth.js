@@ -3,10 +3,16 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import Cookies from 'js-cookie';
 import send_mail from "./sent_mail.js";
+//const emailValidator = require('email-validator');
+import emailValidator from 'email-validator';
 
 export const register = (req, res) => {
 
   const email = req.body.email;
+  const isValidEmail = emailValidator.validate(email);
+  if(!isValidEmail)
+    //return res.status(409).json("Email not valid");
+    return res.status(409).send("Email not valid");
 
   var qur = "select * from login;";
   db.query(qur,function(err,result){
@@ -44,8 +50,9 @@ export const register = (req, res) => {
 
 
 function getID(department){
-    var id = 10+department;
-    
+  const q = 'select count(*) from researcher where department= ?';
+    var id = (10+department)*100+q;
+    return id;
 }
 
 function getRandomInt(max) {
@@ -68,34 +75,42 @@ function check_user(result,email){
 
 
 
+
+
 export const login = (req, res) => {
   //CHECK USER
   const em = req.body.email;
   const pa = req.body.password;
   console.log(em," ",pa)
   const q = "SELECT * FROM login WHERE email = ?";
-  console.log("here in backend");
+  console.log(q);
+
   db.query(q, [req.body.email], (err, data) => {
     console.log(data)
-    console.log(data[0].password)
+    console.log("here in backend");
+    //console.log(data[0].password)
     if (err) return res.status(500).json(err);
-    if (data.length === 0) return res.status(404).json("User not found!");
+    if (data.length === 0) 
+      return res.status(404).json("User not found!");
+    else{
+      const isPasswordCorrect = bcrypt.compareSync(
+        req.body.password,
+        data[0].password
+      );
+  
+    
+      if (!isPasswordCorrect)
+        return res.status(400).json("Wrong email or password!");
+        const myCookie = req.cookies.mycookie;
+        console.log(myCookie)
+        const token = jwt.sign({ email: data[0].email }, "jwtkey");
+        console.log(token)
+        //res.sent(token)
+        res.status(200).json(token);
+    }
 
     //Check password
-    const isPasswordCorrect = bcrypt.compareSync(
-      req.body.password,
-      data[0].password
-    );
-
-  
-    if (!isPasswordCorrect)
-      return res.status(400).json("Wrong email or password!");
-      const myCookie = req.cookies.mycookie;
-      console.log(myCookie)
-      const token = jwt.sign({ email: data[0].email }, "jwtkey");
-      console.log(token)
-      //res.sent(token)
-      res.status(200).json(token);
+    
       // res
       // .cookie("access_token", token, {
       //   httpOnly: true,
