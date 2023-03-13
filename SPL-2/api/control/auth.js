@@ -31,7 +31,7 @@ export const register = (req, res) => {
         const body = `${rand_num} is your onetime password to log in the website. Please don't share this with other`
         send_mail(email,"one time password for login",body)
 
-        const qu = `insert into login(ID,email,password,type) values('10000','${email}','${pass}','researcher');`
+        const qu = `insert into login(ID,email,password,type,isFirst) values('10000','${email}','${pass}','researcher',1);`
         db.query(qu,function(err,result){
         if(err){
           console.log("Something happend to insert data");
@@ -50,7 +50,8 @@ export const register = (req, res) => {
 
 
 function getID(department){
-  const q = 'select count(*) from researcher where department= ?';
+  //const q = 'select count(*) from researcher where department= ?';
+  const q = 5;
     var id = (10+department)*100+q;
     return id;
 }
