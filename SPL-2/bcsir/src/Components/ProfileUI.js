@@ -1,18 +1,30 @@
 import React, { useState } from "react";
-import Admin from "../Classes/Admin";
+// import Admin from "../Classes/Admin";
 import Modal from "./Modal";
+import { getID } from "../App";
 
 export default function Profile(props) {
+  console.log(props.id+" is send by me")
+ const prearr=["a","b","c","d","a"];
   const photo = props.photo;
-
-   const arr =["a","b","c","d","a"];
+  const [arr,setarr]=useState([]);
+  const profileID = getID();
+  console.log(profileID+" is collect by me")
 //    const arr =[];
   const [modal_title,set_modal_title]=useState();
   const [modal_body,set_modal_body]=useState();
 
-
+  const updateArr=()=>{
+    prearr.forEach(element => {
+      setarr(...arr,element);
+    });
+    // setarr();
+    console.log(arr);
+  }
+  
   return (
     <>
+    <button onClick={updateArr}>add</button>
       <div className="container">
         <div className="row">
           <div className="col">
@@ -90,7 +102,7 @@ export default function Profile(props) {
     Experience
   </button>
   <ul className="dropdown-menu">
-    <li className="dropdown-item" data-bs-toggle="modal" data-bs-target="#exampleModal" onClick={()=>{set_modal_title("Job Experience");set_modal_body(arr.length==0? "Nothing to Show" :arr.map((arrel)=><li>{arrel}</li>))}}>Job Experience</li>
+    <li className="dropdown-item" data-bs-toggle="modal" data-bs-target="#exampleModal" onClick={()=>{set_modal_title("Job Experience");set_modal_body(arr.length===0? "Nothing to Show" :arr.map((arrel)=><li>{arrel}</li>))}}>Job Experience</li>
     <li><a className="dropdown-item" href="/">Research Experience</a></li>
     <li><a className="dropdown-item" href="/">Thesis Supervison</a></li>
     <li><a className="dropdown-item" href="/">Professional Affiliation</a></li>
