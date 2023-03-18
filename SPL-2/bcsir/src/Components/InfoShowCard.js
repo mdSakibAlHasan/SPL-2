@@ -12,7 +12,6 @@ export default function InfoShowCard(props) {
 
   useEffect(() => {
     const handlImage = async () => {
-        console.log("here i am sakib")
     import(`./photo/${ID}.jpg`)
         .then(image => setImageSrc(image.default))
         .catch(error => console.error(error, "occur here"));

@@ -17,6 +17,7 @@ export default function Profile(props) {
   const [departmentArr, setdepartmentsArr]=useState([]);
   const [educationArr, seteducationArr]=useState([]);
   const [jobArr, setjobArr]=useState([]);
+  const [imageSrc, setImageSrc] = useState(null);
   inputs.ID = profileID;
   useEffect(() => {
     const handleDepartment = async () => {
@@ -29,8 +30,11 @@ export default function Profile(props) {
         seteducationArr(result.data);
         result = await axios.post("http://localhost:3001/app/getJobInfo",inputs);
         setjobArr(result.data);
-        console.log(educationArr[0].group+" is department array");
+        console.log(departmentArr[0].researchExperience+" is department array");
         console.log("ekhane print ses ");
+        import(`./photo/${profileID}.jpg`)
+        .then(image => setImageSrc(image.default))
+        .catch(error => console.error(error, "occur here"));
       } catch (err) {
         console.log("error occur");
       }
@@ -65,12 +69,10 @@ export default function Profile(props) {
   return (
    
     <>
-    
-    <button onClick={updateArr}>add</button>
       <div className="container">
         <div className="row">
           <div className="col">
-            <img src={photo} style={{ width: "50%", height: "80%" }} alt="" />{" "}
+            <img src={imageSrc} style={{ width: "50%", height: "80%" }} alt="" />{" "}
             <br />{departmentArr.length > 0 && departmentArr[0].name} <br /> 
             {departmentArr.length > 0 && departmentArr[0].designation} <br />
             
@@ -82,9 +84,9 @@ export default function Profile(props) {
             </p>
 
             <h3>More links</h3>
-            <a href="/">Reseach Gate</a>
-            <a href="/">Reseach Gate</a>
-            <a href="/">Reseach Gate</a>
+            <a href="/">Reseach Gate</a><br></br>
+            <a href="/">google scholar</a><br></br>
+            <a href="/">Orchid</a>
           </div>
         </div>
         <br />
@@ -128,9 +130,9 @@ export default function Profile(props) {
   </button>
   <ul className="dropdown-menu">
     <li className="dropdown-item" data-bs-toggle="modal" data-bs-target="#exampleModal" onClick={()=>{set_modal_title("Job Experience");set_modal_body(jobArr.length===0? "Nothing to Show" :jobArr.map((arrel)=><li>{arrel.description}</li>))}}>Job Experience</li>
-    <li><a className="dropdown-item" href="/">Research Experience</a></li>
-    <li><a className="dropdown-item" href="/">Thesis Supervison</a></li>
-    <li><a className="dropdown-item" href="/">Professional Affiliation</a></li>
+    <li className="dropdown-item" data-bs-toggle="modal" data-bs-target="#exampleModal" onClick={()=>{set_modal_title("Research Experience");set_modal_body(departmentArr.length===0? "Nothing to Show" :departmentArr[0].researchExperience)}}>Research Experience</li>
+    <li className="dropdown-item" data-bs-toggle="modal" data-bs-target="#exampleModal" onClick={()=>{set_modal_title("Research Experience");set_modal_body(departmentArr.length===0? "Nothing to Show" :departmentArr[0].thesisSupervise)}}>Thesis Supervisor</li>
+    <li className="dropdown-item" data-bs-toggle="modal" data-bs-target="#exampleModal" onClick={()=>{set_modal_title("Research Experience");set_modal_body(departmentArr.length===0? "Nothing to Show" :departmentArr[0].affilation)}}>Affiliation</li>
   </ul>
 </div>
           </div>
