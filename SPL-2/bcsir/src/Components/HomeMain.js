@@ -1,13 +1,13 @@
 import React, {useEffect, useState} from 'react'
 import InfoShowCard from './InfoShowCard'
-import pto from './aaa.jpg';
 import axios from 'axios';
+import p from "./photo/11001.jpg"
 
 export default function HomeMain() {
   const fun=()=>{
     <p>inside fun</p>
   }
-  var result,namesArray;
+  var result,namesArray,pho;
   const [inputs, setInputs] = useState({
     dept: "",
     ID: "",
@@ -38,24 +38,11 @@ export default function HomeMain() {
     <p>hi i am el</p>
   </>
 
-    const users=[
-      {name:'Fahim', designation: 'Student'},
-      {name:'Sakib', designation: 'employee'},
-      {name:'Momin', designation: 'Kotipoti'},
-      {name:'Momin', designation: 'Kotipoti'},
-      {name:'Momin', designation: 'Kotipoti'},
-      {name:'Momin', designation: 'Kotipoti'},
-
-    ];
     
   return (
     <>
-    handleDepartment();
     <div style={{display:"flex"}}></div>
-        {departmentArr.map((user)=>(<InfoShowCard name={user.name} designation={user.designation} photo={pto} ID={user.ID}/>))}
-    {/* <Admin/>  
-    <Profile photo={pto}/>  
-    <Profile_set/> */}
+        {departmentArr.map((user)=>(<InfoShowCard name={user.name} designation={user.designation}  ID={user.ID}/>))}
     </>
   );
 }

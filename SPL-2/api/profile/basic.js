@@ -6,7 +6,7 @@ import { db } from "../db.js";
 export const getResearcher = (req,res) =>{
     const dept = req.body.dept;
     console.log("In get researcher",dept, req.body);
-    const q = `SELECT DISTINCT(personal_info.ID), personal_info.name, designation FROM sakib.personal_info, sakib.login, sakib.department where personal_info.ID = login.ID and  login.DID = (SELECT department.ID FROM sakib.department where name='${dept}');`;       //insert table name
+    const q = `SELECT DISTINCT(personal_info.ID), personal_info.name, designation, photo FROM sakib.personal_info, sakib.login, sakib.department where personal_info.ID = login.ID and  login.DID = (SELECT department.ID FROM sakib.department where name='${dept}');`;       //insert table name
     db.query(q,function(err,result){
       if(err){
         console.log("Something happend for check  personal info");
