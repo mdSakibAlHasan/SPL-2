@@ -15,6 +15,8 @@ export default function Profile(props) {
     ID: "",
   });
   const [departmentArr, setdepartmentsArr]=useState([]);
+  const [educationArr, seteducationArr]=useState([]);
+  const [jobArr, setjobArr]=useState([]);
   inputs.ID = profileID;
   useEffect(() => {
     const handleDepartment = async () => {
@@ -22,11 +24,12 @@ export default function Profile(props) {
         console.log("here");
         result = await axios.post("http://localhost:3001/app/getProfileInfo",inputs);
         console.log("ekhane print hobe ");
-        // namesArray = result.data;
-        // console.log(namesArray," this is a @D array");
         setdepartmentsArr(result.data);
-        //setdepartmentsArr(namesArray.data);
-        console.log(departmentArr[0].name+" is department array");
+        result = await axios.post("http://localhost:3001/app/getEducationInfo",inputs);
+        seteducationArr(result.data);
+        result = await axios.post("http://localhost:3001/app/getJobInfo",inputs);
+        setjobArr(result.data);
+        console.log(educationArr[0].group+" is department array");
         console.log("ekhane print ses ");
       } catch (err) {
         console.log("error occur");
@@ -34,6 +37,9 @@ export default function Profile(props) {
     };
     handleDepartment();
   }, []); 
+
+
+  
 
 
 
@@ -57,32 +63,22 @@ export default function Profile(props) {
   }
   
   return (
+   
     <>
+    
     <button onClick={updateArr}>add</button>
       <div className="container">
         <div className="row">
           <div className="col">
             <img src={photo} style={{ width: "50%", height: "80%" }} alt="" />{" "}
             <br />{departmentArr.length > 0 && departmentArr[0].name} <br /> 
-            {/* @update */}
-            Designation: sagol <br />
-            email : janina <br />
+            {departmentArr.length > 0 && departmentArr[0].designation} <br />
+            
           </div>
           <div className="col">
             <h3>About Me</h3>
             <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis a
-              laudantium facilis officiis sed! Beatae maxime delectus rerum nisi
-              ipsum! In laborum dolor consequuntur cumque ducimus sit provident
-              eligendi qui impedit reprehenderit a ex quidem, perferendis
-              blanditiis cum modi? Maxime, cumque non totam neque in odio nobis
-              reiciendis nisi provident earum nemo! Dolores, optio. Deleniti
-              commodi odio quae eum incidunt nam doloribus eligendi illum
-              numquam tempore, tenetur autem maiores, dolor, laudantium itaque
-              dolorum nisi. Harum necessitatibus alias consequuntur cum eum.
-              Vero mollitia laboriosam iusto magnam, nesciunt molestiae
-              inventore expedita. Provident iure harum, dolorem eveniet magni
-              sed perferendis repudiandae vero molestiae?
+            {departmentArr.length > 0 && departmentArr[0].about}
             </p>
 
             <h3>More links</h3>
@@ -109,23 +105,18 @@ export default function Profile(props) {
               >
                 Academic Background
               </button>
-              <ul className="dropdown-menu">
-                <table>
-                    <tr>
-                        <td>1</td>
-                        <td>1dh sdfhs</td>
-                        <td>1</td>
-                    </tr>
-                    <tr>
-                        <td>1</td>
-                        <td>100</td>
-                        <td>1</td>
-                    </tr>
-                    <tr>
-                        <td>1</td>
-                        <td>sgha1</td>
-                        <td>1</td>
-                    </tr>
+              <ul className="dropdown-menu" name="department">
+                <table border="2px" >
+                <tr>
+                {educationArr.map((option) => (
+                        <option value={option} name="department"> 
+                            <td >{option.degreeName}</td>
+                            <td>{option.board}</td>
+                            <td>{option.group}</td>
+                            <td>{option.passingYear}</td>
+                        </option>
+                        ))}
+                         </tr>
                 </table>
               </ul>
             </div>
@@ -136,7 +127,7 @@ export default function Profile(props) {
     Experience
   </button>
   <ul className="dropdown-menu">
-    <li className="dropdown-item" data-bs-toggle="modal" data-bs-target="#exampleModal" onClick={()=>{set_modal_title("Job Experience");set_modal_body(arr.length===0? "Nothing to Show" :arr.map((arrel)=><li>{arrel}</li>))}}>Job Experience</li>
+    <li className="dropdown-item" data-bs-toggle="modal" data-bs-target="#exampleModal" onClick={()=>{set_modal_title("Job Experience");set_modal_body(jobArr.length===0? "Nothing to Show" :jobArr.map((arrel)=><li>{arrel.description}</li>))}}>Job Experience</li>
     <li><a className="dropdown-item" href="/">Research Experience</a></li>
     <li><a className="dropdown-item" href="/">Thesis Supervison</a></li>
     <li><a className="dropdown-item" href="/">Professional Affiliation</a></li>
