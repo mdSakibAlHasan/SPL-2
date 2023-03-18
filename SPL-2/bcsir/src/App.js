@@ -13,15 +13,6 @@ import Profile from "./Components/ProfileUI";
 import ChangePass from "./Frame/Change_Password";
 import AuthRequire from "./Pages/AuthRequire";
 //import { BrowserRouter as  Route } from 'react-router-dom';
-let profileID;
-export const FunctionInfo = (researcherID)=>{
-  profileID = researcherID;
-  console.log(profileID+" inside app");
-}
-
-export const getID = ()=>{
-  return profileID;
-}
 
 const router = createBrowserRouter([
   {
@@ -58,8 +49,8 @@ const router = createBrowserRouter([
     element: <AuthRequire/>,
   },
   {
-    path: "/profile",
-    element: <Profile id={profileID}/>,
+    path: "/profile/:id",
+    element: <Profile/>,
   },
 ]);
 

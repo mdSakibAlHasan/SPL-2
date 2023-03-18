@@ -1,18 +1,52 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 // import Admin from "../Classes/Admin";
 import Modal from "./Modal";
-import { getID } from "../App";
+import { useLocation } from "react-router-dom";
+import axios from "axios";
+//import { getID } from "../App";
 
 export default function Profile(props) {
-  console.log(props.id+" is send by me")
+  const location = useLocation();
+  const segments = location.pathname.split("/");
+  const profileID = segments[segments.length - 1];
+  console.log(profileID);
+  var result;
+  const [inputs, setInputs] = useState({
+    ID: "",
+  });
+  const [departmentArr, setdepartmentsArr]=useState([]);
+  inputs.ID = profileID;
+  useEffect(() => {
+    const handleDepartment = async () => {
+      try {
+        console.log("here");
+        result = await axios.post("http://localhost:3001/app/getProfileInfo",inputs);
+        console.log("ekhane print hobe ");
+        // namesArray = result.data;
+        // console.log(namesArray," this is a @D array");
+        setdepartmentsArr(result.data);
+        //setdepartmentsArr(namesArray.data);
+        console.log(departmentArr[0].name+" is department array");
+        console.log("ekhane print ses ");
+      } catch (err) {
+        console.log("error occur");
+      }
+    };
+    handleDepartment();
+  }, []); 
+
+
+
+
  const prearr=["a","b","c","d","a"];
   const photo = props.photo;
   const [arr,setarr]=useState([]);
-  const profileID = getID();
-  console.log(profileID+" is collect by me")
-//    const arr =[];
   const [modal_title,set_modal_title]=useState();
   const [modal_body,set_modal_body]=useState();
+ 
+
+
+
 
   const updateArr=()=>{
     prearr.forEach(element => {
@@ -29,8 +63,8 @@ export default function Profile(props) {
         <div className="row">
           <div className="col">
             <img src={photo} style={{ width: "50%", height: "80%" }} alt="" />{" "}
-            <br />
-            Name: fahim mahmud <br />
+            <br />{departmentArr.length > 0 && departmentArr[0].name} <br /> 
+            {/* @update */}
             Designation: sagol <br />
             email : janina <br />
           </div>
