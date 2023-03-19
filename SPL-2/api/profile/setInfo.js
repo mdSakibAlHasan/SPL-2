@@ -1,53 +1,81 @@
 import { db } from "../db.js";
 import  Jwt  from "jsonwebtoken";
 
-const getID = (token) =>{
-    console.log(token);
-    Jwt.verify(token, "jwtkey", (err, userInfo) => {
-        if (err){ 
-            console.log("wrong");
-          return null;
-        }else{
-            const q = `SELECT ID FROM sakib.login WHERE email ='${userInfo.email}';`;
-           db.query(q,(err,data)=>{
-                console.log(data[0].ID, " ia control");
-                return data[0].ID;
-            });
-        }});
-}
+
+// myFunction() {
+//     // perform some calculations
+//     const myInt = 10; // replace with your integer value
+//     return myInt;
+//   }
 
 
-export const setPersonalInfo = (req,res) =>{
-    console.log("In set info ",req.body);
-    console.log("In set info ",req.body.thesisSupervisionList[0]);
-    const p = req.body.thesisSupervisionList[0];
-    console.log("value is ",p.value);
-    const token = req.body.cookie;
-    const ID = getID(token);
 
-    if(ID){
-        const q = `SELECT ID FROM sakib.login WHERE email ='${userInfo.email}';`;
-        db.query(q,(err,data)=>{
-                console.log(data[0].ID, " ia control");
-                return data[0].ID;
-        });
-        
+
+export const setPersonalInfo = async (req, res) => {
+    try {
+      const token = req.body.cookie;
+      const ID = await getID(token);
+      console.log("ID: ", ID);
+  
+      var thesisSuper = '';
+      req.body.thesisSupervisionList.forEach((user) => {
+        thesisSuper += user.value + '#';
+      });
+      console.log("thesisSuper: ", thesisSuper);
+  
+      var researchExp = '';
+      req.body.researchExperienceList.forEach((user) => {
+        researchExp += user.value + '#';
+      });
+      console.log("researchExp: ", researchExp);
+  
+      var professionalAff = '';
+      req.body.professionalAffiliationList.forEach((user) => {
+        professionalAff += user.value + '#';
+      });
+      console.log("professionalAff: ", professionalAff);
+  
+      const q = `INSERT INTO sakib.personal_info (ID, name, fatherName, motherName, DoB, gender, researchExperience, thesisSupervise, affilation) VALUES ('${ID}', '${req.body.name}', '${req.body.fatherName}', '${req.body.motherName}', '${req.body.birthDate}', '${req.body.gender}', '${researchExp}', '${thesisSuper}', '${professionalAff}');`
+  
+      db.query(q, (err, data) => {
+        if (err) {
+          console.log("Something happened while adding to db: ", err);
+          return res.status(409).json("not updated");
+        }
+        else {
+          console.log("Data added successfully");
+          return res.status(200).json("successfully updated");
+        }
+      });
     }
-    else{
-        return res.status(403).json("Invalid access");
+    catch (err) {
+      console.error(err); // handle error here
+      return res.status(500).json("Internal Server Error");
     }
-
-    // const q = `SELECT DISTINCT(personal_info.ID), personal_info.name, designation, photo FROM sakib.personal_info, sakib.login, sakib.department where personal_info.ID = login.ID and  login.DID = (SELECT department.ID FROM sakib.department where name='${dept}');`;       //insert table name
-    // db.query(q,function(err,result){
-    //   if(err){
-    //     console.log("Something happend for check  personal info");
-    //     return res.status(409).json("department not found ");
-    //   }
-    //   else{
-    //     // const namesArray = Object.keys(result).map(key => result[key].name);
-    //     // console.log(namesArray)
-    //     console.log(result);
-    //     return res.status(200).send(result);
-    //   }
-    // });
   }
+  
+
+
+  function getID(token) {
+    return new Promise((resolve, reject) => {
+      Jwt.verify(token, "jwtkey", (err, userInfo) => {
+        if (err) {
+          console.log("wrong");
+          reject(null);
+        } else {
+          const q = `SELECT ID FROM sakib.login WHERE email ='${userInfo.email}';`;
+          db.query(q, (err, data) => {
+            if (err) {
+              reject(err);
+            } else {
+              console.log(data[0].ID, " ia control");
+              resolve(data[0].ID);
+            }
+          });
+        }
+      });
+    });
+  }
+  
+  
+  
