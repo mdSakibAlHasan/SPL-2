@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import InfoShowCard from './InfoShowCard'
 import axios from 'axios';
-import p from "./photo/11001.jpg"
+
 
 export default function HomeMain() {
   const fun=()=>{

@@ -24,12 +24,14 @@ export default function Profile(props) {
       try {
         console.log("here");
         result = await axios.post("http://localhost:3001/app/getProfileInfo",inputs);
-        console.log("ekhane print hobe ");
+        console.log("getprofile ");
         setdepartmentsArr(result.data);
         result = await axios.post("http://localhost:3001/app/getEducationInfo",inputs);
+        console.log("geteducation");
         seteducationArr(result.data);
         result = await axios.post("http://localhost:3001/app/getJobInfo",inputs);
         setjobArr(result.data);
+        console.log("getJob ");
         console.log(departmentArr[0].researchExperience+" is department array");
         console.log("ekhane print ses ");
         import(`./photo/${profileID}.jpg`)

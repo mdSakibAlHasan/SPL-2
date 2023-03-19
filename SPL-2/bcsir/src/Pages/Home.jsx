@@ -1,14 +1,25 @@
 import React from 'react'
 import HomeMain from '../Components/HomeMain'
 import Navbar from '../Components/Navbar'
+import Footer from '../Footer/Footer'
+import '../Footer/Footer.css'
 import '../as.css';
 
 const Home = ()=>{
     return(
-    //    <div><Navbar/></div>
-        <div><Navbar/>
-         <HomeMain/>
-        </div>
+        // <div><Navbar/>
+        //  <HomeMain/>
+        //  <Footer/>
+        // </div>
+        <>
+        <Navbar/>
+         <div className='fullhome'>
+          <HomeMain/>
+         </div>
+         <div>
+         {/* <Footer/> */}
+         </div>
+         </>
     )
 }
 
