@@ -1,5 +1,7 @@
 import { useState } from "react";
 import {useNavigate} from 'react-router-dom';
+import axios from "axios";
+import { getCookie } from "./CookiesHandle";
 
 function PersonalInfoForm() {
   const [name, setName] = useState("");
@@ -8,6 +10,8 @@ function PersonalInfoForm() {
   const [birthDate, setBirthDate] = useState("");
   const [gender, setGender] = useState("");
   const [nationalId, setNationalId] = useState("");
+  const [cookie, setCookie] = useState("");
+  const [error, setError] = useState(null);
   const [researchExperienceList, setResearchExperienceList] = useState([
     { value: "" },
   ]);
@@ -20,16 +24,14 @@ function PersonalInfoForm() {
 
     const navigate = useNavigate();
 
-  const nextPage = () => {
-    // 👇️ navigate to /contacts
-    navigate('/join');
-  };
+  
 
   const handleResearchExperienceChange = (index, event) => {
     const values = [...researchExperienceList];
     values[index].value = event.target.value;
     setResearchExperienceList(values);
   };
+
 
   const handleThesisSupervisionChange = (index, event) => {
     const values = [...thesisSupervisionList];
@@ -61,6 +63,19 @@ function PersonalInfoForm() {
     setProfessionalAffiliationList(values);
   };
 
+  const personalInfo = {
+    name,
+    fatherName,
+    motherName,
+    birthDate,
+    gender,
+    nationalId,
+    researchExperienceList,
+    thesisSupervisionList,
+    professionalAffiliationList,
+    cookie,
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const personalInfo = {
@@ -73,8 +88,31 @@ function PersonalInfoForm() {
       researchExperienceList,
       thesisSupervisionList,
       professionalAffiliationList,
+      cookie,
     };
     console.log(personalInfo);
+  };
+
+
+  const nextPage  = async (e) => {
+    setCookie(getCookie('my_cookies'));
+    console.log(cookie);
+    if(cookie){
+      e.preventDefault();
+      try {
+        console.log("in the rey");
+        await axios.post("http://localhost:3001/app/setPersonalInfo", personalInfo);
+        navigate('/join');
+      } catch (err) {
+        setError(err.response.data);
+      }
+    }
+    else{
+      console.log("Invalid")
+      setError("Invalid access");
+    }
+    // 👇️ navigate to /contacts
+    
   };
 
   return (
