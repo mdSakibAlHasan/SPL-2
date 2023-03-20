@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import {useNavigate} from 'react-router-dom';
 import axios from "axios";
 import { getCookie } from "./CookiesHandle";
@@ -20,11 +20,31 @@ function PersonalInfoForm() {
   ]);
   const [professionalAffiliationList, setProfessionalAffiliationList] =
     useState([{ value: "" }]);
-
-
+    var result,infoArr,nameD;
     const navigate = useNavigate();
 
+    const [inputs, setInputs] = useState({
+      cookie: "",
+    });
   
+    useEffect(() => {
+      const handleInfo = async () => {
+        try {
+          console.log("here in handle");
+          const co = await getCookie('my_cookies');
+          setCookie(co);
+          inputs.cookie = cookie;
+          console.log("here in cookie ",inputs.cookie);
+          result = await axios.post("http://localhost:3001/app/getPersonalInfo",inputs);
+          console.log("after in handle");
+          infoArr = result.data[0];
+          nameD = infoArr.name;
+        } catch (err) {
+          console.log("error occur");
+        }
+      };
+      handleInfo();
+    }, []); 
 
   const handleResearchExperienceChange = (index, event) => {
     const values = [...researchExperienceList];
@@ -93,6 +113,8 @@ function PersonalInfoForm() {
     console.log(personalInfo);
   };
 
+  
+
 
   const nextPage  = async (e) => {
     setCookie(getCookie('my_cookies'));
@@ -125,6 +147,7 @@ function PersonalInfoForm() {
           className="form-control"
           id="name"
           value={name}
+          // placeholder={infoArr && infoArr.length > 0 &&infoArr.name}
           onChange={(e) => setName(e.target.value)}
         />
       </div>

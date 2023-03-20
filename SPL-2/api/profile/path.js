@@ -1,6 +1,7 @@
 import  express from "express";
 import { getResearcher, getProfileInfo, getEducationInfo, getJobInfo } from "./basic.js";
 import { setPersonalInfo } from "./setInfo.js";
+import { getPersonalInfo } from "./getInfo.js";
 
 
 const router = express.Router();
@@ -10,5 +11,6 @@ router.post("/getProfileInfo",getProfileInfo);
 router.post("/getEducationInfo",getEducationInfo);
 router.post("/getJobInfo",getJobInfo);
 router.post("/setPersonalInfo",setPersonalInfo);
+router.post("/getPersonalInfo",getPersonalInfo);
 
 export default router;
