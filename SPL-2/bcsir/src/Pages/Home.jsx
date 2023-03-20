@@ -12,13 +12,11 @@ const Home = ()=>{
         //  <Footer/>
         // </div>
         <>
-        <Navbar/>
-         <div className='fullhome'>
+        {/* <Navbar/> */}
+         <div>
           <HomeMain/>
          </div>
-         <div>
          {/* <Footer/> */}
-         </div>
          </>
     )
 }

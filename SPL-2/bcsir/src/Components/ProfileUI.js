@@ -3,6 +3,8 @@ import React, { useState,useEffect } from "react";
 import Modal from "./Modal";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
+import Navbar from "./Navbar";
+import Footer from "../Footer/Footer";
 //import { getID } from "../App";
 
 export default function Profile(props) {
@@ -23,6 +25,9 @@ export default function Profile(props) {
     const handleDepartment = async () => {
       try {
         console.log("here");
+        import(`./photo/${profileID}.jpg`)
+        .then(image => setImageSrc(image.default))
+        .catch(error => console.error(error, "occur here in photo"));
         result = await axios.post("http://localhost:3001/app/getProfileInfo",inputs);
         console.log("getprofile ");
         setdepartmentsArr(result.data);
@@ -36,9 +41,9 @@ export default function Profile(props) {
         console.log("ekhane print ses ");
         import(`./photo/${profileID}.jpg`)
         .then(image => setImageSrc(image.default))
-        .catch(error => console.error(error, "occur here"));
+        .catch(error => console.error(error, "occur here in photo"));
       } catch (err) {
-        console.log("error occur");
+        console.log("error occur in last");
       }
     };
     handleDepartment();
@@ -71,6 +76,7 @@ export default function Profile(props) {
   return (
    
     <>
+    {/* <Navbar/> */} <br/><br/><br/><br/>
       <div className="container">
         <div className="row">
           <div className="col">
@@ -86,9 +92,9 @@ export default function Profile(props) {
             </p>
 
             <h3>More links</h3>
-            <a href="/">Reseach Gate</a><br></br>
-            <a href="/">google scholar</a><br></br>
-            <a href="/">Orchid</a>
+            <a href="https://www.researchgate.net/profile/Abu_Kowsar">ReseachGate</a><br></br>
+            <a href="https://scholar.google.com/citations?hl=en&user=H0NPcAoAAAAJ">Google Scholar</a><br></br>
+            <a href=" https://orcid.org/0000-0003-2395-7932">ORCID</a>
           </div>
         </div>
         <br />
@@ -207,7 +213,8 @@ export default function Profile(props) {
       </div>
     </div>
   </div>
-</div>
+</div><br/><br/><br/>
+<Footer/>
     </>
   );
 }

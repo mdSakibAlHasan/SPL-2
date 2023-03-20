@@ -48,6 +48,51 @@ export const setPersonalInfo = async (req, res) => {
   
 
 
+
+  export const setEducationInfo = async (req, res) => {
+    try {
+      const token = req.body[0].cookie;
+      console.log(token);
+      // console.log(req.body[0]);
+      // console.log(req.body[0].degree);
+      const ID = await getID(token);
+      console.log("ID: ", ID);
+      console.log(req.body[0].degree)
+    
+      
+
+      req.body.forEach((data) => {
+        var q=`SELECT EXISTS(SELECT * FROM sakib.education_info WHERE id = '${ID}' and degreeName = '${data.degree}');`;
+        const result = db.query(q);
+        if(result==0)
+           q = `INSERT INTO sakib.education_info (ID, degreeName, group, board, passingYear, result, distinction) VALUES ('${ID}', '${data.degree}', '${data.group}', '${data.board}', '${data.passingYear}', '${data.result}', '${data.distinction}');`;
+        else
+          q = `UPDATE sakib.education_info SET degreeName='${data.degree}', group = '${data.group}',board = '${data.board}',passingYear= '${data.passingYear}', result='${data.result}', distinction='${data.distinction}' WHERE id = '${ID}' and degreeName = '${data.degree}';`;
+                                                   // ${req.body.name}', '${req.body.fatherName}', '${req.body.motherName}', '${req.body.birthDate}', '${req.body.gender}', '${researchExp}', '${thesisSuper}', '${professionalAff}');`
+        db.query(q, (err, data) => {
+          if (err) {
+            console.log("Something happened while adding to db: ", err);
+            return res.status(409).json("not updated");
+          }
+          else {
+            console.log("Data added successfully");
+           // return res.status(200).json("successfully updated");
+          }
+        });
+      });
+
+      return res.status(200).json("successfully updated");
+
+      
+    }
+    catch (err) {
+      console.error(err); // handle error here
+      return res.status(500).json("Internal Server Error");
+    }
+  }
+   
+
+
 export  function getID(token) {
     return new Promise((resolve, reject) => {
       Jwt.verify(token, "jwtkey", (err, userInfo) => {

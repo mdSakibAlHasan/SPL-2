@@ -124,7 +124,7 @@ function PersonalInfoForm() {
       try {
         console.log("in the rey");
         await axios.post("http://localhost:3001/app/setPersonalInfo", personalInfo);
-        navigate('/join');
+        navigate('/education');
       } catch (err) {
         setError(err.response.data);
       }
@@ -133,8 +133,6 @@ function PersonalInfoForm() {
       console.log("Invalid")
       setError("Invalid access");
     }
-    // 👇️ navigate to /contacts
-    
   };
 
   return (

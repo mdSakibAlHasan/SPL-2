@@ -24,6 +24,8 @@ import PromotionInfo from './Set_up_profile/PromotionInfo'
 import PS_AddressForm from'./Set_up_profile/PS_AddressForm'
 import SpouseAndChildrenInfo from './Set_up_profile/SpouseAndChildrenInfo'
 import TrainingInfo from './Set_up_profile/TrainingInfo'
+import Navbar from "./Components/Navbar";
+import Footer from "./Footer/Footer";
 
 
 //import { BrowserRouter as  Route } from 'react-router-dom';
@@ -79,7 +81,7 @@ const router = createBrowserRouter([
     element: <JoiningInfo/>,
   },
   {
-    path: "/profile/:id",
+    path: "/levelDeputation",
     element: <LeaveDeputationInfo/>,
   },
   {
@@ -98,6 +100,7 @@ function App() {
   return (
     <div className="App">
       <div className="Container">
+        <Navbar/>
       <RouterProvider router={router} />
       </div>
     </div>

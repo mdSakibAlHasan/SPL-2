@@ -1,4 +1,7 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { getCookie } from "./CookiesHandle";
 
 function EducationInfo() {
   const [educationInfo, setEducationInfo] = useState([
@@ -9,8 +12,34 @@ function EducationInfo() {
       passingYear: "",
       result: "",
       distinction: "",
+      cookie: "",
     },
   ]);
+  const [cookie, setCookie] = useState("");
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
+
+
+  const nextPage  = async (e) => {
+    const co = await getCookie('my_cookies');
+    setCookie(co);
+    educationInfo[0].cookie = co;
+    console.log(cookie);
+    if(cookie){
+      e.preventDefault();
+      try {
+        console.log("in the rey");
+        await axios.post("http://localhost:3001/app/setEducationInfo", educationInfo);
+        navigate('/education');
+      } catch (err) {
+        setError(err.response.data);
+      }
+    }
+    else{
+      console.log("Invalid")
+      setError("Invalid access");
+    }
+  };
 
   const handleEducationInfoChange = (index, event) => {
     const values = [...educationInfo];
@@ -150,7 +179,7 @@ function EducationInfo() {
           <button className="btn btn-success mr-2" onClick={addEducation}>
             Add Education
           </button>
-          <button type="submit" className="btn btn-primary">
+          <button type="submit" className="btn btn-primary" onClick={nextPage}>
             Submit
           </button>
         </div>

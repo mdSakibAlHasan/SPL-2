@@ -4,7 +4,7 @@ import React from 'react'
 export default function Navbar() {
   return (
     <div>
-       <nav className="navbar navbar-expand-lg bg-body-tertiary">
+       <nav className="navbar navbar-expand-lg bg-info bg-gradient">
   <div className="container-fluid">
     <a className="navbar-brand" href="/">BCSIR </a>
     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -32,7 +32,7 @@ export default function Navbar() {
         </li>
       </ul>
       
-      <a href="/Login" className="btn btn-primary">User Login</a>
+      <a href="/Login" className="btn btn-outline-light">User Login</a>
     </div>
   </div>
 </nav>

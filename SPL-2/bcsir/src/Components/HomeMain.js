@@ -1,6 +1,8 @@
 import React, {useEffect, useState} from 'react'
 import InfoShowCard from './InfoShowCard'
 import axios from 'axios';
+import Navbar from './Navbar';
+import Footer from '../Footer/Footer';
 
 
 export default function HomeMain() {
@@ -41,8 +43,13 @@ export default function HomeMain() {
     
   return (
     <>
-    <div style={{display:"flex"}}></div>
+    {/* <Navbar/> */}
+    
+    <div style={{display:"flex"}}>
         {departmentArr.map((user)=>(<InfoShowCard name={user.name} designation={user.designation}  ID={user.ID}/>))}
+    </div>
+    <Footer/>
+    
     </>
   );
 }
