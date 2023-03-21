@@ -5,6 +5,7 @@ import { useLocation } from "react-router-dom";
 import axios from "axios";
 import Navbar from "./Navbar";
 import Footer from "../Footer/Footer";
+import { getCookie } from "../Set_up_profile/CookiesHandle";
 //import { getID } from "../App";
 
 export default function Profile(props) {
@@ -15,6 +16,7 @@ export default function Profile(props) {
   var result;
   const [inputs, setInputs] = useState({
     ID: "",
+    cookie:"",
   });
   const [departmentArr, setdepartmentsArr]=useState([]);
   const [educationArr, seteducationArr]=useState([]);
@@ -37,6 +39,8 @@ export default function Profile(props) {
         result = await axios.post("http://localhost:3001/app/getJobInfo",inputs);
         setjobArr(result.data);
         console.log("getJob ");
+        inputs.cookie = getCookie('my_cookies');
+        //result = await axios.post("http://localhost:3001/app/cookieAuth",inputs);
         console.log(departmentArr[0].researchExperience+" is department array");
         console.log("ekhane print ses ");
         import(`./photo/${profileID}.jpg`)
@@ -120,9 +124,9 @@ export default function Profile(props) {
                 <tr>
                 {educationArr.map((option) => (
                         <option value={option} name="department"> 
-                            <td >{option.degreeName}</td>
-                            <td>{option.board}</td>
-                            <td>{option.group}</td>
+                            <td >{option.degreeName} ,</td>
+                            <td>{option.board} ,</td>
+                            <td>{option.group} ,</td>
                             <td>{option.passingYear}</td>
                         </option>
                         ))}

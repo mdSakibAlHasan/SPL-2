@@ -24,7 +24,7 @@ export default function Login() {
         e.preventDefault();
         try {
           await login(inputs)
-          navigate("/");
+          navigate("/personalInfo");
         } catch (err) {
           console.log("here");
           setError(err.response.data);
@@ -43,8 +43,10 @@ export default function Login() {
                     <label for="PasswordInput"><strong>Password:</strong></label>
                     <input type="password" class="form-control" id="PasswordInput" placeholder="Enter Password" name='password' onChange={handleChange}/>
                 </div>
-
+                <center>
+                <a href='/forgotPass'>Forget Password?</a> <br/>
                 <input className='btn btn-outline-light' type="submit" value="Login" onClick={handleSubmit}/>
+                </center>
             </div>
        
         </div>

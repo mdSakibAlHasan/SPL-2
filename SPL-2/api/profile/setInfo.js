@@ -93,6 +93,14 @@ export const setPersonalInfo = async (req, res) => {
    
 
 
+  export const cookieAuth = async (req, res) => {
+    const cookie = req.body.cookie;
+    const ID = await getID(cookie);
+    res.status(200).send(ID);
+  }
+
+
+
 export  function getID(token) {
     return new Promise((resolve, reject) => {
       Jwt.verify(token, "jwtkey", (err, userInfo) => {

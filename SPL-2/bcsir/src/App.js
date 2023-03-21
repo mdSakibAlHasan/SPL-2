@@ -4,6 +4,7 @@ import {
 } from "react-router-dom";
 import Home from "./Pages/Home";
 import Login from "./Frame/Login";
+import HomeMain from "./Components/Home";
 import {ForgotPass, CodePage, InputPass} from "./Pages/ForgotPass";
 import RecoveryPassword from "./Frame/Recovery_Password";
 // import "./style.scss";
@@ -12,6 +13,10 @@ import Register from "./Frame/Registration";
 import Profile from "./Components/ProfileUI";
 import ChangePass from "./Frame/Change_Password";
 import AuthRequire from "./Pages/AuthRequire";
+import SetCommittee from "./R_D/SetCommittee"
+import DeclareCall from "./R_D/DeclareCall"
+import EditDeadline from "./R_D/EditDeadline"
+
 
 import AchievementPublication from './Set_up_profile/AchievementPublication'
 import EducationInfo from './Set_up_profile/EducationInfo'
@@ -34,6 +39,11 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <Home/>,
+
+  },
+  {
+    path: "/home",
+    element: <HomeMain/>,
 
   },
   {
@@ -91,6 +101,18 @@ const router = createBrowserRouter([
   {
     path: "/personalInfo",
     element: <PersonalInfoForm/>,
+  },
+  {
+    path: "/editdateline",
+    element: <EditDeadline/>,
+  },
+  {
+    path: "/setcommittee",
+    element: <SetCommittee/>,
+  },
+  {
+    path: "/declareCall",
+    element: <DeclareCall/>,
   },
 
 ]);
