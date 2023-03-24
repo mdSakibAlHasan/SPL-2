@@ -16,6 +16,7 @@ import AuthRequire from "./Pages/AuthRequire";
 import SetCommittee from "./R_D/SetCommittee"
 import DeclareCall from "./R_D/DeclareCall"
 import EditDeadline from "./R_D/EditDeadline"
+import ShowResearcherList from "./Components/ShowResearcherList";
 
 
 import AchievementPublication from './Set_up_profile/AchievementPublication'
@@ -44,6 +45,11 @@ const router = createBrowserRouter([
   {
     path: "/home",
     element: <HomeMain/>,
+
+  },
+  {
+    path: "/institude",
+    element: <ShowResearcherList/>,
 
   },
   {

@@ -1,6 +1,6 @@
 import './Home.css'
 import ChairmanPhoto from './photo/chairman.jpg'
-import MitNafis from './photo/mitnafis.jpg'
+import MitNafis from './abc.jpg'
 import Ach1 from './photo/ach1.jpg'
 import Ach2 from './photo/ach2.jpg'
 
@@ -14,8 +14,8 @@ export default function HomeMain() {
         image: `${ChairmanPhoto}`,
       },
       {
-        name: 'নাফিস হাসান',
-        designation: 'পিএস টু চেয়ারম্যান,BCSIR',
+        name: 'ড. মোঃ সারওয়ার জাহান',
+        designation: 'সদস্য (বিজ্ঞান ও প্রযুক্তি)  ',
         image: `${MitNafis}`,
       },
     ];

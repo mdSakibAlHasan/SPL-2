@@ -84,7 +84,7 @@ export default function Profile(props) {
       <div className="container">
         <div className="row">
           <div className="col">
-            <img src={imageSrc} style={{ width: "50%", height: "80%" }} alt="" />{" "}
+            <img src={imageSrc} style={{ width: "60%", height: "70%" }} alt="" />{" "}
             <br />{departmentArr.length > 0 && departmentArr[0].name} <br /> 
             {departmentArr.length > 0 && departmentArr[0].designation} <br />
             
