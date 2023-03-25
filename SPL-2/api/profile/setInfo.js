@@ -98,7 +98,8 @@ export const setPersonalInfo = async (req, res) => {
     console.log(cookie,"is the take")
     try {
         const ID = await getID(cookie);
-        res.status(200).send(ID);
+        if(ID)
+          res.status(200).send({ id: ID });
     } catch (error) {
         console.log(error);
         res.status(500).send("Internal Server Error");
@@ -108,10 +109,11 @@ export const setPersonalInfo = async (req, res) => {
 
 
 export  function getID(token) {
+  console.log(token," is a token")
     return new Promise((resolve, reject) => {
       Jwt.verify(token, "jwtkey", (err, userInfo) => {
         if (err) {
-          console.log("wrong");
+          console.log("wrong in getID");
           reject(null);
         } else {
           const q = `SELECT ID FROM sakib.login WHERE email ='${userInfo.email}';`;

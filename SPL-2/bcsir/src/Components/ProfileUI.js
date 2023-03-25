@@ -5,7 +5,7 @@ import { useLocation } from "react-router-dom";
 import axios from "axios";
 import Navbar from "./Navbar";
 import Footer from "../Footer/Footer";
-import { getCookie } from "../Set_up_profile/CookiesHandle";
+import { getSetCookie } from "../Set_up_profile/CookiesHandle";
 //import { getID } from "../App";
 
 export default function Profile(props) {
@@ -13,7 +13,7 @@ export default function Profile(props) {
   const segments = location.pathname.split("/");
   const profileID = segments[segments.length - 1];
   console.log(profileID);
-  var result;
+  var result, r;
   const [inputs, setInputs] = useState({
     ID: "",
     cookie:"",
@@ -22,16 +22,42 @@ export default function Profile(props) {
   const [educationArr, seteducationArr]=useState([]);
   const [jobArr, setjobArr]=useState([]);
   const [imageSrc, setImageSrc] = useState(null);
-  const [isOwner, setIsOwner] = useState(true);
+  const [isOwner, setIsOwner] = useState(false);
   inputs.ID = profileID;
+
+  // const getCookie = (name) => {
+  //   const cookieString = document.cookie;
+  //   const cookies = cookieString.split('; ');
+  //   for (let i = 0; i < cookies.length; i++) {
+  //     const cookie = cookies[i].split('=');
+  //     if (cookie[1] === name) {
+  //       inputs.cookie = cookie[0];
+  //       return cookie[0];
+  //     }
+  //   }
+  //   return null;
+  // }      //jodi cookie kaj na kore taile eta commemt out koro
+
+
+  useEffect(() => {
+    function handleCookie(){
+      console.log("I am sakib")
+      r = getSetCookie('my_cookies');
+      inputs.cookie = r;
+      console.log(r," here are ",inputs.cookie);
+    };
+    handleCookie();
+  }, []); 
+
   useEffect(() => {
     async function handleDepartment(){
       try {
+        //inputs.cookie = getCookie('my_cookies');
         console.log("here");
         import(`./photo/${profileID}.jpg`)
         .then(image => setImageSrc(image.default))
         .catch(error => console.error(error, "occur here in photo"));
-        inputs.cookie = getCookie('my_cookies');
+        //inputs.cookie = getCookie('my_cookies');
         result = await axios.post("http://localhost:3001/app/getProfileInfo",inputs);
         console.log("getprofile ");
         setdepartmentsArr(result.data);
@@ -41,18 +67,19 @@ export default function Profile(props) {
         result = await axios.post("http://localhost:3001/app/getJobInfo",inputs);
         setjobArr(result.data);
         console.log("getJob ");
-        inputs.cookie = getCookie('my_cookies');
-        console.log("getCookies ",inputs.cookie);
-        if(inputs.cookie){
+        
+        // console.log("getCookies print",inputs.cookie);
+        // // if(inputs.cookie != undefined){
+        // //   console.log(inputs.getCookie," in if statement first")
           result = await axios.post("http://localhost:3001/app/cookieAuth",inputs);
-          console.log(result.data," in if statement")
-        }
+          console.log(result.data.id," in if statement")
+          if(result.data.id == profileID){
+            setIsOwner(true);
+          }
+    
         result = await axios.post("http://localhost:3001/app/cookieAuth",inputs);
         console.log(departmentArr[0].researchExperience+" is department array");
         console.log("ekhane print ses ",result.data);
-        // import(`./photo/${profileID}.jpg`)
-        // .then(image => setImageSrc(image.default))
-        // .catch(error => console.error(error, "occur here in photo"));
       } catch (err) {
         console.log("error occur in last");
       }
