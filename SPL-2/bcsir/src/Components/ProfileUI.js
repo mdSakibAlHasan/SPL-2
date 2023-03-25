@@ -22,14 +22,16 @@ export default function Profile(props) {
   const [educationArr, seteducationArr]=useState([]);
   const [jobArr, setjobArr]=useState([]);
   const [imageSrc, setImageSrc] = useState(null);
+  const [isOwner, setIsOwner] = useState(true);
   inputs.ID = profileID;
   useEffect(() => {
-    const handleDepartment = async () => {
+    async function handleDepartment(){
       try {
         console.log("here");
         import(`./photo/${profileID}.jpg`)
         .then(image => setImageSrc(image.default))
         .catch(error => console.error(error, "occur here in photo"));
+        inputs.cookie = getCookie('my_cookies');
         result = await axios.post("http://localhost:3001/app/getProfileInfo",inputs);
         console.log("getprofile ");
         setdepartmentsArr(result.data);
@@ -40,12 +42,17 @@ export default function Profile(props) {
         setjobArr(result.data);
         console.log("getJob ");
         inputs.cookie = getCookie('my_cookies');
-        //result = await axios.post("http://localhost:3001/app/cookieAuth",inputs);
+        console.log("getCookies ",inputs.cookie);
+        if(inputs.cookie){
+          result = await axios.post("http://localhost:3001/app/cookieAuth",inputs);
+          console.log(result.data," in if statement")
+        }
+        result = await axios.post("http://localhost:3001/app/cookieAuth",inputs);
         console.log(departmentArr[0].researchExperience+" is department array");
-        console.log("ekhane print ses ");
-        import(`./photo/${profileID}.jpg`)
-        .then(image => setImageSrc(image.default))
-        .catch(error => console.error(error, "occur here in photo"));
+        console.log("ekhane print ses ",result.data);
+        // import(`./photo/${profileID}.jpg`)
+        // .then(image => setImageSrc(image.default))
+        // .catch(error => console.error(error, "occur here in photo"));
       } catch (err) {
         console.log("error occur in last");
       }
@@ -87,6 +94,7 @@ export default function Profile(props) {
             <img src={imageSrc} style={{ width: "60%", height: "70%" }} alt="" />{" "}
             <br />{departmentArr.length > 0 && departmentArr[0].name} <br /> 
             {departmentArr.length > 0 && departmentArr[0].designation} <br />
+            {isOwner && <button>Edit Profile</button>}
             
           </div>
           <div className="col">

@@ -19,6 +19,10 @@ function ShowResearcherList() {
   useEffect(() => {
     const handleDepartment = async () => {
       try {
+        for(let i=0;i<10;i++){
+          <br/>
+          console.log("h")
+        }
         console.log("here");
         result = await axios.post("http://localhost:3001/api/getDepartment");
         console.log("ekhane print hobe ");

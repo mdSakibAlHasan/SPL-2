@@ -130,6 +130,7 @@ function App() {
       <div className="Container">
         <Navbar/>
       <RouterProvider router={router} />
+        <Footer/>
       </div>
     </div>
     

@@ -1,3 +1,8 @@
+// Etar r dorkar nai apatoto.
+//replaced by showresearcherList
+
+
+
 import React, {useEffect, useState} from 'react'
 import InfoShowCard from './InfoShowCard'
 import axios from 'axios';

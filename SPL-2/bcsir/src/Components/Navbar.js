@@ -24,7 +24,7 @@ export default function Navbar() {
           </a>
           <ul className="dropdown-menu">
             <li><a className="dropdown-item" href="/">Overview</a></li>
-            <li><a className="dropdown-item" href="/">Institution</a></li>
+            <li><a className="dropdown-item" href="/institude">Institution</a></li>
           </ul>
         </li>
         <li className="nav-item d-flex">

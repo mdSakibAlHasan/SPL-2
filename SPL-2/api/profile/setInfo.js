@@ -95,9 +95,15 @@ export const setPersonalInfo = async (req, res) => {
 
   export const cookieAuth = async (req, res) => {
     const cookie = req.body.cookie;
-    const ID = await getID(cookie);
-    res.status(200).send(ID);
-  }
+    console.log(cookie,"is the take")
+    try {
+        const ID = await getID(cookie);
+        res.status(200).send(ID);
+    } catch (error) {
+        console.log(error);
+        res.status(500).send("Internal Server Error");
+    }
+}
 
 
 
