@@ -1,7 +1,54 @@
 import React from 'react'
+import { useState, useEffect, useContext } from 'react';
+import { getSetCookie } from '../Set_up_profile/CookiesHandle';
+import { AuthContext } from '../compute/authContex';
+import axios from 'axios';
 //import HomeMain from './HomeMain'
 
+
+
 export default function Navbar() {
+
+  const [isLogin, setIsLogin] = useState(false);
+  var result;
+
+  useEffect(() => {
+    function handleCookie(){
+      result = getSetCookie('my_cookies');
+      console.log(result," here are navbar print");
+      if(result!=null){
+        setIsLogin(true);
+      }
+    }
+    // function handleCookie(){
+    //   console.log("I am sakib")
+    //   result = getSetCookie('my_cookies');
+    //   if(result.data.id){
+    //     setIsLogin(true);
+    //   }
+    //   //inputs.cookie = r;
+    //   console.log(result," here are ");
+    // };
+     handleCookie();
+  }, []); 
+
+  const { logout } = useContext(AuthContext);
+  const handleLogout = async (e) => {
+    e.preventDefault();
+    try {
+      console.log("inside")
+      //await logout()
+      await axios.post("http://localhost:3001/api/logout");
+      setIsLogin(false);
+      //useEffect();
+      //handleCookie();
+    } catch (err) {
+      console.log("here error");
+      //setError(err.response.data);
+    }
+  };
+
+
   return (
     <div>
        <nav className="navbar navbar-expand-lg bg-info bg-gradient">
@@ -31,8 +78,9 @@ export default function Navbar() {
           
         </li>
       </ul>
-      
-      <a href="/Login" className="btn btn-outline-light">User Login</a>
+      {!isLogin && <a href="/Login" className="btn btn-outline-light">User Login</a>}
+      {isLogin && <button onClick={handleLogout} className="btn btn-outline-light">Logout</button>}
+      {/* <a href="/Login" className="btn btn-outline-light">User Login</a> */}
     </div>
   </div>
 </nav>

@@ -158,7 +158,7 @@ export const login = (req, res) => {
 export const logout = (req, res) => {
   console.log("here log out")
   //localStorage.removeItem("access_token");
-  res.clearCookie("myCookies",{
+  res.clearCookie("my_cookies",{
     sameSite:"none",
     secure:true
   }).status(200).json("User has been logged out.")

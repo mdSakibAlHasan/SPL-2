@@ -121,7 +121,7 @@ export default function Profile(props) {
             <img src={imageSrc} style={{ width: "60%", height: "70%" }} alt="" />{" "}
             <br />{departmentArr.length > 0 && departmentArr[0].name} <br /> 
             {departmentArr.length > 0 && departmentArr[0].designation} <br />
-            {isOwner && <button>Edit Profile</button>}
+            {isOwner && <a  href="/personalInfo" className="btn btn-outline-info" >Edit profile</a>}
             
           </div>
           <div className="col">
