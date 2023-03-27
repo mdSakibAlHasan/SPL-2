@@ -46,35 +46,24 @@ export default function Navbar() {
     };
 
   const { logout } = useContext(AuthContext);
-  //const {navigate} = useNavigate();
-  //const [cookies, setCookie, removeCookie] = useCookies(['cookie-name']);
   const handleLogout = async (e) => {
     e.preventDefault();
     try {
       console.log("inside navbar")
-      await logout()
+      //await logout()
 
       document.cookie.split(";").forEach((c) => {
         document.cookie = c
           .replace(/^ +/, "")
           .replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
       });
-      //removeCookie('my_cookies');
-      // Cookies.remove(result)
-      // Cookies.remove('my_cookies')
-      //document.cookie = `'${result}'=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
-      //clearCookie(result);
-      //cookies.remove("user");
-      await axios.post("http://localhost:3001/api/logout");
+     
+      //await axios.post("http://localhost:3001/api/logout");
       setIsLogin(false);
       handleRefresh();
-       //navigate("/");
-      //set here navigate
-      //useEffect();
-      //handleCookie();
+      
     } catch (err) {
       console.log("here error in navbar");
-      //setError(err.response.data);
     }
   };
 
