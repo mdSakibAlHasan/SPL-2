@@ -1,5 +1,6 @@
 {
   "dependencies": {
-    "node-sass": "^8.0.0"
+    "node-sass": "^8.0.0",
+    "react-cookie": "^4.1.1"
   }
 }

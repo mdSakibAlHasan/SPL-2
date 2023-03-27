@@ -1,8 +1,11 @@
-import React from 'react'
-import { useState, useEffect, useContext } from 'react';
+//import {React, useContext} from 'react'
+import {React, useState, useEffect, useContext } from 'react';
 import { getSetCookie } from '../Set_up_profile/CookiesHandle';
 import { AuthContext } from '../compute/authContex';
 import axios from 'axios';
+import {  useNavigate } from 'react-router-dom';
+import Cookies from 'js-cookie';
+//import useCookies from 'react-cookie';
 //import HomeMain from './HomeMain'
 
 
@@ -10,7 +13,9 @@ import axios from 'axios';
 export default function Navbar() {
 
   const [isLogin, setIsLogin] = useState(false);
+  //const [cookies, setCookie, removeCookie] = useCookies(['cookie-name']);
   var result;
+  //const navigate = useNavigate();
 
   useEffect(() => {
     function handleCookie(){
@@ -32,18 +37,43 @@ export default function Navbar() {
      handleCookie();
   }, []); 
 
+  const clearCookie = (cookieName) => {
+    document.cookie = `${cookieName}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+  };
+
+    const handleRefresh = () => {
+      window.location.reload();
+    };
+
   const { logout } = useContext(AuthContext);
+  //const {navigate} = useNavigate();
+  //const [cookies, setCookie, removeCookie] = useCookies(['cookie-name']);
   const handleLogout = async (e) => {
     e.preventDefault();
     try {
-      console.log("inside")
-      //await logout()
+      console.log("inside navbar")
+      await logout()
+
+      document.cookie.split(";").forEach((c) => {
+        document.cookie = c
+          .replace(/^ +/, "")
+          .replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
+      });
+      //removeCookie('my_cookies');
+      // Cookies.remove(result)
+      // Cookies.remove('my_cookies')
+      //document.cookie = `'${result}'=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+      //clearCookie(result);
+      //cookies.remove("user");
       await axios.post("http://localhost:3001/api/logout");
       setIsLogin(false);
+      handleRefresh();
+       //navigate("/");
+      //set here navigate
       //useEffect();
       //handleCookie();
     } catch (err) {
-      console.log("here error");
+      console.log("here error in navbar");
       //setError(err.response.data);
     }
   };
