@@ -69,9 +69,6 @@ export default function Profile(props) {
         setjobArr(result.data);
         console.log("getJob ");
         
-        // console.log("getCookies print",inputs.cookie);
-        // // if(inputs.cookie != undefined){
-        // //   console.log(inputs.getCookie," in if statement first")
           result = await axios.post("http://localhost:3001/app/cookieAuth",inputs);
           console.log(result.data.id," in if statement")
           if(result.data.id == profileID){
