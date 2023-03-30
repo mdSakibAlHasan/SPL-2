@@ -23,6 +23,7 @@ export default function Profile(props) {
   const [jobArr, setjobArr]=useState([]);
   const [imageSrc, setImageSrc] = useState(null);
   const [isOwner, setIsOwner] = useState(false);
+  const [isAddResearcher, setIsAddResearcher] = useState(false);
   inputs.ID = profileID;
 
   // const getCookie = (name) => {
@@ -121,7 +122,22 @@ export default function Profile(props) {
             <img src={imageSrc} style={{ width: "60%", height: "70%" }} alt="" />{" "}
             <br />{departmentArr.length > 0 && departmentArr[0].name} <br /> 
             {departmentArr.length > 0 && departmentArr[0].designation} <br />
-            {isOwner && <a  href="/personalInfo" className="btn btn-outline-info" >Edit profile</a>}
+            {/* {isOwner && <a  href="/personalInfo" className="btn btn-outline-info" >Edit profile</a>} */}
+            
+            <br/>
+            {isOwner&&
+               <div className="dropdown">
+               <button className="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                 Settings
+               </button>
+               <ul className="dropdown-menu">
+                 <li><a className="dropdown-item" href="/personalInfo">Edit Profile</a></li>
+                 <li><a className="dropdown-item" href="/changepass">Password Changes</a></li>
+                 {isAddResearcher && <li><a className="dropdown-item" href="/registration">Add Researcher</a></li>&&
+                 <li><a className="dropdown-item" href="/changepass">Remove Researcher</a></li>}
+               </ul>
+             </div>
+            }
             
           </div>
           <div className="col">
