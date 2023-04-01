@@ -20,7 +20,7 @@ export default function Navbar() {
   useEffect(() => {
     function handleCookie(){
       result = getSetCookie('my_cookies');
-      console.log(result," here are navbar print");
+      //console.log(result," here are navbar print");
       if(result!=null){
         setIsLogin(true);
       }

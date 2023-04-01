@@ -7,15 +7,14 @@ import send_mail from "./sent_mail.js";
 import emailValidator from 'email-validator';
 
 export const getDepartment = (req,res) =>{
-  console.log("complete");
-  const q = "select name from department";
+  const q = "select DepartmentName from bcsir.department;";
   db.query(q,function(err,result){
     if(err){
       console.log("Something happend for check department");
       return res.status(409).json("department not found ");
     }
     else{
-      const namesArray = Object.keys(result).map(key => result[key].name);
+      const namesArray = Object.keys(result).map(key => result[key].DepartmentName);
       console.log(namesArray)
       return res.status(200).send(namesArray);
     }
@@ -23,72 +22,59 @@ export const getDepartment = (req,res) =>{
 }
 
 
-export const register = (req, res) => {
+export const register =  (req, res) => {
 
   const email = req.body.email;
-  const d = req.body.selectedOption;
-  console.log(d+" is the department");
+  const departmentName = req.body.selectedOption;
+  var ID;
   const isValidEmail = emailValidator.validate(email);
   if(!isValidEmail)
-    //return res.status(409).json("Email not valid");
     return res.status(409).send("Email not valid");
-  let ID = getID(d);
-//console.log(a+" is the reID");
-  var qur = "select * from login;";
-  db.query(qur,function(err,result){
-    if(err)
-      console.log("Something happend for check user");
-    else{
-      if(check_user(result,email)){
-        console.log("user exits")
-        return res.status(409).json("User already exists! ");
-      }
+    
+  const que = `select ID from department where name= '${departmentName}';`
+  db.query(que,function(err,data){
+  if(err){
+    console.log("error to querey")
+  }
+  else{
+    const q = 5;                          //@update here querey for researcher serial
+    ID = (10+data[0].ID)*1000+q;
+    
+    var qur = "select * from bcsir.researcher;";
+    db.query(qur,function(err,result){
+      if(err)
+        console.log("Something happend for check user");
       else{
-        const rand_num = getRandomInt(9999999).toString();
-        const salt = bcrypt.genSaltSync(10);
-       const pass = bcrypt.hashSync(rand_num, salt);
-        console.log(pass);
-        const body = `${rand_num} is your onetime password to log in the website. Please don't share this with other`
-        send_mail(email,"one time password for login",body)
-
-        const qu = `insert into login(ID,email,password,type,isFirst) values('${ID}','${email}','${pass}','researcher',1);`
-        db.query(qu,function(err,result){
-        if(err){
-          console.log("Something happend to insert data");
-          return res.status(409).json("not able to insert data");
+        if(check_user(result,email)){
+          return res.status(409).json("User already exists! ");
         }
         else{
-          console.log("Data inserted");
-          return res.status(200).json("User has been created.");
-        }
+          const rand_num = getRandomInt(9999999).toString();
+          const salt = bcrypt.genSaltSync(10);
+          const pass = bcrypt.hashSync(rand_num, salt);
+          console.log(pass);
+          const body = `${rand_num} is your onetime password to log in the website. Please don't share this with other`;
+          const qu = `insert into bcsir.researcher(ID,Email,Password,type) values(${ID},'${email}','${pass}','researcher');`
+          console.log(qu);
+          db.query(qu,function(err,result){
+            if(err){
+              console.log("Something happend to insert data");
+              return res.status(409).json("not able to insert data");
+            }
+            else{
+              send_mail(email,"one time password for login",body)
+              return res.status(200).json("User has been created.");
+            }
         });
       }
     }
   });
 
+}
+})
+
 };
 
-
-function getID(department){
-  var departmentID, researcherNum;
-  const qur = `select ID from department where name= '${department}';`
-  db.query(qur,function(err,data){
-    if(err){
-      console.log("error to querey")
-    }
-    else{
-      console.log(data[0].ID);
-      departmentID = data[0].ID;
-    }
- 
-  console.log(departmentID+" is the deID");
-  const q = 5;                          //@update here querey for researcher serial
-    var id = (10+departmentID)*1000+q;
-    console.log(id+" is the is")
-    return id;
-
-  })
-}
 
 function getRandomInt(max) {
   return Math.floor(Math.random() * Math.floor(max));
@@ -98,8 +84,8 @@ function getRandomInt(max) {
 function check_user(result,email){
   var duplicate=false;
   result.forEach(users =>{
-    console.log(users.email," ",email)
-    if(users.email === email){
+    console.log(users.Email," ",email)
+    if(users.Email === email){
       console.log("match")
       duplicate= true;
     }
