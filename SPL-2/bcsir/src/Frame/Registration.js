@@ -7,6 +7,7 @@ import axios from "axios";
 export default function Registration() {
     const [departmentArr, setdepartmentsArr]=useState([]);
     const [selectedOption, setSelectedOption] = useState("Institute Of Fuel Research Development");
+    const [err, setErr] = useState();
     const [inputs, setInputs] = useState({
       email: "",
       selectedOption: "",
@@ -22,7 +23,7 @@ export default function Registration() {
           var result = await axios.post("http://localhost:3001/api/getDepartment");
           setdepartmentsArr(result.data);
         } catch (err) {
-          console.log("error occur");
+          setErr(err)
         }
       };
       handleDepartment();
@@ -35,16 +36,19 @@ export default function Registration() {
 
     const navigate = useNavigate();
     const submitButton =async (e) =>{
-
-      inputs.selectedOption = selectedOption;
-      await axios.post("http://localhost:3001/api/register", inputs);
-      navigate("/");
+      try{
+        inputs.selectedOption = selectedOption;
+        await axios.post("http://localhost:3001/api/register", inputs);
+        navigate("/");
+      }catch(err){
+        setErr(err)
+      }
     }
 
  
 
   return (
-    <form onSubmit={submitButton}>
+    <form onSubmit={submitButton} method="POST">
       
         <div className='contaner bg-success-subtle'>
         
@@ -64,8 +68,8 @@ export default function Registration() {
                     <label htmlFor="EmailInput"><strong>Email:</strong> </label>
                     <input type="email" className="form-control" id="EmailInput" placeholder="Enter Email" name='email' onChange={handleChange}/>
                 </div>
-
-                <input className='btn btn-outline-light' type="submit" value="Add Researcher" />
+                  {err && <p>err</p>}
+                <input className='btn btn-outline-light' type="button" value="Add Researcher" onClick={submitButton} />
             </div>
         </div>
     </form>
