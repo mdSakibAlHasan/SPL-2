@@ -11,10 +11,7 @@ export default function Login() {
       const [err, setError] = useState(null);
     
       const navigate = useNavigate();
-    
-      //const { login } = useContext(AuthContext);
       const { login } = useContext(AuthContext);
-    
     
       const handleChange = (e) => {
         setInputs((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -26,7 +23,6 @@ export default function Login() {
           await login(inputs)
           navigate("/personalInfo");
         } catch (err) {
-          console.log("here");
           setError(err.response.data);
         }
       };
@@ -35,17 +31,18 @@ export default function Login() {
         <div className='contaner bg-success-subtle'>
         
             <div className='box shadow p-3 mb-5 bg-info rounded'>
-                <div class="form-group my-3">
+                <div className="form-group my-3">
                     <label for="EmailInput"><strong>Email:</strong> </label>
-                    <input type="email" class="form-control" id="EmailInput" placeholder="Enter Email" name='email' onChange={handleChange}/>
+                    <input type="email" className="form-control" id="EmailInput" placeholder="Enter Email" name='email' onChange={handleChange}/>
                 </div>
-                <div class="form-group my-3">
+                <div className="form-group my-3">
                     <label for="PasswordInput"><strong>Password:</strong></label>
-                    <input type="password" class="form-control" id="PasswordInput" placeholder="Enter Password" name='password' onChange={handleChange}/>
+                    <input type="password" className="form-control" id="PasswordInput" placeholder="Enter Password" name='password' onChange={handleChange}/>
                 </div>
                 <center>
+                  {err && <p>{err}</p>}
                 <a href='/forgotPass'>Forget Password?</a> <br/>
-                <input className='btn btn-outline-light' type="submit" value="Login" onClick={handleSubmit}/>
+                <input className='btn btn-outline-light' type="button" value="Login" onClick={handleSubmit}/>
                 </center>
             </div>
        

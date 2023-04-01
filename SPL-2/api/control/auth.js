@@ -99,49 +99,28 @@ function check_user(result,email){
 
 
 export const login = (req, res) => {
-  const em = req.body.email;
-  const pa = req.body.password;
-  const q = "SELECT * FROM login WHERE email = ?";
-  console.log(q);
+  const q = "SELECT Password, Email FROM bcsir.researcher WHERE Email = ?";
 
   db.query(q, [req.body.email], (err, data) => {
-    console.log(data)
-    console.log("here in backend");
-    //console.log(data[0].password)
     if (err) return res.status(500).json(err);
     if (data.length === 0) 
       return res.status(404).json("User not found!");
     else{
       const isPasswordCorrect = bcrypt.compareSync(
         req.body.password,
-        data[0].password
+        data[0].Password
       );
-  
     
       if (!isPasswordCorrect)
         return res.status(400).json("Wrong email or password!");
-        const myCookie = req.cookies.mycookie;
-        console.log(myCookie)
-        const token = jwt.sign({ email: data[0].email }, "jwtkey");
-        console.log(token)
-        //res.sent(token)
-        res.status(200).json(token);
+     
+      const token = jwt.sign({ email: data[0].Email }, "jwtkey");
+      res.status(200).json(token);
     }
-
-    //Check password
-    
-      // res
-      // .cookie("access_token", token, {
-      //   httpOnly: true,
-      // })
-      // .status(200)
-      // .json(token);
   });
 };
 
 export const logout = (req, res) => {
-  console.log("here log out")
-  //localStorage.removeItem("access_token");
   res.clearCookie("my_cookies",{
     sameSite:"none",
     secure:true
