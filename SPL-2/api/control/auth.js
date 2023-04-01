@@ -1,9 +1,7 @@
 import { db } from "../db.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import Cookies from 'js-cookie';
 import send_mail from "./sent_mail.js";
-//const emailValidator = require('email-validator');
 import emailValidator from 'email-validator';
 
 export const getDepartment = (req,res) =>{
@@ -31,14 +29,18 @@ export const register =  (req, res) => {
   if(!isValidEmail)
     return res.status(409).send("Email not valid");
     
-  const que = `select ID from department where name= '${departmentName}';`
+  let que = `select DepartmentID from bcsir.department where DepartmentName= '${departmentName}';`
   db.query(que,function(err,data){
   if(err){
     console.log("error to querey")
   }
   else{
-    const q = 5;                          //@update here querey for researcher serial
-    ID = (10+data[0].ID)*1000+q;
+    que = `SELECT COUNT(*) FROM bcsir.researcher where departmentID=${data[0].DepartmentID};`
+    console.log(que);
+    db.query(que,function(err,info){    
+      //console.log(info[0]['COUNT(*)']," info ");                     //@update here querey for researcher serial
+      ID = (data[0].DepartmentID)*1000+info[0]['COUNT(*)'];
+    })
     
     var qur = "select * from bcsir.researcher;";
     db.query(qur,function(err,result){
@@ -52,9 +54,9 @@ export const register =  (req, res) => {
           const rand_num = getRandomInt(9999999).toString();
           const salt = bcrypt.genSaltSync(10);
           const pass = bcrypt.hashSync(rand_num, salt);
-          console.log(pass);
+          //console.log(pass);
           const body = `${rand_num} is your onetime password to log in the website. Please don't share this with other`;
-          const qu = `insert into bcsir.researcher(ID,Email,Password,type) values(${ID},'${email}','${pass}','researcher');`
+          const qu = `insert into bcsir.researcher(ID,Email,Password,type,departmentID) values(${ID},'${email}','${pass}','researcher',${data[0].DepartmentID});`
           console.log(qu);
           db.query(qu,function(err,result){
             if(err){
@@ -84,9 +86,7 @@ function getRandomInt(max) {
 function check_user(result,email){
   var duplicate=false;
   result.forEach(users =>{
-    console.log(users.Email," ",email)
     if(users.Email === email){
-      console.log("match")
       duplicate= true;
     }
   });
@@ -99,10 +99,8 @@ function check_user(result,email){
 
 
 export const login = (req, res) => {
-  //CHECK USER
   const em = req.body.email;
   const pa = req.body.password;
-  console.log(em," ",pa)
   const q = "SELECT * FROM login WHERE email = ?";
   console.log(q);
 
