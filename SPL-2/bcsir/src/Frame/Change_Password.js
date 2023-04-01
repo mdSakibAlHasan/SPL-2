@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{useEffect} from 'react'
 import './Login.css'
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
@@ -23,41 +23,53 @@ export default function ChangePass() {
     newPassword: "",
     RetypePassword: "",
   });
+  const [err, setError] = useState();
 
   const handleChange = (e) => {
     setInputs((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+    if(inputs.newPassword === inputs.RetypePassword)
+      setError("confirm password not matched");
+    else
+      setError("Matched");
   };
    
-    //let err;
-    const navigate = useNavigate();
 
+  const navigate = useNavigate();
 
-      const update_password = async (e) =>{
-        if(inputs.newPassword == inputs.RetypePassword){
-
-          console.log(getCookie('my_cookies'));
-          const api = axios.create({
-            baseURL: 'http://localhost:3001/api',
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': getCookie('my_cookies')
-            }
-          });
-
-          //await axios.post("http://localhost:3001/api/changePass", inputs);
-          try {
-            await api.post("/changePass",inputs);
-            navigate("/");       
-          } catch (error) {
-            alert("Old password not match");
-          }
-          
-        }
-        else{
-         alert("new and confirm pass not match");
-          console.log("here")
-        }      
+  useEffect(() => {
+    function handleCookie(){
+      if(getCookie('my_cookies') == null){
+        navigate("/login");
       }
+    };
+    handleCookie();
+  }, []); 
+
+  const update_password = async (e) =>{
+    if(inputs.newPassword == inputs.RetypePassword){
+
+      console.log(getCookie('my_cookies'));
+      const api = axios.create({
+        baseURL: 'http://localhost:3001/api',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': getCookie('my_cookies')
+        }
+      });
+
+      try {
+        await api.post("/changePass",inputs);
+        navigate("/");       
+      } catch (error) {
+        setError(error);
+      }
+      
+    }
+    else{
+     setError("confirm password not matched")
+    }      
+  }
+
   return (
     <form action="">
         <div className='contaner bg-success-subtle'>
@@ -78,10 +90,8 @@ export default function ChangePass() {
                     <label htmlFor="RetypePasswordInput"><strong>Re-type Password:</strong></label>
                     <input type="password" className="form-control"  id="RetypePasswordInput" placeholder="Re-type Password" name='RetypePassword' onChange={handleChange} />
                 </div>
-                
+                {err && <p>{err}</p>}
                 <input className='btn btn-outline-light'value="Update password"  onClick={()=>update_password()}/> <br /><br />
-                {/* <input className='btn btn-outline-light disabled' aria-disabled={cansubmit} value="Submit" type="submit"/> */}
-                {/* <button className='btn btn-outline-light' type="submit" >Submit</button> */}
             </div>
        
         </div>

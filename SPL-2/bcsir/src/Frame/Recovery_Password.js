@@ -1,32 +1,26 @@
 import React, { useState } from 'react'
 import './Login.css'
 import axios from "axios";
-// import { sendEmail } from '../../api/control/recovery.js';
-// import { sendEmail } from '../../../api/control/recovery';
- import { useNavigate } from 'react-router-dom';
-// import Authentication from '../Classes/Authentication';
-//var errorPrint=null;
+import { useNavigate } from 'react-router-dom';
 
 export default function Recovery_Password() {
-    //let ent_code;
     const [inputs, setInputs] = useState({
         email: "",
         code: "",
-      });
+    });
 
-      const [input, setInput] = useState({
-        newPass: "",
-        conPass: "",
-      });
+    const [input, setInput] = useState({
+    newPass: "",
+    conPass: "",
+    });
     const [code, setcode]=useState("");
     const [cansubmit, set_cansubmit]=useState(true);
     const [codematched, set_codematched]=useState(false);
     const [btndisable, set_btndisable]=useState(false);
-    //const [email, set_email]=useState();
 
     const handleInputChange = (e) => {
-        setcode(e.target.value); // Update input value with user input
-      };
+        setcode(e.target.value); 
+    };
    
       const handleChange = (e) => {
         setInputs((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -53,9 +47,7 @@ export default function Recovery_Password() {
         try{
             inputs.code = code;
             await axios.post("http://localhost:3001/api/checkCode", inputs);
-            //set_btndisable(true);
-            setError(null);
-            alert("Code Matched"); 
+            setError("Code matched");
             set_codematched(true);
         }catch(err){
             setError(err.response.data);
@@ -63,15 +55,12 @@ export default function Recovery_Password() {
     }
 
     const navigate = useNavigate();
-
     const check_password= async (e) =>{
         console.log(cansubmit);
         if(input.newPass == input.conPass){
-            setError(null);
-            alert("both matched");
+            setError("both matched");
             set_cansubmit(false);
             await axios.post("http://localhost:3001/api/inputPass", input);
-            //errorPrint = null;
             navigate("/Login");
         }
         else{
