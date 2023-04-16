@@ -13,7 +13,7 @@ export const getDepartment = (req,res) =>{
     }
     else{
       const namesArray = Object.keys(result).map(key => result[key].DepartmentName);
-      console.log(namesArray)
+      //console.log(namesArray)
       return res.status(200).send(namesArray);
     }
   });

@@ -1,8 +1,5 @@
 import React,{useEffect, useState} from 'react'
-//import { FunctionInfo } from '../App';
-import { Navigate } from 'react-router-dom';
-import axios from 'axios';
-import Footer from '../Footer/Footer';
+
 
 export default function InfoShowCard(props) {
     const name=props.name;
@@ -31,7 +28,6 @@ export default function InfoShowCard(props) {
             <a  href={`/profile/${ID}`} className="btn btn-outline-info" >Go to profile</a>
         </div>
         </div>
-        {/* <Footer/> */}
     </>
   )
 }

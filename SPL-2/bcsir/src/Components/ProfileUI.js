@@ -1,11 +1,7 @@
 import React, { useState,useEffect } from "react";
-// import Admin from "../Classes/Admin";
-import Modal from "./Modal";
 import { useLocation } from "react-router-dom";
-import axios from "axios";
-import Navbar from "./Navbar";
-import Footer from "../Footer/Footer";
 import { getSetCookie } from "../Set_up_profile/CookiesHandle";
+import axios from 'axios'; 
 //import { getID } from "../App";
 
 export default function Profile(props) {
@@ -266,7 +262,6 @@ export default function Profile(props) {
     </div>
   </div>
 </div><br/><br/><br/>
-<Footer/>
     </>
   );
 }

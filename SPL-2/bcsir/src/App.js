@@ -2,13 +2,9 @@ import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
-import Home from "./Pages/Home";
 import Login from "./Frame/Login";
 import HomeMain from "./Components/Home";
-import {ForgotPass, CodePage, InputPass} from "./Pages/ForgotPass";
 import RecoveryPassword from "./Frame/Recovery_Password";
-// import "./style.scss";
-// import "./as.css";
 import Register from "./Frame/Registration";
 import Profile from "./Components/ProfileUI";
 import ChangePass from "./Frame/Change_Password";
@@ -38,11 +34,6 @@ import Footer from "./Footer/Footer";
 
 const router = createBrowserRouter([
   {
-    path: "/",
-    element: <Home/>,
-
-  },
-  {
     path: "/home",
     element: <HomeMain/>,
 
@@ -63,14 +54,6 @@ const router = createBrowserRouter([
   {
     path: "/ForgotPass",
     element: <RecoveryPassword/>,
-  },
-  {
-    path: "/CodePage",
-    element: <CodePage/>,
-  },
-  {
-    path: "/inputPass",
-    element: <InputPass/>,
   },
   {
     path: "/changePass",

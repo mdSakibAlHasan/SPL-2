@@ -1,61 +1,45 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import InfoShowCard from './InfoShowCard';
-import Footer from '../Footer/Footer';
 
 function ShowResearcherList() {
-
-  //const departmentOptions = ['Department A', 'Department B', 'Department C'];
-  const [departmentArr, setdepartmentsArr]=useState([]);
-
-
+  const [departmentArr, setdepartmentsArr] = useState([]);
   const [inputs, setInputs] = useState({
     dept: "",
   });
-  const [researcherArr, setresearcherArr]=useState([]);
-  const [selectedDepartment, setSelectedDepartment] = useState('');
+  const [researcherArr, setresearcherArr] = useState([]);
+  const [selectedDepartment, setSelectedDepartment] = useState();
 
-  var result;
   useEffect(() => {
     const handleDepartment = async () => {
       try {
-        for(let i=0;i<10;i++){
-          <br/>
-          console.log("h")
-        }
-        console.log("here");
-        result = await axios.post("http://localhost:3001/api/getDepartment");
-        console.log("ekhane print hobe ");
-        console.log(result.data[0]);
+        const result = await axios.post("http://localhost:3001/api/getDepartment");
         setdepartmentsArr(result.data);
-        console.log(departmentArr);
-        console.log("ekhane print ses ");
       } catch (err) {
-        console.log("error occur");
+        console.log("error occurred");
       }
     };
     handleDepartment();
-  }, []); 
+  }, []);
 
-
-  const handleResearcher =async (e) =>{
-    try{
-      inputs.dept = selectedDepartment;
-      console.log(inputs.dept);
-      result = await axios.post("http://localhost:3001/app/getResearcher", inputs);
+  const handleResearcher = async () => {
+    try {
+      const result = await axios.post("http://localhost:3001/app/getResearcher", { dept: selectedDepartment });
       setresearcherArr(result.data);
-      console.log(researcherArr,"this is researcher");
-    }catch(err){
+    } catch (err) {
       console.log(err)
     }
   }
-  
 
-  
   const handleDepartmentChange = (event) => {
     setSelectedDepartment(event.target.value);
-    handleResearcher();
   };
+
+  useEffect(() => {
+    if (selectedDepartment) {
+      handleResearcher();
+    }
+  }, [selectedDepartment]);
 
   return (
     <div className="container">
@@ -73,8 +57,8 @@ function ShowResearcherList() {
       {selectedDepartment && (
         <div className="row">
           <div style={{display:"flex"}}>
-        {researcherArr.map((user)=>(<InfoShowCard name={user.name} designation={user.designation}  ID={user.ID}/>))}
-    </div>
+            {researcherArr.map((user) => (<InfoShowCard key={user.ID} name={user.name} designation={user.designation} ID={user.ID}/>))}
+          </div>
         </div>
       )}
     </div>
