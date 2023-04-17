@@ -23,7 +23,7 @@ export const getResearcher = (req,res) =>{
   export const getProfileInfo = (req,res) =>{
     const ID =parseInt (req.body.ID);
     //console.log("In get researcher",ID, req.body," here print");
-    const q = `SELECT  Email, Password, Name, FatherName, Photo, MotherName, BirthDate, Gender, NationalID, ResearchExperience, HSC, Honourse, Masters, Phd, ThesisSupervision, ProfessionalAffiliation, Orchidlink, GoogleScholarlink, ResearchGateLink, PresentAddress, PermanentAddress, Cellno, Linkedinid, Facebookid, type, departmentID, AboutMe, Designation FROM bcsir.researcher where ID='${ID}';`;
+    const q = `SELECT Name, Photo, Gender, Orchidlink, GoogleScholarlink, ResearchGateLink, PresentAddress, PermanentAddress, Cellno, Linkedinid, Facebookid, type,bcsir.researcher.departmentID, DepartmentName, AboutMe, Designation FROM bcsir.researcher, bcsir.department where ID='${ID}' and bcsir.department.DepartmentID=bcsir.researcher.departmentID;`;
     db.query(q,function(err,result){
       if(err){
         console.log("Something happend for check  personal info");

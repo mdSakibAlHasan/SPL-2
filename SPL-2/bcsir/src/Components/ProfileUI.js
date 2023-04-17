@@ -14,9 +14,8 @@ export default function Profile(props) {
     ID: "",
     cookie:"",
   });
-  const [departmentArr, setdepartmentsArr]=useState([]);
+  
   const [profileArr, setprofileArr]=useState([]);
-  const [researchExperienceArr, setRearchExperienceArr] = useState([]);
   const [educationArr, seteducationArr]=useState([]);
   const [jobArr, setjobArr]=useState([]);
   const [imageSrc, setImageSrc] = useState(null);
@@ -63,15 +62,14 @@ export default function Profile(props) {
         .catch(error => console.error(error, "occur here in photo"));
         //inputs.cookie = getCookie('my_cookies');
         result = await axios.post("http://localhost:3001/app/getProfileInfo",inputs);
-        console.log("getprofile ",result.data,"all print here");
-        setdepartmentsArr(result.data);
+        //console.log("getprofile ",result.data,"all print here");
         setprofileArr(result.data);
         result = await axios.post("http://localhost:3001/app/getEducationInfo",inputs);
         //console.log("geteducation", result.data);
         seteducationArr(result.data);
         result = await axios.post("http://localhost:3001/app/getJobInfo",inputs);
         setjobArr(result.data);
-        console.log("getJob ",result.data);
+        //console.log("getJob ",result.data);
         
           result = await axios.post("http://localhost:3001/app/cookieAuth",inputs);
           console.log(result.data.id," in if statement")
@@ -80,7 +78,6 @@ export default function Profile(props) {
           }
     
         result = await axios.post("http://localhost:3001/app/cookieAuth",inputs);
-        console.log(departmentArr[0].researchExperience+" is department array");
         console.log("ekhane print ses ",result.data);
       } catch (err) {
         console.log("error occur in last");
@@ -121,8 +118,9 @@ export default function Profile(props) {
         <div className="row">
           <div className="col">
             <img src={imageSrc} style={{ width: "60%", height: "70%" }} alt="" />{" "}
-            <br />{departmentArr.length > 0 && departmentArr[0].name} <br /> 
-            {departmentArr.length > 0 && departmentArr[0].designation} <br />
+            <br />{profileArr.length > 0 && profileArr[0].Name} <br /> 
+            {profileArr.length > 0 && profileArr[0].Designation} <br />
+            {profileArr.length > 0 && profileArr[0].DepartmentName} <br />
             {/* {isOwner && <a  href="/personalInfo" className="btn btn-outline-info" >Edit profile</a>} */}
             
             <br/>
