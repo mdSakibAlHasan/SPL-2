@@ -15,6 +15,8 @@ export default function Profile(props) {
     cookie:"",
   });
   const [departmentArr, setdepartmentsArr]=useState([]);
+  const [profileArr, setprofileArr]=useState([]);
+  const [researchExperienceArr, setRearchExperienceArr] = useState([]);
   const [educationArr, seteducationArr]=useState([]);
   const [jobArr, setjobArr]=useState([]);
   const [imageSrc, setImageSrc] = useState(null);
@@ -38,13 +40,18 @@ export default function Profile(props) {
 
   useEffect(() => {
     function handleCookie(){
-      console.log("I am sakib")
+      //console.log("I am sakib")
       r = getSetCookie('my_cookies');
       inputs.cookie = r;
-      console.log(r," here are ",inputs.cookie);
+      //console.log(r," here are ",inputs.cookie);
     };
     handleCookie();
   }, []); 
+
+
+  const parseInformation = (researchExperienceArr)=>{
+      
+  }
 
   useEffect(() => {
     async function handleDepartment(){
@@ -56,14 +63,15 @@ export default function Profile(props) {
         .catch(error => console.error(error, "occur here in photo"));
         //inputs.cookie = getCookie('my_cookies');
         result = await axios.post("http://localhost:3001/app/getProfileInfo",inputs);
-        console.log("getprofile ");
+        console.log("getprofile ",result.data,"all print here");
         setdepartmentsArr(result.data);
+        setprofileArr(result.data);
         result = await axios.post("http://localhost:3001/app/getEducationInfo",inputs);
-        console.log("geteducation");
+        //console.log("geteducation", result.data);
         seteducationArr(result.data);
         result = await axios.post("http://localhost:3001/app/getJobInfo",inputs);
         setjobArr(result.data);
-        console.log("getJob ");
+        console.log("getJob ",result.data);
         
           result = await axios.post("http://localhost:3001/app/cookieAuth",inputs);
           console.log(result.data.id," in if statement")
@@ -136,13 +144,13 @@ export default function Profile(props) {
           <div className="col">
             <h3>About Me</h3>
             <p>
-            {departmentArr.length > 0 && departmentArr[0].about}
+            {profileArr.length > 0 && profileArr[0].AboutMe}
             </p>
 
             <h3>More links</h3>
-            <a href="https://www.researchgate.net/profile/Abu_Kowsar">ReseachGate</a><br></br>
-            <a href="https://scholar.google.com/citations?hl=en&user=H0NPcAoAAAAJ">Google Scholar</a><br></br>
-            <a href=" https://orcid.org/0000-0003-2395-7932">ORCID</a>
+            <a href={profileArr.length > 0 && profileArr[0].ResearchGateLink}>ReseachGate</a><br></br>
+            <a href={profileArr.length > 0 && profileArr[0].GoogleScholarlink}>Google Scholar</a><br></br>
+            <a href={profileArr.length > 0 && profileArr[0].Orchidlink}>ORCID</a>
           </div>
         </div>
         <br />
@@ -168,10 +176,10 @@ export default function Profile(props) {
                 <tr>
                 {educationArr.map((option) => (
                         <option value={option} name="department"> 
-                            <td >{option.degreeName} ,</td>
-                            <td>{option.board} ,</td>
-                            <td>{option.group} ,</td>
-                            <td>{option.passingYear}</td>
+                            <td >{option? option[0]: ''} ,</td>
+                            <td>{option? option[1]: ''} ,</td>
+                            <td>{option? option[2]: ''} ,</td>
+                            <td>{option? option[3]: ''}</td>
                         </option>
                         ))}
                          </tr>
@@ -185,10 +193,10 @@ export default function Profile(props) {
     Experience
   </button>
   <ul className="dropdown-menu">
-    <li className="dropdown-item" data-bs-toggle="modal" data-bs-target="#exampleModal" onClick={()=>{set_modal_title("Job Experience");set_modal_body(jobArr.length===0? "Nothing to Show" :jobArr.map((arrel)=><li>{arrel.description}</li>))}}>Job Experience</li>
-    <li className="dropdown-item" data-bs-toggle="modal" data-bs-target="#exampleModal" onClick={()=>{set_modal_title("Research Experience");set_modal_body(departmentArr.length===0? "Nothing to Show" :departmentArr[0].researchExperience)}}>Research Experience</li>
-    <li className="dropdown-item" data-bs-toggle="modal" data-bs-target="#exampleModal" onClick={()=>{set_modal_title("Research Experience");set_modal_body(departmentArr.length===0? "Nothing to Show" :departmentArr[0].thesisSupervise)}}>Thesis Supervisor</li>
-    <li className="dropdown-item" data-bs-toggle="modal" data-bs-target="#exampleModal" onClick={()=>{set_modal_title("Research Experience");set_modal_body(departmentArr.length===0? "Nothing to Show" :departmentArr[0].affilation)}}>Affiliation</li>
+    <li className="dropdown-item" data-bs-toggle="modal" data-bs-target="#exampleModal" onClick={()=>{set_modal_title("Job Experience");set_modal_body(jobArr[0].length===0? "Nothing to Show" :jobArr[0].map((arrel)=><li>{arrel}</li>))}}>Job Experience</li>
+    <li className="dropdown-item" data-bs-toggle="modal" data-bs-target="#exampleModal" onClick={()=>{set_modal_title("Research Experience");set_modal_body(jobArr[0].length===0? "Nothing to Show" :jobArr[0].map((arrel)=><li>{arrel}</li>))}}>Research Experience</li>
+    <li className="dropdown-item" data-bs-toggle="modal" data-bs-target="#exampleModal" onClick={()=>{set_modal_title("Thesis Supervision");set_modal_body(jobArr[1].length===0? "Nothing to Show" :jobArr[1].map((arrel)=><li>{arrel}</li>))}}>Thesis Supervisor</li>
+    <li className="dropdown-item" data-bs-toggle="modal" data-bs-target="#exampleModal" onClick={()=>{set_modal_title("Affilition");set_modal_body(jobArr[2].length===0? "Nothing to Show" :jobArr[2].map((arrel)=><li>{arrel}</li>))}}>Affiliation</li>
   </ul>
 </div>
           </div>
