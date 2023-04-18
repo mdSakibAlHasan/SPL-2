@@ -88,3 +88,20 @@ export const getResearcher = (req,res) =>{
       }
     });
   }
+
+
+
+  export const getOtherInfo = (req,res) =>{
+    const ID =parseInt (req.body.ID);
+    const q = `select * from bcsir.achievement where OwnerID='${ID}';`;
+    db.query(q,function(err,result){
+      if(err){
+        console.log("Something happend for check  other info info");
+        return res.status(409).json("department not found ");
+      }
+      else{
+        console.log(result," is other info")
+        return res.status(200).send(result);
+      }
+    });
+  }

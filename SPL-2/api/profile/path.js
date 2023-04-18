@@ -1,5 +1,5 @@
 import  express from "express";
-import { getResearcher, getProfileInfo, getEducationInfo, getJobInfo } from "./basic.js";
+import { getResearcher, getProfileInfo, getEducationInfo, getJobInfo,getOtherInfo } from "./basic.js";
 import { setPersonalInfo, setEducationInfo,cookieAuth } from "./setInfo.js";
 import { getPersonalInfo } from "./getInfo.js";
 
@@ -14,5 +14,6 @@ router.post("/setPersonalInfo",setPersonalInfo);
 router.post("/getPersonalInfo",getPersonalInfo);
 router.post("/setEducationInfo",setEducationInfo);
 router.post("/cookieAuth",cookieAuth);
+router.post("/getOtherInfo",getOtherInfo);
 
 export default router;

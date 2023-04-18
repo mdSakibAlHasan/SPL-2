@@ -18,6 +18,7 @@ export default function Profile(props) {
   const [profileArr, setprofileArr]=useState([]);
   const [educationArr, seteducationArr]=useState([]);
   const [jobArr, setjobArr]=useState([]);
+  const [otherArr, setOtherArr] = useState([]);
   const [imageSrc, setImageSrc] = useState(null);
   const [isOwner, setIsOwner] = useState(false);
   const [isAddResearcher, setIsAddResearcher] = useState(false);
@@ -69,7 +70,9 @@ export default function Profile(props) {
         seteducationArr(result.data);
         result = await axios.post("http://localhost:3001/app/getJobInfo",inputs);
         setjobArr(result.data);
-        //console.log("getJob ",result.data);
+        //console.log("getJob ",result.data); 
+        result = await axios.post("http://localhost:3001/app/getOtherInfo",inputs);
+        setOtherArr(result.data);
         
           result = await axios.post("http://localhost:3001/app/cookieAuth",inputs);
           console.log(result.data.id," in if statement")
@@ -205,7 +208,7 @@ export default function Profile(props) {
   </button>
   <ul className="dropdown-menu">
     <li><a className="dropdown-item" href="/">Research Interest</a></li>
-    <li><a className="dropdown-item" href="/">research Projects</a></li>
+    <li><a className="dropdown-item" href="/">Research Projects</a></li>
   </ul>
 </div>
           </div>
