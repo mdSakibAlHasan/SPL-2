@@ -5,12 +5,13 @@ export default function InfoShowCard(props) {
     const name=props.name;
     const designation = props.designation;
     const ID = props.ID;
+    const photo = props.photo;
 
     const [imageSrc, setImageSrc] = useState(null);
 
   useEffect(() => {
     const handlImage = async () => {
-    import(`./photo/${ID}.jpg`)
+    import(`./photo/${photo}`)
         .then(image => setImageSrc(image.default))
         .catch(error => console.error(error, "occur here"));
     };

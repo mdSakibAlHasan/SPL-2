@@ -57,7 +57,7 @@ function ShowResearcherList() {
       {selectedDepartment && (
         <div className="row">
           <div style={{display:"flex"}}>
-            {researcherArr.map((user) => (<InfoShowCard key={user.ID} name={user.name} designation={user.designation} ID={user.ID}/>))}
+            {researcherArr.map((user) => (<InfoShowCard key={user.ID} name={user.name} designation={user.designation} photo={user.Photo} ID={user.ID}/>))}
           </div>
         </div>
       )}
