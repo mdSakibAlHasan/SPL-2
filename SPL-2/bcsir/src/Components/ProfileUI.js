@@ -93,12 +93,10 @@ export default function Profile(props) {
    
 
         useEffect(() => {
-          //console.log(profileArr.length > 0 && profileArr[0].Photo," here are  arr print")
           function handlePhoto(){
             import(`./photo/${profileArr.length > 0 && profileArr[0].Photo}`)
             .then(image => setImageSrc(image.default))
             .catch(error => console.error(error, "occur here in photo"));
-              //console.log(imageSrc," is a image source")
           };
           handlePhoto();
         }, [profileArr]); 

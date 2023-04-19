@@ -116,12 +116,12 @@ export  function getID(token) {
           console.log("wrong in getID");
           reject(null);
         } else {
-          const q = `SELECT ID FROM sakib.login WHERE email ='${userInfo.email}';`;
+          const q = `SELECT ID FROM bcsir.researcher WHERE Email ='${userInfo.email}';`;
           db.query(q, (err, data) => {
             if (err) {
               reject(err);
             } else {
-              console.log(data[0].ID, " ia control");
+              //console.log(data[0].ID, " ia control");
               resolve(data[0].ID);
             }
           });
