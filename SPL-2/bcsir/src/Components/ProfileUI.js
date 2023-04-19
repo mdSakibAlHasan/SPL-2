@@ -58,13 +58,13 @@ export default function Profile(props) {
       try {
         //inputs.cookie = getCookie('my_cookies');
         console.log("here");
-        import(`./photo/${profileID}.jpg`)
-        .then(image => setImageSrc(image.default))
-        .catch(error => console.error(error, "occur here in photo"));
+        
         //inputs.cookie = getCookie('my_cookies');
         result = await axios.post("http://localhost:3001/app/getProfileInfo",inputs);
-        //console.log("getprofile ",result.data,"all print here");
+        console.log("getprofile ",result.data,"all print here");
         setprofileArr(result.data);
+
+       
         result = await axios.post("http://localhost:3001/app/getEducationInfo",inputs);
         //console.log("geteducation", result.data);
         seteducationArr(result.data);
@@ -73,7 +73,7 @@ export default function Profile(props) {
         //console.log("getJob ",result.data); 
         result = await axios.post("http://localhost:3001/app/getOtherInfo",inputs);
         setOtherArr(result.data);
-        
+        console.log(otherArr," here are all data")
           result = await axios.post("http://localhost:3001/app/cookieAuth",inputs);
           console.log(result.data.id," in if statement")
           if(result.data.id == profileID){
@@ -90,9 +90,18 @@ export default function Profile(props) {
   }, []); 
 
 
-  
+   
 
-
+        useEffect(() => {
+          console.log(profileArr.length > 0 && profileArr[0].Photo," here are  arr print")
+          function handlePhoto(){
+            import(`./photo/${profileArr.length > 0 && profileArr[0].Photo}`)
+            .then(image => setImageSrc(image.default))
+            .catch(error => console.error(error, "occur here in photo"));
+              console.log(imageSrc," is a image source")
+          };
+          handlePhoto();
+        }, [profileArr]); 
 
 
  const prearr=["a","b","c","d","a"];
@@ -120,6 +129,7 @@ export default function Profile(props) {
       <div className="container">
         <div className="row">
           <div className="col">
+
             <img src={imageSrc} style={{ width: "60%", height: "70%" }} alt="" />{" "}
             <br />{profileArr.length > 0 && profileArr[0].Name} <br /> 
             {profileArr.length > 0 && profileArr[0].Designation} <br />
@@ -234,6 +244,7 @@ export default function Profile(props) {
     Award & Grant
   </button>
   <ul className="dropdown-menu">
+  {/* <li className="dropdown-item" data-bs-toggle="modal" data-bs-target="#exampleModal" onClick={()=>{set_modal_title("Award");set_modal_body(otherArr.length===0? "Nothing to Show" :otherArr.map((arrel)=><li>{ arrel.Type === 'Award'?arrel.Description:arrel}</li>))}}>Award</li> */}
     <li><a className="dropdown-item" href="/">Award</a></li>
     <li><a className="dropdown-item" href="/">Grant</a></li>
   </ul>
