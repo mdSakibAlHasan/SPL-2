@@ -22,7 +22,7 @@ export const getResearcher = (req,res) =>{
 
   export const getProfileInfo = (req,res) =>{
     const ID =parseInt (req.body.ID);
-    //console.log("In get researcher",ID, req.body," here print");
+    console.log("In get researcher",ID, req.body," here print");
     const q = `SELECT Name, Photo, Gender, Orchidlink, GoogleScholarlink, ResearchGateLink, PresentAddress, PermanentAddress, Cellno, Linkedinid, Facebookid, type,bcsir.researcher.departmentID, DepartmentName, AboutMe, Designation FROM bcsir.researcher, bcsir.department where ID='${ID}' and bcsir.department.DepartmentID=bcsir.researcher.departmentID;`;
     db.query(q,function(err,result){
       if(err){

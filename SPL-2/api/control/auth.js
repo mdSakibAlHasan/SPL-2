@@ -35,11 +35,13 @@ export const register =  (req, res) => {
     console.log("error to querey")
   }
   else{
-    que = `SELECT COUNT(*) FROM bcsir.researcher where departmentID=${data[0].DepartmentID};`
+    que = `SELECT MAX(ID) FROM bcsir.researcher where departmentID=${data[0].DepartmentID};`
     console.log(que);
     db.query(que,function(err,info){    
       //console.log(info[0]['COUNT(*)']," info ");                     //@update here querey for researcher serial
-      ID = (data[0].DepartmentID)*1000+info[0]['COUNT(*)'];
+      //console.log(info," is add researcher")
+      //ID = (data[0].DepartmentID)*1000+info[0]['COUNT(*)'];
+      ID = info[0]['MAX(ID)']+1;
     })
     
     var qur = "select * from bcsir.researcher;";

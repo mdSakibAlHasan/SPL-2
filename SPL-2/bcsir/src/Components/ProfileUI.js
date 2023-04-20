@@ -97,6 +97,10 @@ export default function Profile(props) {
             import(`./photo/${profileArr.length > 0 && profileArr[0].Photo}`)
             .then(image => setImageSrc(image.default))
             .catch(error => console.error(error, "occur here in photo"));
+
+            if(profileArr.length > 0 && (profileArr[0].type === 'admin' || profileArr[0].type === 'director')){
+              setIsAddResearcher(true);
+            }
           };
           handlePhoto();
         }, [profileArr]); 
@@ -143,8 +147,8 @@ export default function Profile(props) {
                <ul className="dropdown-menu">
                  <li><a className="dropdown-item" href="/personalInfo">Edit Profile</a></li>
                  <li><a className="dropdown-item" href="/changepass">Password Changes</a></li>
-                 {isAddResearcher && <li><a className="dropdown-item" href="/registration">Add Researcher</a></li>&&
-                 <li><a className="dropdown-item" href="/changepass">Remove Researcher</a></li>}
+                 {isAddResearcher && <li><a className="dropdown-item" href="/Register">Add Researcher</a></li>
+                 }{isAddResearcher && <li><a className="dropdown-item" href="/changepass">Remove Researcher</a></li>}
                </ul>
              </div>
             }
