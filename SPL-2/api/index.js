@@ -8,7 +8,7 @@ import cors from 'cors';
 
 
 
-import postROUTE from "./Path/post.js"
+import postROUTE from "./Path/RD.js"
 
 const app = express();
 app.use(express.json());

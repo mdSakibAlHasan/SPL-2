@@ -9,9 +9,6 @@ import Register from "./Frame/Registration";
 import Profile from "./Components/ProfileUI";
 import ChangePass from "./Frame/Change_Password";
 import AuthRequire from "./Pages/AuthRequire";
-import SetCommittee from "./R_D/SetCommittee"
-import DeclareCall from "./R_D/DeclareCall"
-import EditDeadline from "./R_D/EditDeadline"
 import ShowResearcherList from "./Components/ShowResearcherList";
 
 
@@ -28,6 +25,10 @@ import SpouseAndChildrenInfo from './Set_up_profile/SpouseAndChildrenInfo'
 import TrainingInfo from './Set_up_profile/TrainingInfo'
 import Navbar from "./Components/Navbar";
 import Footer from "./Footer/Footer";
+
+import SetCommittee from "./R_D/SetCommittee"
+import DeclareCall from "./R_D/DeclareCall"
+import EditDeadline from "./R_D/EditDeadline"
 
 
 //import { BrowserRouter as  Route } from 'react-router-dom';
