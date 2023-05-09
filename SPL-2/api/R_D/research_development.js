@@ -6,7 +6,7 @@ import { db } from "../db.js";
 export const setCommittee = (req, res) => {
     
     const q = "SELECT ID FROM bcsir.researcher WHERE Email = ?";
-  
+    console.log(q);
     db.query(q, [req.body.email], (err, data) => {
       console.log(data)
       if (err) return res.status(500).json(err);
@@ -28,7 +28,7 @@ export const setCommittee = (req, res) => {
 export const getCommitteeSuggesion = (req,res) => {
 
     const querey = 'SELECT ID, Name, designation, DepartmentName FROM bcsir.researcher, bcsir.department where ID=DirectorID and bcsir.department.DepartmentID <> 10;';
-
+    console.log(querey);
     db.query(querey,function(err,result){
         if(err){
           console.log("Something happend to get committee sugession");

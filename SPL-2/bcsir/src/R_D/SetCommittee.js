@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 
 function SetCommittee() {
   const [selectedOption, setSelectedOption] = useState('');
   const [password, setPassword] = useState('');
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const [suggesionArr, setSuggesionArr] = useState([]);
 
   const options = [
     { value: 'coordinator1', label: 'Research Coordinator 1' },
@@ -13,8 +15,18 @@ function SetCommittee() {
     { value: 'division2', label: 'Research Division 2 Head' },
   ];
 
+  useEffect(()=>{
+    async function handleSuggesion(){
+      const result = await axios.post("http://localhost:3001/RD/getCommitteeSuggession");
+      setSuggesionArr(result.data);
+      //console.log(suggesionArr)
+    }
+    handleSuggesion();
+  },[]);
+
   const handleOptionChange = (event) => {
     setSelectedOption(event.target.value);
+    console.log(selectedOption," is selected")
   };
 
   const handlePasswordChange = (event) => {
@@ -43,8 +55,8 @@ function SetCommittee() {
         <label>Select Committee Member:</label>
         <select className="form-control" value={selectedOption} onChange={handleOptionChange}>
           <option value="">--Select--</option>
-          {options.map((option) => (
-            <option key={option.value} value={option.value}>{option.label}</option>
+          {suggesionArr.map((option) => (
+            <option key={option.ID} value={option.value}>{option.Name}{ option.departmentName}</option>
           ))}
         </select>
       </div>
