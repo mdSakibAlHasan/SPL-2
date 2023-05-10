@@ -5,7 +5,7 @@ import { db } from "../db.js";
 
 export const setCommittee = (req, res) => {
     
-    const q = "SELECT ID FROM bcsir.researcher WHERE Email = ?";
+    const querey = "SELECT ID FROM bcsir.researcher WHERE Email = ?";
     console.log(q);
     db.query(q, [req.body.email], (err, data) => {
       console.log(data)
@@ -41,3 +41,5 @@ export const getCommitteeSuggesion = (req,res) => {
     });
 
 }
+
+

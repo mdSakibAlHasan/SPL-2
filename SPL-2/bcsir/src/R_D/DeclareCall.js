@@ -1,20 +1,28 @@
+import axios from 'axios';
 import React, { useState } from 'react';
 
 function DeclareCall() {
-  const [deadline, setDeadline] = useState('');
+  const [dateline, setDeadline] = useState('');
   const [description, setDescription] = useState('');
+  const [input, setinput] = useState({
+    dateline: "",
+    description: "",
+  })
 
   const handleDeadlineChange = (e) => {
     setDeadline(e.target.value);
+    input.dateline = dateline;
   };
 
   const handleDescriptionChange = (e) => {
     setDescription(e.target.value);
+    input.setDescription = description;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(`Deadline: ${deadline}\nDescription: ${description}`);
+    await axios.post('http://localhost:3001/RD/',input);
+    console.log(`Deadline: ${dateline}\nDescription: ${description}`);
     // Add code here to submit the deadline and description to the server
   };
 
@@ -28,7 +36,7 @@ function DeclareCall() {
             type="datetime-local"
             className="form-control"
             id="deadline"
-            value={deadline}
+            value={dateline}
             onChange={handleDeadlineChange}
           />
         </div>
