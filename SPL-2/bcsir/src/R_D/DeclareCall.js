@@ -1,8 +1,9 @@
-import axios from 'axios';
 import React, { useState } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 function DeclareCall() {
-  const [dateline, setDeadline] = useState('');
+  const [deadline, setDeadline] = useState('');
   const [description, setDescription] = useState('');
   const [input, setinput] = useState({
     dateline: "",
@@ -11,18 +12,21 @@ function DeclareCall() {
 
   const handleDeadlineChange = (e) => {
     setDeadline(e.target.value);
-    input.dateline = dateline;
   };
 
   const handleDescriptionChange = (e) => {
     setDescription(e.target.value);
-    input.setDescription = description;
   };
 
-  const handleSubmit = async (e) => {
+  const navigate = useNavigate();
+  const handleSubmit =async (e) => {
+    input.dateline = deadline;
+    input.description = description;
+
     e.preventDefault();
-    await axios.post('http://localhost:3001/RD/',input);
-    console.log(`Deadline: ${dateline}\nDescription: ${description}`);
+    console.log(`Deadline: ${input.dateline}\nDescription: ${input.description}, input ${input}`);
+    await axios.post('http://localhost:3001/RD/declareCall',input)
+    navigate('/home');
     // Add code here to submit the deadline and description to the server
   };
 
@@ -36,7 +40,7 @@ function DeclareCall() {
             type="datetime-local"
             className="form-control"
             id="deadline"
-            value={dateline}
+            value={deadline}
             onChange={handleDeadlineChange}
           />
         </div>

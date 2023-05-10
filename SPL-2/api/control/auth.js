@@ -102,7 +102,7 @@ function check_user(result,email){
 
 export const login = (req, res) => {
   const q = "SELECT Password, Email FROM bcsir.researcher WHERE Email = ?";
-
+  console.log("In login system")
   db.query(q, [req.body.email], (err, data) => {
     if (err) return res.status(500).json(err);
     if (data.length === 0) 
@@ -113,8 +113,10 @@ export const login = (req, res) => {
         data[0].Password
       );
     
-      if (!isPasswordCorrect)
+      if (!isPasswordCorrect){
+        console.log("wrong email");
         return res.status(400).json("Wrong email or password!");
+      }
      
       const token = jwt.sign({ email: data[0].Email }, "jwtkey");
       res.status(200).json(token);
