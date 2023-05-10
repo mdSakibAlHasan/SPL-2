@@ -53,4 +53,14 @@ export const getPersonalInfo = async (req, res) => {
       return res.status(500).json("Internal Server Error");
      }
   }
+
+
+export const getProfileID = async (req,res) =>{
+      const token = req.body.cookieID;
+      console.log("Token is ",token);
+      const ID = await getID(token);
+      console.log("ID: ", ID);
+
+      return res.status(200).json({ id: ID });
+  }
   
