@@ -1,12 +1,30 @@
-import React, { useState } from 'react';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export default function EditDeadline() {
   const [showPopup, setShowPopup] = useState(false);
   const [deadline, setDeadline] = useState('2023-03-31');
 
-  const handleSaveDeadline = () => {
-    // save the new deadline to the database
-    setShowPopup(false);
+  useEffect( ()=>{
+    const getDateline = async() =>{
+      const result = await axios.post('http://localhost:3001/RD/getDateline');
+      setDeadline(result.data[0].last_date);
+      console.log(result.data[0].last_date);
+    }
+    getDateline();
+  },[])
+
+  const navigate = useNavigate();
+  const handleSaveDeadline = async() => {
+    const deadlineString = deadline;                //just format this deadline
+    const deadlineDate = new Date(deadlineString);
+    const formattedDeadline = deadlineDate.toISOString().slice(0, 10);
+    const input ={
+      deadline: formattedDeadline,
+    }
+    await axios.post('http://localhost:3001/RD/editdateline',input);
+    navigate('/home');
   };
 
   return (

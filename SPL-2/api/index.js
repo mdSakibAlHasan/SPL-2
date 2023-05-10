@@ -5,6 +5,7 @@ import express from "express";
 
  //import userRoutes from "./path/users.js";
  import cookieParser from "cookie-parser";
+ import bodyParser from "body-parser";
 // import multer from "multer";
 import cors from 'cors';
 
@@ -15,6 +16,9 @@ import postROUTE from "./Path/RD.js"
 const app = express();
 app.use(express.json());
 app.use(cookieParser());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
 
 app.use(cors());
 
