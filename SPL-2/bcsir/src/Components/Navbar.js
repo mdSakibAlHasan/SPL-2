@@ -64,7 +64,7 @@ export default function Navbar() {
     const inputLength = inputValue.length;
   
     return inputLength === 0 ? [] : info.filter(option =>
-      typeof option.Name === 'string' && option.Name.toLowerCase().slice(0, inputLength) === inputValue
+      typeof option.Name === 'string' && option.Name.toLowerCase().includes(inputValue)
     );
   };
 
@@ -85,10 +85,12 @@ export default function Navbar() {
   };
 
   const inputProps = {
-    placeholder: 'Type a fruit name',
+    placeholder: 'Search researcher',
     value,
     onChange,
   };
+
+  
 
 
   return (
