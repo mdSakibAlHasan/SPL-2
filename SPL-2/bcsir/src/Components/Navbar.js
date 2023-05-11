@@ -129,7 +129,9 @@ export default function Navbar() {
             onSuggestionsFetchRequested={onSuggestionsFetchRequested}
             onSuggestionsClearRequested={onSuggestionsClearRequested}
             getSuggestionValue={suggestion => suggestion}
-            renderSuggestion={suggestion => <div>{suggestion.Name}</div>}
+            renderSuggestion={suggestion => <div>
+              <a href={`/profile/${suggestion.ID}`}>{suggestion.Name}</a>
+              </div>}
             inputProps={inputProps}
           />
           </div>

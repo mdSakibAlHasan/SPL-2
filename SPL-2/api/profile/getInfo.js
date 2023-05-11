@@ -66,6 +66,7 @@ export const getProfileID = async (req,res) =>{
 
 export const getResearcherName = (req,res) =>{
   const querey = 'select ID, Name from bcsir.researcher;';
+  
   db.query(querey,(err,data)=>{
     if(err){
       console.log("Can't fetch data from database");
