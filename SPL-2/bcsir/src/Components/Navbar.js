@@ -1,11 +1,13 @@
 import {React, useState, useEffect } from 'react';
 import { getSetCookie } from '../Set_up_profile/CookiesHandle';
 import axios from 'axios';
+import Autosuggest from 'react-autosuggest';
 
 export default function Navbar() {
 
   const [isLogin, setIsLogin] = useState(false);
   const [profileID, setProfileID] = useState("");
+  const [info, setInfo] = useState([]);
   var result;
 
   useEffect(() => {
@@ -29,10 +31,12 @@ export default function Navbar() {
         cookieID: result,
       }
       input.cookieID = result;
-      console.log(input.cookieID," is get in profile cookie");
+      //console.log(input.cookieID," is get in profile cookie");
       const ID = await axios.post('http://localhost:3001/app/getProfileID',input)
-      console.log("The ID id",ID.data['id']);
+      //console.log("The ID id",ID.data['id']);
       setProfileID(ID.data['id']);
+      const Name = await axios.post('http://localhost:3001/app/getResearcherName');
+      setInfo(Name.data);
     }
     handleProfileClick();
   },[result]);
@@ -52,6 +56,38 @@ export default function Navbar() {
     } catch (err) {
       console.log("here error in navbar");
     }
+  };
+
+  //for auto suggession
+  const getSuggestions = value => {
+    const inputValue = value.trim().toLowerCase();
+    const inputLength = inputValue.length;
+  
+    return inputLength === 0 ? [] : info.filter(option =>
+      typeof option.Name === 'string' && option.Name.toLowerCase().slice(0, inputLength) === inputValue
+    );
+  };
+
+
+  const [value, setValue] = useState('');
+  const [suggestions, setSuggestions] = useState([]);
+
+  const onSuggestionsFetchRequested = ({ value }) => {
+    setSuggestions(getSuggestions(value));
+  };
+
+  const onSuggestionsClearRequested = () => {
+    setSuggestions([]);
+  };
+
+  const onChange = (event, { newValue }) => {
+    setValue(newValue);
+  };
+
+  const inputProps = {
+    placeholder: 'Type a fruit name',
+    value,
+    onChange,
   };
 
 
@@ -82,6 +118,20 @@ export default function Navbar() {
         </li>
         <li className="nav-item d-flex">
           {isLogin && <a href={`/profile/${profileID}`} className="btn btn-outline-light">Profile</a>}
+        </li>
+        <li className="nav-item d-flex">
+              <div className='shade1 p-3 full_page_height' style={{ display: "inline-block" }}>
+            <div>
+            <Autosuggest
+            suggestions={suggestions}
+            onSuggestionsFetchRequested={onSuggestionsFetchRequested}
+            onSuggestionsClearRequested={onSuggestionsClearRequested}
+            getSuggestionValue={suggestion => suggestion}
+            renderSuggestion={suggestion => <div>{suggestion.Name}</div>}
+            inputProps={inputProps}
+          />
+          </div>
+          </div>
         </li>
       </ul>
       {!isLogin && <a href="/Login" className="btn btn-outline-light">User Login</a>}

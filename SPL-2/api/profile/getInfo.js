@@ -62,5 +62,19 @@ export const getProfileID = async (req,res) =>{
       console.log("ID: ", ID);
 
       return res.status(200).json({ id: ID });
-  }
+}
+
+export const getResearcherName = (req,res) =>{
+  const querey = 'select ID, Name from bcsir.researcher;';
+  db.query(querey,(err,data)=>{
+    if(err){
+      console.log("Can't fetch data from database");
+      return res.status(500).json('Unable to fetch data');
+    }
+    else{
+      console.log("Successfully get data from database");
+      return res.status(200).send(data);
+    }
+  })
+}
   
