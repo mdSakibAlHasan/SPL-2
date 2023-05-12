@@ -31,12 +31,14 @@ export default function Navbar() {
         cookieID: result,
       }
       input.cookieID = result;
-      //console.log(input.cookieID," is get in profile cookie");
-      const ID = await axios.post('http://localhost:3001/app/getProfileID',input)
-      //console.log("The ID id",ID.data['id']);
-      setProfileID(ID.data['id']);
-      const Name = await axios.post('http://localhost:3001/app/getResearcherName');
-      setInfo(Name.data);
+      if(input.cookieID != null){
+        //console.log(input.cookieID," is get in profile cookie");
+        const ID = await axios.post('http://localhost:3001/app/getProfileID',input)
+        //console.log("The ID id",ID.data['id']);
+        setProfileID(ID.data['id']);
+        const Name = await axios.post('http://localhost:3001/app/getResearcherName');
+        setInfo(Name.data);
+      }
     }
     handleProfileClick();
   },[result]);

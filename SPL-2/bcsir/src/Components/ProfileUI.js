@@ -2,6 +2,7 @@ import React, { useState,useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { getSetCookie } from "../Set_up_profile/CookiesHandle";
 import axios from 'axios'; 
+import PopupBox from './PopupBox'
 //import { getID } from "../App";
 
 export default function Profile(props) {
@@ -123,10 +124,35 @@ export default function Profile(props) {
     // setarr();
     console.log(arr);
   }
+
+  //for popup-box
+  const [showPopup, setShowPopup] = useState(false);
+
+  const togglePopup = () => {
+    setShowPopup(!showPopup);
+  };
   
   return (
    
     <>
+
+    <div>
+     
+      <button onClick={togglePopup}>Show Popup</button>
+      {showPopup && (
+        <div className="popup-box">
+          <div className="popup-content">
+            <h2>Popup Box</h2>
+            <PopupBox/>
+            <p>This is a custom popup box component.</p>
+            <button onClick={togglePopup}>Close</button>
+          </div>
+        </div>
+      )}
+    </div>
+
+
+
     {/* <Navbar/> */} <br/><br/><br/><br/>
       <div className="container">
         <div className="row">
