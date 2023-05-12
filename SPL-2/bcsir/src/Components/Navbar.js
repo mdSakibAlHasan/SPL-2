@@ -36,9 +36,10 @@ export default function Navbar() {
         const ID = await axios.post('http://localhost:3001/app/getProfileID',input)
         //console.log("The ID id",ID.data['id']);
         setProfileID(ID.data['id']);
+      }
         const Name = await axios.post('http://localhost:3001/app/getResearcherName');
         setInfo(Name.data);
-      }
+      
     }
     handleProfileClick();
   },[result]);

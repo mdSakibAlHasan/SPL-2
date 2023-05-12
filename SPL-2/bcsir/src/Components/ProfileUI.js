@@ -132,15 +132,24 @@ export default function Profile(props) {
     setShowPopup(!showPopup);
   };
   
-  return (
-   
+  return ( 
     <>
-
     <div>
-     
-      <button onClick={togglePopup}>Show Popup</button>
+    <button onClick={togglePopup} style={{position: 'fixed',top: '80px', right: '20px', padding: '10px', backgroundColor: '#fff', color: '#333', borderRadius: '50%', border: '1px solid #ccc', outline: 'none',cursor: 'pointer', zIndex: '999'}}>
+      <i className="fas fa-bell"></i>
+      <span style={{ position: 'absolute', top: '2px', right: '5px', backgroundColor: '#f00',color: '#fff', borderRadius: '50%',  padding: '2px 5px',fontSize: '12px'}}>
+        5
+      </span>
+    </button>
+
+
+
       {showPopup && (
         <div className="popup-box">
+          <button className="close-button" onClick={togglePopup}>
+            <i className="fas fa-times"></i>
+          </button>
+
           <div className="popup-content">
             <h2>Popup Box</h2>
             <PopupBox/>
