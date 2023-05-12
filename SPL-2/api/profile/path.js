@@ -2,6 +2,7 @@ import  express from "express";
 import { getResearcher, getProfileInfo, getEducationInfo, getJobInfo,getOtherInfo } from "./basic.js";
 import { setPersonalInfo, setEducationInfo,cookieAuth } from "./setInfo.js";
 import { getPersonalInfo, getProfileID, getResearcherName } from "./getInfo.js";
+import { getNotification } from "./notification.js";
 
 
 const router = express.Router();
@@ -17,5 +18,6 @@ router.post("/cookieAuth",cookieAuth);
 router.post("/getOtherInfo",getOtherInfo);
 router.post('/getProfileID',getProfileID);
 router.post('/getResearcherName',getResearcherName);
+router.post('/getNotificatio',getNotification);
 
 export default router;

@@ -2,7 +2,7 @@ import React, { useState,useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { getSetCookie } from "../Set_up_profile/CookiesHandle";
 import axios from 'axios'; 
-import PopupBox from './PopupBox'
+import Notification from './Notification'
 //import { getID } from "../App";
 
 export default function Profile(props) {
@@ -152,7 +152,7 @@ export default function Profile(props) {
 
           <div className="popup-content">
             <h2>Popup Box</h2>
-            <PopupBox/>
+            <Notification/>
             <p>This is a custom popup box component.</p>
             <button onClick={togglePopup}>Close</button>
           </div>
