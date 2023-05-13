@@ -18,6 +18,6 @@ router.post("/cookieAuth",cookieAuth);
 router.post("/getOtherInfo",getOtherInfo);
 router.post('/getProfileID',getProfileID);
 router.post('/getResearcherName',getResearcherName);
-router.post('/getNotificatio',getNotification);
+router.post('/getNotification',getNotification);
 
 export default router;
