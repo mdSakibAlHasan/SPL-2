@@ -152,7 +152,7 @@ export default function Profile(props) {
 
           <div className="popup-content">
             <h2>Popup Box</h2>
-            <Notification/>
+            <Notification ID = {inputs.ID} />
             <p>This is a custom popup box component.</p>
             <button onClick={togglePopup}>Close</button>
           </div>
