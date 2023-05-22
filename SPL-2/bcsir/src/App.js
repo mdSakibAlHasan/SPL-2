@@ -29,6 +29,7 @@ import Footer from "./Footer/Footer";
 import SetCommittee from "./R_D/SetCommittee"
 import DeclareCall from "./R_D/DeclareCall"
 import EditDeadline from "./R_D/EditDeadline"
+import ProposalForm from "./R_D/ProposalForm";
 
 
 //import { BrowserRouter as  Route } from 'react-router-dom';
@@ -103,6 +104,10 @@ const router = createBrowserRouter([
   {
     path: "/declareCall",
     element: <DeclareCall/>,
+  },
+  {
+    path: "/submitProposal",
+    element: <ProposalForm/>,
   },
 
 ]);
