@@ -1,18 +1,19 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { getUserType } from './UserCheck';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { getSetCookie } from '../Set_up_profile/CookiesHandle';
 
 const AddRemoveResearcher = () => {
+  const [info, setInfo] = useState([]);
   const [userType, setUserType] = useState('');
   const [actionType, setActionType] = useState('');
   const [selectedDepartment, setSelectedDepartment] = useState('');
   const [newResearcherEmail, setNewResearcherEmail] = useState('');
   const [selectedResearcher, setSelectedResearcher] = useState('');
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
-  const [departmentNames, setDepartmentNames] = useState(['Department 1', 'Department 2', 'Department 3']);
+  const [departmentNames, setDepartmentNames] = useState([]);
   const [researchers, setResearchers] = useState(['Researcher 1', 'Researcher 2', 'Researcher 3']);
-
-  const handleUserTypeSelection = (event) => {
-    setUserType(event.target.value);
-  };
 
   const handleActionTypeSelection = (event) => {
     setActionType(event.target.value);
@@ -29,6 +30,60 @@ const AddRemoveResearcher = () => {
   const handleSelectedResearcherChange = (event) => {
     setSelectedResearcher(event.target.value);
   };
+
+  var result;
+  const navigate = useNavigate();
+  useEffect(() => {
+    function handleCookie(){
+      result = getSetCookie('my_cookies');
+      if(result==null){
+        navigate("/login");
+      }
+    }
+    handleCookie();
+  }, []); 
+
+  useEffect(()=>{
+    const handleProfileClick = async()=>{
+      const input = {
+        cookieID: result,
+      }
+      input.cookieID = result;
+      if(input.cookieID != null){
+        const ID = await axios.post('http://localhost:3001/app/getPersonalInfo',input)
+        //inputs.ID = ID.data['id'];
+        setInfo(ID.data);
+        console.log(" Here is info ", ID.data);
+        
+      }  
+    }
+    handleProfileClick();
+  },[result]);
+
+
+  useEffect(()=>{
+    async function handleSuggesion(){
+      const result2 = await axios.post("http://localhost:3001/api/getDepartment");
+      setDepartmentNames(result2.data);
+      console.log(info[0].type, " is researcher type")
+      if(info && info[0].type == 'admin'){
+        setUserType('admin');
+        console.log("admin are here")
+      }
+      else if(info && (info[0].type == 'Director' || info[0].type == 'PI')){
+        setUserType("Director");
+        console.log("Director are here are here")
+        // const result = await axios.post("http://localhost:3001/RD/getResearcher", { dept: info[0].departmentID });
+        // setSuggesionArr(result.data);
+      }
+      else{
+        navigate("/login");
+      }
+    }
+    handleSuggesion();
+  },[info]);
+
+  
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -79,14 +134,14 @@ const AddRemoveResearcher = () => {
     <div>
       <h2>Add/Remove Researcher</h2>
       <form>
-        <div>
+        {/* <div>
           <label>User Type:</label>
           <select value={userType} onChange={handleUserTypeSelection} required>
             <option value="">Select user type</option>
             <option value="admin">Admin</option>
             <option value="director">Director</option>
           </select>
-        </div>
+        </div> */}
         <div>
           <label>Action Type:</label>
           <select value={actionType} onChange={handleActionTypeSelection} required>

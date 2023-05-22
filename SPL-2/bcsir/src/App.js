@@ -30,6 +30,7 @@ import SetCommittee from "./R_D/SetCommittee"
 import DeclareCall from "./R_D/DeclareCall"
 import EditDeadline from "./R_D/EditDeadline"
 import ProposalForm from "./R_D/ProposalForm";
+import AddRemoveResearcher from "./R_D/AddOrRemoveResearcher";
 
 
 //import { BrowserRouter as  Route } from 'react-router-dom';
@@ -108,6 +109,10 @@ const router = createBrowserRouter([
   {
     path: "/submitProposal",
     element: <ProposalForm/>,
+  },
+  {
+    path: "/addRemoveResearcher",
+    element: <AddRemoveResearcher/>,
   },
 
 ]);

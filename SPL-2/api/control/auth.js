@@ -5,7 +5,7 @@ import send_mail from "./sent_mail.js";
 import emailValidator from 'email-validator';
 
 export const getDepartment = (req,res) =>{
-  const q = "select DepartmentName from bcsir.department;";
+  const q = "select DepartmentName from bcsir.department where DepartmentID !=10;";
   db.query(q,function(err,result){
     if(err){
       console.log("Something happend for check department");
