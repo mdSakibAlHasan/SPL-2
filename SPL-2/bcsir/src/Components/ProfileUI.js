@@ -1,8 +1,9 @@
-import React, { useState,useEffect } from "react";
+import React, { useState,useEffect, useSyncExternalStore } from "react";
 import { useLocation } from "react-router-dom";
 import { getSetCookie } from "../Set_up_profile/CookiesHandle";
 import axios from 'axios'; 
 import Notification from './Notification'
+import { Link } from "react-router-dom";
 //import { getID } from "../App";
 
 export default function Profile(props) {
@@ -22,7 +23,10 @@ export default function Profile(props) {
   const [otherArr, setOtherArr] = useState([]);
   const [imageSrc, setImageSrc] = useState(null);
   const [isOwner, setIsOwner] = useState(false);
-  const [isAddResearcher, setIsAddResearcher] = useState(false);
+  const [isDirector, setIsDirector] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [isPI, setPI] = useState(false);
+  const [isRDHead, setIsHead] = useState(false);
   inputs.ID = profileID;
 
   // const getCookie = (name) => {
@@ -99,8 +103,18 @@ export default function Profile(props) {
             .then(image => setImageSrc(image.default))
             .catch(error => console.error(error, "occur here in photo"));
 
-            if(profileArr.length > 0 && (profileArr[0].type === 'admin' || profileArr[0].type === 'director')){
-              setIsAddResearcher(true);
+            if(profileArr.length > 0 && profileArr[0].type === 'director'){
+              setIsDirector(true);
+            }
+            else if(profileArr.length > 0 && profileArr[0].type === 'admin' ){
+              setIsAdmin(true);
+            }
+            else if(profileArr.length > 0 && profileArr[0].type === 'PI' ){
+              setPI(true);
+              setIsDirector(true);
+            }
+            else if(profileArr.length > 0 && profileArr[0].type === 'RDHead' ){
+              setIsHead(true);
             }
           };
           handlePhoto();
@@ -181,8 +195,11 @@ export default function Profile(props) {
                <ul className="dropdown-menu">
                  <li><a className="dropdown-item" href="/personalInfo">Edit Profile</a></li>
                  <li><a className="dropdown-item" href="/changepass">Password Changes</a></li>
-                 {isAddResearcher && <li><a className="dropdown-item" href="/Register">Add Researcher</a></li>
-                 }{isAddResearcher && <li><a className="dropdown-item" href="/changepass">Remove Researcher</a></li>}
+                 {(isDirector || isAdmin) && <li><a className="dropdown-item" href="/Register">Add Researcher</a></li>
+                 }{(isDirector || isAdmin) && <li><a className="dropdown-item" href="/changepass">Remove Researcher</a></li>}
+                 {isAdmin  && <li><Link to="/setCommittee" isAdmin={isAdmin} isDirector={isDirector} departmentID = {profileArr.departmentID} >Set PI</Link></li>}
+                 {isDirector  && <li><Link to="/setCommittee" isAdmin={isAdmin} isDirector={isDirector} departmentID = {profileArr.departmentID} >Set RD Head</Link></li>}
+                 {/* {isDirector  && <li><Link to="/setCommittee" isAdmin={isAdmin} isDirector={isDirector} >Set PI</Link></li>} */}
                </ul>
              </div>
             }

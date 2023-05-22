@@ -5,7 +5,7 @@ import { db } from "../db.js";
 
 export const getResearcher = (req,res) =>{
     const dept = req.body.dept;
-    //console.log("In get researcher",dept, req.body);
+    console.log("In get researcher",dept, req.body);
     const qur = `select ID, Name, Photo,Designation from  bcsir.researcher, bcsir.department  where bcsir.researcher.departmentID = bcsir.department.DepartmentID and bcsir.department.DepartmentName ='${dept}' `;
     db.query(qur,function(err,result){
       if(err){

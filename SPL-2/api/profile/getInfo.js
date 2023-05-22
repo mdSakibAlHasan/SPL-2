@@ -6,18 +6,19 @@ import { getID } from "./setInfo.js";
 
 export const getPersonalInfo = async (req, res) => {
     try {
-      const token = req.body.cookie;
-       const ID = await getID(token);
-      console.log("ID: ", ID);
+      const token = req.body.cookieID;
+      console.log("Token is ",token);
+      const ID = await getID(token);
+      console.log("ID: in personal ", ID);
   
-     const q = `SELECT * FROM sakib.personal_info WHERE id = '${ID}';`;
+      const q = `SELECT ID, Name, type, departmentID FROM bcsir.researcher WHERE Id = '${ID}';`;
       db.query(q, (err, data) => {
         if (err) {
-          console.log("Something happened while get darta from db: ", err);
+          console.log("Something happened while get bacic profile info: ", err);
           return res.status(409).json("not updated");
         }
         else {
-          console.log("Data added successfully");
+          console.log("Data fetch  successfully ", data);
           return res.status(200).send(data);
         }
       });
