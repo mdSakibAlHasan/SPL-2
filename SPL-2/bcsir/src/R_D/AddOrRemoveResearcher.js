@@ -120,8 +120,8 @@ const AddRemoveResearcher = () => {
           await axios.post('http://localhost:3001/api/register', input);
           console.log('Successfully added researcher');
         } else if (actionType === 'remove') {
-          console.log('Admin removing researcher:', selectedResearcher, selectedDepartment);
-          await axios.delete('http://localhost:3001/app/removeResearcher', input)
+          //console.log('Admin removing researcher:', inputs, researcherID);
+          await axios.post('http://localhost:3001/app/removeResearcher',{ID: researcherID})
           // Perform remove researcher logic addResearcherByDirector
         }
       } else if (userType === 'Director') {
@@ -130,8 +130,8 @@ const AddRemoveResearcher = () => {
           await axios.post('http://localhost:3001/app/addResearcherByDirector', input);
           console.log('Successfully added researcher');
         } else if (actionType === 'remove') {
-          console.log('Director removing researcher:', selectedResearcher, info[0].departmentID);
-          await axios.delete('http://localhost:3001/app/removeResearcher', input)
+          //console.log('Director removing researcher:', selectedResearcher, info[0].departmentID);
+          await axios.delete('http://localhost:3001/app/removeResearcher', {ID: researcherID})
           // Perform remove researcher logic
         }
       }

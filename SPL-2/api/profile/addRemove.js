@@ -52,7 +52,7 @@ export const addResearcherByDirector = (req,res) =>{
 
 export const removeResearcher = (req, res) =>{
      const ID = req.body.ID;
-     const dept = req.body.dept;
+    console.log(req.body.ID,ID);
 
      const querey = `DELETE FROM bcsir.researcher WHERE ID = ${ID};`;
      console.log(querey)

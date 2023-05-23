@@ -21,6 +21,6 @@ router.post('/getProfileID',getProfileID);
 router.post('/getResearcherName',getResearcherName);
 router.post('/getNotification',getNotification);
 router.post('/addResearcherByDirector',addResearcherByDirector);
-router.delete('/removeResearcher',removeResearcher);
+router.post('/removeResearcher',removeResearcher);
 
 export default router;
