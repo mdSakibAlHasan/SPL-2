@@ -11,9 +11,14 @@ const AddRemoveResearcher = () => {
   const [selectedDepartment, setSelectedDepartment] = useState('');
   const [newResearcherEmail, setNewResearcherEmail] = useState('');
   const [selectedResearcher, setSelectedResearcher] = useState('');
+  const [researcherID, setResearcherID] = useState('');
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
   const [departmentNames, setDepartmentNames] = useState([]);
   const [researchers, setResearchers] = useState(['Researcher 1', 'Researcher 2', 'Researcher 3']);
+  const [err, setErr] = useState('');
+  const inputs = {
+    ID: "",
+  }
 
   const handleActionTypeSelection = (event) => {
     setActionType(event.target.value);
@@ -34,77 +39,107 @@ const AddRemoveResearcher = () => {
   var result;
   const navigate = useNavigate();
   useEffect(() => {
-    function handleCookie(){
+    function handleCookie() {
       result = getSetCookie('my_cookies');
-      if(result==null){
-        navigate("/login");
+      if (result == null) {
+        navigate('/login');
       }
     }
     handleCookie();
-  }, []); 
+  }, []);
 
-  useEffect(()=>{
-    const handleProfileClick = async()=>{
+  useEffect(() => {
+    const handleProfileClick = async () => {
       const input = {
         cookieID: result,
-      }
+      };
       input.cookieID = result;
-      if(input.cookieID != null){
-        const ID = await axios.post('http://localhost:3001/app/getPersonalInfo',input)
-        //inputs.ID = ID.data['id'];
+      if (input.cookieID != null) {
+        const ID = await axios.post('http://localhost:3001/app/getPersonalInfo', input);
         setInfo(ID.data);
-        console.log(" Here is info ", ID.data);
-        
-      }  
-    }
+        console.log('Here is info:', ID.data);
+      }
+    };
     handleProfileClick();
-  },[result]);
+  }, [result]);
 
-
-  useEffect(()=>{
-    async function handleSuggesion(){
-      const result2 = await axios.post("http://localhost:3001/api/getDepartment");
+  useEffect(() => {
+    async function handleSuggesion() {
+      const result2 = await axios.post('http://localhost:3001/api/getDepartment');
       setDepartmentNames(result2.data);
-      console.log(info[0].type, " is researcher type")
-      if(info && info[0].type == 'admin'){
-        setUserType('admin');
-        console.log("admin are here")
-      }
-      else if(info && (info[0].type == 'Director' || info[0].type == 'PI')){
-        setUserType("Director");
-        console.log("Director are here are here")
-        // const result = await axios.post("http://localhost:3001/RD/getResearcher", { dept: info[0].departmentID });
-        // setSuggesionArr(result.data);
-      }
-      else{
-        navigate("/login");
+      if (info && (info[0].type === 'admin' || info[0].type === 'Director' || info[0].type === 'PI')) {
+        setUserType(info[0].type);
+      } else {
+        navigate('/login');
       }
     }
     handleSuggesion();
-  },[info]);
+  }, [info]);
 
+  useEffect(() => {
+    const setResearcher = async () => {
+      if (selectedDepartment) {
+        const result = await axios.post('http://localhost:3001/app/getResearcher', { dept: selectedDepartment });
+        setResearchers(result.data);
+      }
+    };
+
+    setResearcher();
+   
+  }, [selectedDepartment]);
+
+  useEffect(()=>{
+    const getResearcherID = () =>{
+      researchers.map(option =>{
+        console.log(option)
+        if(option.Name === selectedResearcher){
+          inputs.ID = option.ID;
+          setResearcherID(option.ID);
+          console.log(selectedResearcher," ------- ", option,"---------",inputs)
+        }
+      })
+    }
+    getResearcherID();
+  },[selectedResearcher])
   
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    // Perform add/remove researcher logic here based on the user type and action type
-    if (userType === 'admin') {
-      if (actionType === 'add') {
-        console.log('Admin adding researcher:', newResearcherEmail);
-        // Perform add researcher logic
-      } else if (actionType === 'remove') {
-        console.log('Admin removing researcher:', selectedResearcher);
-        // Perform remove researcher logic
+    const input = {
+      email: newResearcherEmail,
+      dept: selectedDepartment,
+      deptID: info[0].departmentID,
+      ID: researcherID,
+    };
+   
+
+    try {
+      if (userType === 'admin') {
+        if (actionType === 'add') {
+          console.log('Admin adding researcher:', newResearcherEmail, selectedDepartment);
+          await axios.post('http://localhost:3001/api/register', input);
+          console.log('Successfully added researcher');
+        } else if (actionType === 'remove') {
+          console.log('Admin removing researcher:', selectedResearcher, selectedDepartment);
+          await axios.delete('http://localhost:3001/app/removeResearcher', input)
+          // Perform remove researcher logic addResearcherByDirector
+        }
+      } else if (userType === 'Director') {
+        if (actionType === 'add') {
+          console.log('Director adding researcher:', newResearcherEmail, info[0].departmentID);
+          await axios.post('http://localhost:3001/app/addResearcherByDirector', input);
+          console.log('Successfully added researcher');
+        } else if (actionType === 'remove') {
+          console.log('Director removing researcher:', selectedResearcher, info[0].departmentID);
+          await axios.delete('http://localhost:3001/app/removeResearcher', input)
+          // Perform remove researcher logic
+        }
       }
-    } else if (userType === 'director') {
-      if (actionType === 'add') {
-        console.log('Director adding researcher:', newResearcherEmail);
-        // Perform add researcher logic
-      } else if (actionType === 'remove') {
-        console.log('Director removing researcher:', selectedResearcher);
-        // Perform remove researcher logic
-      }
+    } catch (err) {
+      setErr(err);
+      console.log(err);
     }
+
     // Reset form fields
     setUserType('');
     setActionType('');
@@ -125,8 +160,8 @@ const AddRemoveResearcher = () => {
   const researcherOptions = researchers
     .filter((researcher) => researcher !== selectedResearcher) // Exclude the selected researcher
     .map((researcher, index) => (
-      <option key={index} value={researcher}>
-        {researcher}
+      <option key={index} value={researcher.Name}>
+        {researcher.Name}
       </option>
     ));
 
@@ -134,14 +169,6 @@ const AddRemoveResearcher = () => {
     <div>
       <h2>Add/Remove Researcher</h2>
       <form>
-        {/* <div>
-          <label>User Type:</label>
-          <select value={userType} onChange={handleUserTypeSelection} required>
-            <option value="">Select user type</option>
-            <option value="admin">Admin</option>
-            <option value="director">Director</option>
-          </select>
-        </div> */}
         <div>
           <label>Action Type:</label>
           <select value={actionType} onChange={handleActionTypeSelection} required>
@@ -174,6 +201,7 @@ const AddRemoveResearcher = () => {
             </select>
           </div>
         )}
+        <p>{err}</p>
         <button type="button" onClick={() => setShowConfirmationModal(true)}>
           Confirm
         </button>

@@ -23,13 +23,14 @@ export const getDepartment = (req,res) =>{
 export const register =  (req, res) => {
 
   const email = req.body.email;
-  const departmentName = req.body.selectedOption;
+  const departmentName = req.body.dept;
   var ID;
   const isValidEmail = emailValidator.validate(email);
   if(!isValidEmail)
     return res.status(409).send("Email not valid");
     
   let que = `select DepartmentID from bcsir.department where DepartmentName= '${departmentName}';`
+  console.log(que);
   db.query(que,function(err,data){
   if(err){
     console.log("error to querey")
@@ -50,6 +51,7 @@ export const register =  (req, res) => {
         console.log("Something happend for check user");
       else{
         if(check_user(result,email)){
+          console.log("User exits");
           return res.status(409).json("User already exists! ");
         }
         else{
@@ -66,7 +68,7 @@ export const register =  (req, res) => {
               return res.status(409).json("not able to insert data");
             }
             else{
-              send_mail(email,"one time password for login",body)
+              //send_mail(email,"one time password for login",body)
               return res.status(200).json("User has been created.");
             }
         });
