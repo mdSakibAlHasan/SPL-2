@@ -95,7 +95,7 @@ const AddRemoveResearcher = () => {
         if(option.Name === selectedResearcher){
           inputs.ID = option.ID;
           setResearcherID(option.ID);
-          console.log(selectedResearcher," ------- ", option,"---------",inputs)
+          //console.log(selectedResearcher," ------- ", option,"---------",inputs)
         }
       })
     }

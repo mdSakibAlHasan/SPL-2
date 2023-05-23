@@ -26,11 +26,13 @@ import TrainingInfo from './Set_up_profile/TrainingInfo'
 import Navbar from "./Components/Navbar";
 import Footer from "./Footer/Footer";
 import './App.css';
+
 import SetCommittee from "./R_D/SetCommittee"
 import DeclareCall from "./R_D/DeclareCall"
 import EditDeadline from "./R_D/EditDeadline"
 import ProposalForm from "./R_D/ProposalForm";
 import AddRemoveResearcher from "./R_D/AddOrRemoveResearcher";
+import ChangeDirector from "./R_D/ChangeDirector";
 
 
 //import { BrowserRouter as  Route } from 'react-router-dom';
@@ -113,6 +115,10 @@ const router = createBrowserRouter([
   {
     path: "/addRemoveResearcher",
     element: <AddRemoveResearcher/>,
+  },
+  {
+    path: "/changeDirector",
+    element: <ChangeDirector/>,
   },
 
 ]);
