@@ -72,26 +72,26 @@ export default function ChangePass() {
 
   return (
     <form action="">
-        <div className='contaner bg-success-subtle'>
+        <div className='full_page shade1'>
         
-            <div className='box shadow p-3 mb-5 bg-info rounded'>
-            <center><h3>Change Password</h3></center> <hr />
-                <div className="form-group my-3">
-                    <label htmlFor="OldPasswordInput"><strong>Enter Old Password:</strong></label>
-                    <input type="password" className="form-control"  id="OldPasswordInput" placeholder="Enter Old Password" name='oldPassword'  onChange={handleChange} />
+            <div className='shade2 p-5 rounded'>
+            <center><h4>পাসওয়ার্ড পরিবর্তন</h4></center> <hr /> <br/>
+                <div className="mb-3 mt-3">
+                    <label htmlFor="OldPasswordInput" className="form-label">পূর্বের পাসওয়ার্ডঃ</label>
+                    <input type="password"   id="OldPasswordInput" placeholder="পূর্বের পাসওয়ার্ডটি দিন" name='oldPassword'  onChange={handleChange} /> 
+              </div> <hr/>
+
+                <div className="mb-3 mt-3">
+                    <label htmlFor="PasswordInput" className="form-label">নতুন পাসওয়ার্ডঃ</label>
+                    <input type="password"   id="PasswordInput" placeholder="নতুন একটি পাসওয়ার্ড দিন" name='newPassword' onChange={handleChange} /><hr/>
                 </div>
 
-                <div className="form-group my-3">
-                    <label htmlFor="PasswordInput"><strong>Enter Password:</strong></label>
-                    <input type="password" className="form-control"  id="PasswordInput" placeholder="Enter Password" name='newPassword' onChange={handleChange} />
-                </div>
-
-                <div className="form-group my-3">
-                    <label htmlFor="RetypePasswordInput"><strong>Re-type Password:</strong></label>
-                    <input type="password" className="form-control"  id="RetypePasswordInput" placeholder="Re-type Password" name='RetypePassword' onChange={handleChange} />
-                </div>
+                <div className="mb-3 mt-3">
+                    <label htmlFor="RetypePasswordInput" className="form-label">রিটাইপ পাসওয়ার্ডঃ</label>
+                    <input type="password"   id="RetypePasswordInput" placeholder="নতুন পাসওয়ার্ডটি পুরনরায় দিন" name='RetypePassword' onChange={handleChange} /><hr/>
+                </div><br/><br/>
                 {err && <p>{err}</p>}
-                <input className='btn btn-outline-light'value="Update password"  onClick={()=>update_password()}/> <br /><br />
+                <input className='btn btn-outline-light'value="পাসওয়ার্ড পরিবর্তন করুন"  onClick={()=>update_password()}/> <br /><br />
             </div>
        
         </div>
