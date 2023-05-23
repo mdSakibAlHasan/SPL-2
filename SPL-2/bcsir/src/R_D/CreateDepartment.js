@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { getSetCookie } from '../Set_up_profile/CookiesHandle';
+import ProfileCard from './ProfileCard';
+
 
 const CreateDepartment = () => {
   const [info, setInfo] = useState([]);
@@ -9,7 +11,7 @@ const CreateDepartment = () => {
   const [previousDepartment, setPreviousDepartment] = useState('');
   const [selectedDepartment, setSelectedDepartment] = useState('');
   const [selectedResearcher, setSelectedResearcher] = useState('');
-  const [researcherID, setResearcherID] = useState('');
+  const [researcherID, setResearcherID] = useState(null);
   const [adminPassword, setAdminPassword] = useState('');
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
   const [departmentNames, setDepartmentNames] = useState(['Department 1', 'Department 2', 'Department 3']);
@@ -27,13 +29,16 @@ const CreateDepartment = () => {
     setNewDepartmentName(event.target.value);
   };
 
-  const handlePreviousDepartmentChange = (event) => {
-    setPreviousDepartment(event.target.value);
-  };
 
   const handleResearcherSelection = (event) => {
     setSelectedResearcher(event.target.value);
   };
+
+  const handleResearcherSelect = (ID, name) =>{
+    console.log(ID," here click inside the main function",name)
+    setResearcherID(ID);
+    setSelectedResearcher(name);
+  }
 
   const handleAdminPasswordChange = (event) => {
     setAdminPassword(event.target.value);
@@ -90,21 +95,34 @@ const CreateDepartment = () => {
     setResearcher();
   }, [selectedDepartment]);
 
-  useEffect(()=>{
-    const getResearcherID = () =>{
-      researchers.map(option =>{
-        console.log(option)
-        if(option.Name === selectedResearcher){
-          //inputs.ID = option.ID;
-          setResearcherID(option.ID);
-          //console.log(selectedResearcher," ------- ", option,"---------",inputs)
-        }
-      })
-    }
-    getResearcherID();
-  },[selectedResearcher])
+  // useEffect(()=>{
+  //   const getResearcherID = () =>{
+  //     researchers.map(option =>{
+  //       console.log(option)
+  //       if(option.Name === selectedResearcher){
+  //         //inputs.ID = option.ID;
+  //         setResearcherID(option.ID);
+  //         //console.log(selectedResearcher," ------- ", option,"---------",inputs)
+  //       }
+  //     })
+  //   }
+  //   getResearcherID();
+  // },[selectedResearcher])
 
-
+        // <div>
+        //   <label>Select Director:</label>
+        //   <select value={selectedResearcher} onChange={handleResearcherSelection} required>
+        //     <option value="">Select a researcher</option>
+        //     {researchers.map((researcher, index) => (
+        //       <option key={index} value={researcher.Name}>
+        //         {researcher.Name}
+        //       </option>
+        //     ))}
+            
+        //     {/* ID, Name, Photo,Designation */}
+        //     {/* {researcherOptions} */}
+        //   </select>
+        //   </div>
 
 
 
@@ -115,6 +133,7 @@ const CreateDepartment = () => {
            pass: adminPassword
     });
     console.log("Here are match output ",result.data)
+
     if(result.data === "Password matches"){
       // console.log('New department created:', newDepartmentName);
       // console.log('Selected director:', selectedResearcher, researcherID);
@@ -156,20 +175,20 @@ const CreateDepartment = () => {
             ))}
           </select>
         </div>
-        <div>
-          <label>Select Director:</label>
-          <select value={selectedResearcher} onChange={handleResearcherSelection} required>
-            <option value="">Select a researcher</option>
-            {researchers.map((researcher, index) => (
-              <option key={index} value={researcher.Name}>
-                {researcher.Name}
-              </option>
-            ))}
-            {/* {researcherOptions} */}
-          </select>
-        </div>
+        
+          {setResearcherID && <p>{selectedResearcher} is set as Director of {selectedDepartment} </p>}
+        
         <button type="button" onClick={() => setShowConfirmationModal(true)}>Create Department</button>
       </form>
+      <div className='container'>
+            {selectedDepartment && (
+              <div className="row">
+                <div style={{display:"flex"}}>
+                  {researchers.map((user) => (<ProfileCard key={user.ID} name={user.Name} designation={user.Designation} photo={user.Photo} ID={user.ID} onClick={handleResearcherSelect}/>))}
+                </div>
+              </div>
+            )}
+      </div>
       {showConfirmationModal && (
         <div className="modal" tabIndex="-1" role="dialog" style={{ display: 'block' }}>
           <div className="modal-dialog" role="document">
