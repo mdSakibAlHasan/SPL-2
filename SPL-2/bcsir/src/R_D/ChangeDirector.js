@@ -5,7 +5,7 @@ import { getSetCookie } from '../Set_up_profile/CookiesHandle';
 
 const ChangeDirector = () => {
   const [selectedDepartment, setSelectedDepartment] = useState('');
-  const [selectedDirector, setSelectedDirector] = useState('Abdul jobbar ali');
+  const [selectedDirector, setSelectedDirector] = useState([]);
   const [selectedResearcher, setSelectedResearcher] = useState('');
   const [researcherID, setResearcherID] = useState();
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
@@ -18,8 +18,8 @@ const ChangeDirector = () => {
     const department = event.target.value;
     setSelectedDepartment(department);
     // Set the currently selected director based on the selected department
-    const director = directors.find((dir) => dir === department);
-    setSelectedDirector(director);
+    // const director = directors.find((dir) => dir === department);
+    // setSelectedDirector(director);
   };
 
   const handleResearcherSelection = (event) => {
@@ -75,6 +75,9 @@ const ChangeDirector = () => {
       if (selectedDepartment) {
         const result = await axios.post('http://localhost:3001/app/getResearcher', { dept: selectedDepartment });
         setResearchers(result.data);
+        const result2 = await axios.post('http://localhost:3001/RD/previousDirectorInfo',{dept: selectedDepartment});
+        setSelectedDirector(result2.data);
+        console.log(selectedDirector,"---------")
       }
     };
     setResearcher();
@@ -87,7 +90,6 @@ const ChangeDirector = () => {
         if(option.Name === selectedResearcher){
           //inputs.ID = option.ID;
           setResearcherID(option.ID);
-          //console.log(selectedResearcher," ------- ", option,"---------",inputs)
         }
       })
     }
@@ -101,10 +103,12 @@ const ChangeDirector = () => {
     //     alert('Invalid admin password');
     //     return;
     // }
-    // Perform director change logic here
+    // Perform director change logic here\
+    console.log(selectedDirector,"-------")
     axios.post("http://localhost:3001/RD/changeDirector", {
          ID: researcherID,
-         dept: selectedDepartment
+         dept: selectedDepartment,
+         dID: selectedDirector[0].ID
     });
             //need to update
     console.log('Department:', selectedDepartment);
@@ -142,12 +146,12 @@ const ChangeDirector = () => {
             {departmentOptions}
           </select>
         </div>
-        {/* {selectedDepartment && (        //need to @update idf times remain
+        {selectedDepartment && (        //need to @update idf times remain
           <div>
             <label>Current Director:</label>
-            <p>{selectedDirector}</p>
+            <p>{selectedDirector[0] && selectedDirector[0].Name}</p>
           </div>
-        )} */}
+        )}
         {selectedDepartment && (
           <div>
             <label>Select Researcher:</label>

@@ -33,6 +33,7 @@ import EditDeadline from "./R_D/EditDeadline"
 import ProposalForm from "./R_D/ProposalForm";
 import AddRemoveResearcher from "./R_D/AddOrRemoveResearcher";
 import ChangeDirector from "./R_D/ChangeDirector";
+import CreateDepartment from "./R_D/CreateDepartment";
 
 
 //import { BrowserRouter as  Route } from 'react-router-dom';
@@ -120,6 +121,11 @@ const router = createBrowserRouter([
     path: "/changeDirector",
     element: <ChangeDirector/>,
   },
+  {
+    path: "/createDepartment",
+    element: <CreateDepartment/>,
+  },
+
 
 ]);
 

@@ -1,13 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { getSetCookie } from '../Set_up_profile/CookiesHandle';
 
 const CreateDepartment = () => {
   const [newDepartmentName, setNewDepartmentName] = useState('');
   const [previousDepartment, setPreviousDepartment] = useState('');
+  const [selectedDepartment, setSelectedDepartment] = useState('');
   const [selectedResearcher, setSelectedResearcher] = useState('');
+  const [researcherID, setResearcherID] = useState('');
   const [adminPassword, setAdminPassword] = useState('');
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
   const [departmentNames, setDepartmentNames] = useState(['Department 1', 'Department 2', 'Department 3']);
   const [researchers, setResearchers] = useState(['Researcher 1', 'Researcher 2', 'Researcher 3']);
+
+  const handleDepartmentSelection = (event) => {
+    const department = event.target.value;
+    setSelectedDepartment(department);
+    // Set the currently selected director based on the selected department
+  };
+
 
   const handleDepartmentNameChange = (event) => {
     setNewDepartmentName(event.target.value);
@@ -24,6 +36,74 @@ const CreateDepartment = () => {
   const handleAdminPasswordChange = (event) => {
     setAdminPassword(event.target.value);
   };
+
+
+  var result;
+  const navigate = useNavigate();
+  useEffect(() => {
+    function handleCookie(){
+      result = getSetCookie('my_cookies');
+      if(result==null){
+        navigate("/login");
+      }
+    }
+    handleCookie();
+  }, []); 
+
+  useEffect(()=>{
+    const handleProfileClick = async()=>{
+      const input = {
+        cookieID: result,
+      }
+      input.cookieID = result;
+      if(input.cookieID != null){
+        const ID = await axios.post('http://localhost:3001/app/getPersonalInfo',input)
+        console.log(" Here is info ", ID.data);
+        if(ID.data[0].type !== "admin"){
+          navigate('/login');
+        }
+        else{
+          const result = await axios.post('http://localhost:3001/api/getDepartment');
+          setDepartmentNames(result.data);
+          console.log("cool");
+        }
+        
+      }  
+    }
+    handleProfileClick();
+  },[result]);
+
+  useEffect(()=>{
+
+  })
+
+  useEffect(() => {
+    const setResearcher = async () => {
+      if (selectedDepartment) {
+        const result = await axios.post('http://localhost:3001/app/getResearcher', { dept: selectedDepartment });
+        setResearchers(result.data);
+      }
+    };
+    setResearcher();
+  }, [selectedDepartment]);
+
+  useEffect(()=>{
+    const getResearcherID = () =>{
+      researchers.map(option =>{
+        console.log(option)
+        if(option.Name === selectedResearcher){
+          //inputs.ID = option.ID;
+          setResearcherID(option.ID);
+          //console.log(selectedResearcher," ------- ", option,"---------",inputs)
+        }
+      })
+    }
+    getResearcherID();
+  },[selectedResearcher])
+
+
+
+
 
   const handleSubmit = (event) => {
     event.preventDefault();
