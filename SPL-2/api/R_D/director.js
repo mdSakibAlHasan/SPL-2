@@ -1,4 +1,5 @@
 import {db} from '../db.js'
+import bcrypt from "bcryptjs";
 
 export const changeDirector = (req, res) =>{
     const ID = req.body.ID;
@@ -89,7 +90,7 @@ export const getOnlyResearcher = (req,res) =>{
            
 
         const querey = ` insert into bcsir.department(DepartmentID, DepartmentName, DirectorID) values(${DepartmentID},'${dept}', ${ID});` ;
-        const querey2 = `update bcsir.researcher set type = 'Director' where ID = ${ID}; `;
+        const querey2 = `update bcsir.researcher set type = 'Director' , departmentID = ${DepartmentID} where ID = ${ID}; `;
          console.log(querey,"--------", querey2);
         db.query(querey,(err,data)=>{
             if(err){
@@ -113,4 +114,28 @@ export const getOnlyResearcher = (req,res) =>{
     }
           
 })
-    }
+}
+
+export const passwordConfirmationWithID = (req,res) =>{
+    const ID = req.body.ID;
+    const pass = req.body.pass;
+
+    const querey = `select Password from bcsir.researcher where ID = ${ID};`;
+    db.query(querey,(err,data)=>{
+        if(err){
+            console.log("Err to check password");
+            return res.status(400).json("Err to check password");
+        }
+        else{
+            const isPasswordCorrect = bcrypt.compareSync(
+                req.body.pass,
+                data[0].Password
+            );
+            if (!isPasswordCorrect){
+            console.log("wrong email");
+            return res.status(400).json("Wrong email or password!");
+            } 
+            res.status(200).json("Password matches");      
+        }
+    })   
+}

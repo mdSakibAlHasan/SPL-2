@@ -4,6 +4,7 @@ import axios from 'axios';
 import { getSetCookie } from '../Set_up_profile/CookiesHandle';
 
 const CreateDepartment = () => {
+  const [info, setInfo] = useState([]);
   const [newDepartmentName, setNewDepartmentName] = useState('');
   const [previousDepartment, setPreviousDepartment] = useState('');
   const [selectedDepartment, setSelectedDepartment] = useState('');
@@ -59,14 +60,15 @@ const CreateDepartment = () => {
       input.cookieID = result;
       if(input.cookieID != null){
         const ID = await axios.post('http://localhost:3001/app/getPersonalInfo',input)
-        console.log(" Here is info ", ID.data);
+        setInfo(ID.data)
+        // console.log(" Here is info ", ID.data);
         if(ID.data[0].type !== "admin"){
           navigate('/login');
         }
         else{
           const result = await axios.post('http://localhost:3001/api/getDepartment');
           setDepartmentNames(result.data);
-          console.log("cool");
+          // console.log("cool");
         }
         
       }  
@@ -106,26 +108,30 @@ const CreateDepartment = () => {
 
 
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    // Check admin password
-    // if (adminPassword !== 'admin123') {
-    //   alert('Invalid admin password');
-    //   return;
-    // }
-    // Perform department creation logic here, using newDepartmentName and selectedResearcher
-    console.log('New department created:', newDepartmentName);
-    console.log('Selected director:', selectedResearcher, researcherID);
-    axios.post("http://localhost:3001/RD/createNewDepartment", {
-         ID: researcherID,
-         dept: newDepartmentName
+    const result = await axios.post("http://localhost:3001/RD/conformation", {
+           ID: info[0].ID,
+           pass: adminPassword
     });
+    console.log("Here are match output ",result.data)
+    if(result.data === "Password matches"){
+      // console.log('New department created:', newDepartmentName);
+      // console.log('Selected director:', selectedResearcher, researcherID);
+        axios.post("http://localhost:3001/RD/createNewDepartment", {
+          ID: researcherID,
+          dept: newDepartmentName
+        });
+
+        setNewDepartmentName('');
+        setPreviousDepartment('');
+        setSelectedResearcher('');
+        setAdminPassword('');
+        setShowConfirmationModal(false);
+    }
+   
     // Reset form fields
-    setNewDepartmentName('');
-    setPreviousDepartment('');
-    setSelectedResearcher('');
-    setAdminPassword('');
-    setShowConfirmationModal(false);
+   
   };
 
   // Generate options for researcher selection based on the selected previous department
