@@ -102,7 +102,11 @@ const ChangeDirector = () => {
     //     return;
     // }
     // Perform director change logic here
-    
+    axios.post("http://localhost:3001/RD/changeDirector", {
+         ID: researcherID,
+         dept: selectedDepartment
+    });
+            //need to update
     console.log('Department:', selectedDepartment);
     console.log('Selected Director:', researcherID);
     console.log('Selected Researcher:', selectedResearcher);
@@ -138,12 +142,12 @@ const ChangeDirector = () => {
             {departmentOptions}
           </select>
         </div>
-        {selectedDirector && (
+        {/* {selectedDepartment && (        //need to @update idf times remain
           <div>
             <label>Current Director:</label>
             <p>{selectedDirector}</p>
           </div>
-        )}
+        )} */}
         {selectedDepartment && (
           <div>
             <label>Select Researcher:</label>

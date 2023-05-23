@@ -3,7 +3,7 @@ import {db} from '../db.js'
 export const changeDirector = (req, res) =>{
     const ID = req.body.ID;
     const dept = req.body.dept;
-
+    console.log(ID,"---",dept)
     const querey = `UPDATE bcsir.department AS d
     JOIN (
       SELECT DepartmentID
