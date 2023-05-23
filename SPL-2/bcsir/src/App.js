@@ -25,7 +25,7 @@ import SpouseAndChildrenInfo from './Set_up_profile/SpouseAndChildrenInfo'
 import TrainingInfo from './Set_up_profile/TrainingInfo'
 import Navbar from "./Components/Navbar";
 import Footer from "./Footer/Footer";
-
+import './App.css';
 import SetCommittee from "./R_D/SetCommittee"
 import DeclareCall from "./R_D/DeclareCall"
 import EditDeadline from "./R_D/EditDeadline"
@@ -120,8 +120,8 @@ const router = createBrowserRouter([
 
 function App() {
   return (
-    <div className="App">
-      <div className="Container">
+    <div className="my_body">
+      <div>
         <Navbar/>
       <RouterProvider router={router} />
         <Footer/>
