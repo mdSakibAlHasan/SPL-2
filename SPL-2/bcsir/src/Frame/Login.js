@@ -42,7 +42,7 @@ export default function Login() {
                 </div><hr/><br/>
                 <center>
                   {err && <p>{err}</p>}
-                <input className='btn btn-outline-light' type="button" value="Login" onClick={handleSubmit}/>
+                <input className='btn btn-outline-light' type="button" value="লগ-ইন করুন" onClick={handleSubmit}/>
                 <br/><br/>
                 <a href='/forgotPass'>পাসওয়ার্ড ভুলে গেছেন? পুনরুদ্ধার করুন</a> <br/><br/>
                 </center>
