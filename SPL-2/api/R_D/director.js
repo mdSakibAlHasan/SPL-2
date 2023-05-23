@@ -53,3 +53,64 @@ export const previousDirectorInfo = (req,res) =>{
         }
     })
 }
+
+
+export const getOnlyResearcher = (req,res) =>{
+    const dept = req.body.dept;
+    console.log("In get researcher",dept, req.body);
+    const qur = `select ID, Name, Photo,Designation from  bcsir.researcher, bcsir.department  where bcsir.researcher.departmentID = bcsir.department.DepartmentID and bcsir.department.DepartmentName ='${dept}' and bcsir.researcher.type='researcher'; `;
+    console.log(qur);
+    db.query(qur,function(err,result){
+      if(err){
+        console.log("Something happend for check  researcher array");
+        return res.status(409).json("department not found ");
+      }
+      else{
+        console.log(result);
+        return res.status(200).send(result);
+      }
+    });
+  }
+
+  export const createNewDepartment = (req, res) =>{
+        const dept = req.body.dept;
+        const ID = req.body.ID;
+
+        const que = `SELECT MAX(DepartmentID) FROM bcsir.department;`;
+        console.log(que);
+        var DepartmentID;
+        db.query(que,function(err,info){    
+           if(err){
+            console.log("err")
+           }
+           else{
+            DepartmentID = info[0]['MAX(DepartmentID)']+1;
+            console.log(DepartmentID);
+           
+
+        const querey = ` insert into bcsir.department(DepartmentID, DepartmentName, DirectorID) values(${DepartmentID},'${dept}', ${ID});` ;
+        const querey2 = `update bcsir.researcher set type = 'Director' where ID = ${ID}; `;
+         console.log(querey,"--------", querey2);
+        db.query(querey,(err,data)=>{
+            if(err){
+                console.log("error to create department first");
+                return res.status(400).json("error to create department");
+            }
+            else{
+                db.query(querey2,(err,data)=>{
+                    if(err){
+                        console.log("error to create director2");
+                        return res.status(400).json("error to create director");
+                    }
+                    else{
+                        console.log("All complete here");
+                        return res.status(200).json("All cpomplete here");
+                    }
+                })
+            }
+        })
+
+    }
+          
+})
+    }

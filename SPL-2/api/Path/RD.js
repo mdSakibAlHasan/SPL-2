@@ -2,7 +2,7 @@ import  express  from "express";
 import { getCommitteeSuggesion } from "../R_D/research_development.js";
 import { declareCall,getDateline,editdateline } from "../R_D/dateline.js";
 import { setPI,setRDHead, getResearcher } from "../R_D/authority.js";
-import { changeDirector, previousDirectorInfo } from "../R_D/director.js";
+import { changeDirector, previousDirectorInfo, getOnlyResearcher, createNewDepartment } from "../R_D/director.js";
 
 const router = express.Router()
 
@@ -16,5 +16,7 @@ router.post('/setRDHead',setRDHead);
 router.post("/getResearcher", getResearcher);
 router.post('/changeDirector',changeDirector);
 router.post('/previousDirectorInfo', previousDirectorInfo);
+router.post('/getOnlyRresearcher', getOnlyResearcher)
+router.post('/createNewDepartment', createNewDepartment)
 
 export default router;

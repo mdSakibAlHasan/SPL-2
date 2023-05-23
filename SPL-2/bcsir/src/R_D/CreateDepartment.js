@@ -12,9 +12,10 @@ const CreateDepartment = () => {
   const [adminPassword, setAdminPassword] = useState('');
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
   const [departmentNames, setDepartmentNames] = useState(['Department 1', 'Department 2', 'Department 3']);
-  const [researchers, setResearchers] = useState(['Researcher 1', 'Researcher 2', 'Researcher 3']);
+  const [researchers, setResearchers] = useState([]);
 
   const handleDepartmentSelection = (event) => {
+    setPreviousDepartment(event.target.value);
     const department = event.target.value;
     setSelectedDepartment(department);
     // Set the currently selected director based on the selected department
@@ -80,7 +81,7 @@ const CreateDepartment = () => {
   useEffect(() => {
     const setResearcher = async () => {
       if (selectedDepartment) {
-        const result = await axios.post('http://localhost:3001/app/getResearcher', { dept: selectedDepartment });
+        const result = await axios.post('http://localhost:3001/RD/getOnlyRresearcher', { dept: selectedDepartment });
         setResearchers(result.data);
       }
     };
@@ -108,13 +109,17 @@ const CreateDepartment = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     // Check admin password
-    if (adminPassword !== 'admin123') {
-      alert('Invalid admin password');
-      return;
-    }
+    // if (adminPassword !== 'admin123') {
+    //   alert('Invalid admin password');
+    //   return;
+    // }
     // Perform department creation logic here, using newDepartmentName and selectedResearcher
     console.log('New department created:', newDepartmentName);
-    console.log('Selected director:', selectedResearcher);
+    console.log('Selected director:', selectedResearcher, researcherID);
+    axios.post("http://localhost:3001/RD/createNewDepartment", {
+         ID: researcherID,
+         dept: newDepartmentName
+    });
     // Reset form fields
     setNewDepartmentName('');
     setPreviousDepartment('');
@@ -136,7 +141,7 @@ const CreateDepartment = () => {
         </div>
         <div>
           <label>Previous Department:</label>
-          <select value={previousDepartment} onChange={handlePreviousDepartmentChange} required>
+          <select value={previousDepartment} onChange={handleDepartmentSelection} required>
             <option value="">Select a department</option>
             {departmentNames.map((departmentName, index) => (
               <option key={index} value={departmentName}>
@@ -150,8 +155,8 @@ const CreateDepartment = () => {
           <select value={selectedResearcher} onChange={handleResearcherSelection} required>
             <option value="">Select a researcher</option>
             {researchers.map((researcher, index) => (
-              <option key={index} value={researcher}>
-                {researcher}
+              <option key={index} value={researcher.Name}>
+                {researcher.Name}
               </option>
             ))}
             {/* {researcherOptions} */}
