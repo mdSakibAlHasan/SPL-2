@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { getSetCookie } from '../Set_up_profile/CookiesHandle';
+import ProfileCard from './ProfileCard';
 
 const ChangeDirector = () => {
+  const [info,setInfo] = useState();
   const [selectedDepartment, setSelectedDepartment] = useState('');
   const [selectedDirector, setSelectedDirector] = useState([]);
   const [selectedResearcher, setSelectedResearcher] = useState('');
@@ -22,8 +24,10 @@ const ChangeDirector = () => {
     // setSelectedDirector(director);
   };
 
-  const handleResearcherSelection = (event) => {
-    setSelectedResearcher(event.target.value);
+  const handleResearcherSelect = (ID, name) => {
+    console.log(ID,"-------",name);
+    setResearcherID(ID);
+    setSelectedResearcher(name);
   };
 
   const handleAdminPasswordChange = (event) => {
@@ -51,6 +55,7 @@ const ChangeDirector = () => {
       input.cookieID = result;
       if(input.cookieID != null){
         const ID = await axios.post('http://localhost:3001/app/getPersonalInfo',input)
+        setInfo(ID.data)
         console.log(" Here is info ", ID.data);
         if(ID.data[0].type !== "admin"){
           navigate('/login');
@@ -73,7 +78,7 @@ const ChangeDirector = () => {
   useEffect(() => {
     const setResearcher = async () => {
       if (selectedDepartment) {
-        const result = await axios.post('http://localhost:3001/app/getResearcher', { dept: selectedDepartment });
+        const result = await axios.post('http://localhost:3001/RD/getOnlyRresearcher', { dept: selectedDepartment });
         setResearchers(result.data);
         const result2 = await axios.post('http://localhost:3001/RD/previousDirectorInfo',{dept: selectedDepartment});
         setSelectedDirector(result2.data);
@@ -83,28 +88,29 @@ const ChangeDirector = () => {
     setResearcher();
   }, [selectedDepartment]);
 
-  useEffect(()=>{
-    const getResearcherID = () =>{
-      researchers.map(option =>{
-        console.log(option)
-        if(option.Name === selectedResearcher){
-          //inputs.ID = option.ID;
-          setResearcherID(option.ID);
-        }
-      })
-    }
-    getResearcherID();
-  },[selectedResearcher])
+  // useEffect(()=>{
+  //   const getResearcherID = () =>{
+  //     researchers.map(option =>{
+  //       console.log(option)
+  //       if(option.Name === selectedResearcher){
+  //         //inputs.ID = option.ID;
+  //         setResearcherID(option.ID);
+  //       }
+  //     })
+  //   }
+  //   getResearcherID();
+  // },[selectedResearcher])
 
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    // if (adminPassword !== 'admin123') {
-    //     alert('Invalid admin password');
-    //     return;
-    // }
-    // Perform director change logic here\
-    console.log(selectedDirector,"-------")
+    const result = await axios.post("http://localhost:3001/RD/conformation", {
+      ID: info[0].ID,
+      pass: adminPassword
+    });
+    console.log("Here are match output ",result.data)
+
+    if(result.data === "Password matches"){
     axios.post("http://localhost:3001/RD/changeDirector", {
          ID: researcherID,
          dept: selectedDepartment,
@@ -119,6 +125,7 @@ const ChangeDirector = () => {
     setSelectedDirector('');
     setSelectedResearcher('');
     setShowConfirmationModal(false);
+  }
   };
 
   // Generate options for department selection
@@ -146,25 +153,31 @@ const ChangeDirector = () => {
             {departmentOptions}
           </select>
         </div>
+        <div className='container'>
         {selectedDepartment && (        //need to @update idf times remain
           <div>
             <label>Current Director:</label>
+            {/* <ProfileCard key={selectedDirector.ID} name={selectedDirector.Name} designation={selectedDirector.Designation} photo={selectedDirector.Photo} ID={selectedDirector.ID} /> */}
             <p>{selectedDirector[0] && selectedDirector[0].Name}</p>
           </div>
         )}
-        {selectedDepartment && (
-          <div>
-            <label>Select Researcher:</label>
-            <select value={selectedResearcher} onChange={handleResearcherSelection} required>
-              <option value="">Select a researcher</option>
-              {researcherOptions}
-            </select>
-          </div>
-        )}
+        </div>
+
+        {setResearcherID && <p>{selectedResearcher} is set as Director of {selectedDepartment} </p>}
+        
         <button type="button" onClick={() => setShowConfirmationModal(true)}>
           Change Director
         </button>
       </form>
+      <div className='container'>
+            {selectedDepartment && (
+              <div className="row">
+                <div style={{display:"flex"}}>
+                  {researchers.map((user) => (<ProfileCard key={user.ID} name={user.Name} designation={user.Designation} photo={user.Photo} ID={user.ID} onClick={handleResearcherSelect}/>))}
+                </div>
+              </div>
+            )}
+      </div>
       {showConfirmationModal && (
         <div className="modal" tabIndex="-1" role="dialog" style={{ display: 'block' }}>
           <div className="modal-dialog" role="document">
@@ -211,5 +224,15 @@ const ChangeDirector = () => {
     </div>
   );
 };
+
+// {selectedDepartment && (
+//   <div>
+//     <label>Select Researcher:</label>
+//     <select value={selectedResearcher} onChange={handleResearcherSelection} required>
+//       <option value="">Select a researcher</option>
+//       {researcherOptions}
+//     </select>
+//   </div>
+// )}
 
 export default ChangeDirector;
