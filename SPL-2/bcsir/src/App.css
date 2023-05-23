@@ -1,0 +1,62 @@
+.my_body{
+    font-family: 'CharukolaUltraLight', Arial, sans-serif !important;
+    color: white;
+}
+
+.shade1{
+    background-color: #0A2647;
+}
+.shade2{
+    background-color: #144272;
+}
+.shade3{
+    background-color: #205295;
+}
+.shade4{
+    background-color: #20539525;
+}
+
+a{
+    color: white;
+}
+
+a:hover{
+    text-decoration: dashed;
+    color: aquamarine;
+    font-size: larger;
+}
+.my-nav-link{
+    text-decoration: none;
+
+}
+
+a.hover{
+    color:rgb(255, 127, 195)
+}
+
+.full_page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  .full_page_short {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height:90vh;
+  }
+  .full_page_height {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* height: 150vh; */
+  }
+
+input,textarea{
+    background: transparent;
+    border: transparent;
+    color: white;
+    width: 100%;
+    /* border-style: dashed; */
+}
