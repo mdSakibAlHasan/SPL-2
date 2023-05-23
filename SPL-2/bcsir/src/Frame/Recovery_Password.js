@@ -47,7 +47,7 @@ export default function Recovery_Password() {
         try{
             inputs.code = code;
             await axios.post("http://localhost:3001/api/checkCode", inputs);
-            setError("Code matched");
+            setError("কোড সঠিক!");
             set_codematched(true);
         }catch(err){
             setError(err.response.data);
@@ -58,50 +58,51 @@ export default function Recovery_Password() {
     const check_password= async (e) =>{
         console.log(cansubmit);
         if(input.newPass == input.conPass){
-            setError("both matched");
+            setError("উভয় পাসওয়ার্ড মিলে গেছে");
             set_cansubmit(false);
             await axios.post("http://localhost:3001/api/inputPass", input);
             navigate("/Login");
         }
         else{
-            setError("pass not match");
+            setError("উভয় পাসওয়ার্ড ভিন্ন! পুরনায় টাইপ করুন");
         }
         console.log(cansubmit);
     }
   return (
    
     <form action="">
-        <div className='contaner bg-success-subtle'>
+        <div className='full_page shade1'>
         
-            <div className='box shadow p-3 mb-5 bg-info rounded'>
-                <div className="form-group my-3">
-                    <label htmlFor="EmailInput"><strong>Email:</strong> </label>
-                    <input type="email" className="form-control" id="EmailInput" placeholder="Enter Email" name='email'  onChange={handleChange}/>
-                </div>
+            <div className='shade2 p-5 rounded'>
+            <center><h4>পাসওয়ার্ড পুনরুদ্ধার</h4></center> <hr /> <br/>
+                <div className="mb-3 mt-3">
+                    <label htmlFor="EmailInput" className="form-label">ই-মেইলঃ </label>
+                    <input type="email"  id="EmailInput" placeholder="আপনার ই-মেইল দিন" name='email'  onChange={handleChange}/>
+                </div> <hr/>
                 
-                <input className='btn btn-outline-light' disabled={btndisable} value="Recieve Code" onClick={()=>send_code()} />
+                <input className='btn btn-outline-light' disabled={btndisable} value="কোড রিসিভ করুন" onClick={()=>send_code()} />
                
-                <div className="form-group my-3">
-                    <label htmlFor="CodeInput"><strong>Code:</strong></label>
-                    <input type="password" className="form-control" id="CodeInput" placeholder="Enter Code" name='Entered_Code' value={code} onChange={handleInputChange}/>
+                <div className="mb-3 mt-3">
+                    <label htmlFor="CodeInput" className="form-label">কোডঃ</label>
+                    <input type="password"  id="CodeInput" placeholder="কোডটি দিন" name='Entered_Code' value={code} onChange={handleInputChange}/>
                     
-                </div>
+                </div> <hr/>
 
-                <input className='btn btn-outline-light' value="Submit Code" onClick={()=>check_code()}/>
+                <input className='btn btn-outline-light' value="কোড সাবমিট করুন" onClick={()=>check_code()}/>
 
-                <div className="form-group my-3">
-                    <label htmlFor="PasswordInput"><strong>Enter Password:</strong></label>
-                    <input type="password" className="form-control" disabled={!codematched} id="PasswordInput" placeholder="Enter Password" name='newPass'  onChange={handleChangePass}/>
-                </div>
+                <div className="mb-3 mt-3">
+                    <label htmlFor="PasswordInput" className="form-label">নতুন পাসওয়ার্ডঃ</label>
+                    <input type="password"  disabled={!codematched} id="PasswordInput" placeholder="নতুন একটি পাসওয়ার্ড দিন" name='newPass'  onChange={handleChangePass}/>
+                </div> <hr/>
 
-                <div className="form-group my-3">
-                    <label htmlFor="RetypePasswordInput"><strong>Re-type Password:</strong></label>
-                    <input type="password" className="form-control" disabled={!codematched} id="RetypePasswordInput" placeholder="Re-type Password" name='conPass'  onChange={handleChangePass}/>
-                </div>
+                <div className="mb-3 mt-3">
+                    <label htmlFor="RetypePasswordInput" className="form-label">রিটাইপ পাসওয়ার্ডঃ</label>
+                    <input type="password"  disabled={!codematched} id="RetypePasswordInput" placeholder="নতুন পাসওয়ার্ডটি পুরনরায় দিন" name='conPass'  onChange={handleChangePass}/>
+                </div> <hr/>
 
                 <input className='btn btn-outline-light'value="Check password" disabled={!codematched} onClick={()=>check_password()}/> <br /><br />
                 {/* <input className='btn btn-outline-light disabled' aria-disabled={cansubmit} value="Submit" type="submit"/> */}
-                <button className='btn btn-outline-light' type="submit" disabled={cansubmit}>Submit</button>
+                <center><button className='btn btn-outline-light' type="submit" disabled={cansubmit}>পাসওয়ার্ড পুনরুদ্ধার করুন</button></center>
                 {err && <p>{err}</p>}
             </div>
        
