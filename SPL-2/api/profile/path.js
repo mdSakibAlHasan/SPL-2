@@ -4,6 +4,7 @@ import { setPersonalInfo, setEducationInfo,cookieAuth } from "./setInfo.js";
 import { getPersonalInfo, getProfileID, getResearcherName } from "./getInfo.js";
 import { getNotification,sendNotification } from "./notification.js";
 import { addResearcherByDirector,removeResearcher } from "./addRemove.js";
+import { getProposalInfo } from "../R_D/proposal.js";
 
 
 const router = express.Router();
@@ -23,5 +24,7 @@ router.post('/getNotification',getNotification);
 router.post('/addResearcherByDirector',addResearcherByDirector);
 router.post('/removeResearcher',removeResearcher);
 router.post('/sendNotification',sendNotification);
+
+router.post('/getProposalInfo',getProposalInfo);
 
 export default router;

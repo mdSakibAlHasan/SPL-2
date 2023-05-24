@@ -1,6 +1,6 @@
 .my_body{
     font-family: 'CharukolaUltraLight', Arial, sans-serif !important;
-    color: white;
+    /* color: white; */
 }
 
 .shade1{
@@ -67,7 +67,7 @@ a.hover{
 input,textarea, select{
     background: transparent;
     border: transparent;
-    color: white;
+    /* color: white; */
     width: 100%;
     /* border-style: dashed; */
 }
