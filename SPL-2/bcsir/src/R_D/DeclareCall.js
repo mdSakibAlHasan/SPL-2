@@ -20,6 +20,7 @@ function DeclareCall() {
 
   const navigate = useNavigate();
   const handleSubmit =async (e) => {
+    console.log("submit clicked")
     input.dateline = deadline;
     input.description = description;
 
@@ -31,33 +32,36 @@ function DeclareCall() {
   };
 
   return (
-    <div className="container">
-      <h1>Declare Call</h1>
+    <div className='full_page_normal p-5 shade1'>
+    <div  className='shade2 p-5 rounded'>
+    <center><h4>Declare Project Call</h4></center> <hr /> <br/>
       <form onSubmit={handleSubmit}>
-        <div className="form-group">
+        <div className="form-group p-2">
           <label htmlFor="deadline">Deadline:</label>
           <input
             type="datetime-local"
-            className="form-control"
             id="deadline"
             value={deadline}
             onChange={handleDeadlineChange}
           />
-        </div>
-        <div className="form-group">
+        </div> <hr/>
+        <div className="form-group p-2">
           <label htmlFor="description">Description:</label>
           <textarea
-            className="form-control"
+            placeholder='Write description here'
             id="description"
             rows="3"
             value={description}
             onChange={handleDescriptionChange}
           ></textarea>
-        </div>
-        <button type="submit" className="btn btn-primary">
+        </div> <hr/>
+        {/* <button type="submit" className="btn btn-primary">
           Submit
-        </button>
+        </button> */}
+        <input className=' m-2 btn btn-outline-light' type="button" value="Declare Call" onClick={handleSubmit}/>
+
       </form>
+    </div>
     </div>
   );
 }

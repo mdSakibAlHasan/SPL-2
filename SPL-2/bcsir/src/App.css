@@ -15,6 +15,10 @@
 .shade4{
     background-color: #20539525;
 }
+.shade5{
+    background-color: #fdfdfdf6;
+}
+
 
 a{
     color: white;
@@ -71,3 +75,4 @@ input,textarea, select{
 option{
     color: black;
 }
+

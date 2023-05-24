@@ -28,30 +28,27 @@ export default function EditDeadline() {
   };
 
   return (
-    <div>
-      <button className="btn btn-primary" onClick={() => setShowPopup(true)}>
-        Edit Deadline
-      </button>
-      {showPopup && (
-        <div className="popup">
+    <div className='full_page_normal p-5 shade1'>
+        <div className='shade2 p-5 rounded'>
+        <center><h4>Edit Prosal call Deadline</h4></center> <hr /> <br/>
           <div className="popup-inner">
-            <h3>Previous Deadline: {deadline}</h3>
-            <label htmlFor="new-deadline">New Deadline:</label>
+            <h4 className='mb-3'>Previous Deadline: {deadline}</h4> <hr/> <br/>
+            <label className='m-1' htmlFor="new-deadline">New Deadline:</label>
             <input
               id="new-deadline"
               type="date"
-              value={deadline}
+              // value={deadline}
               onChange={(e) => setDeadline(e.target.value)}
-            />
-            <button className="btn btn-primary" onClick={handleSaveDeadline}>
+            /><hr/> <br/>
+            {/* <button className="btn btn-primary" onClick={handleSaveDeadline}>
               Save Deadline
-            </button>
-            <button className="btn btn-secondary" onClick={() => setShowPopup(false)}>
-              Cancel
-            </button>
+            </button> */}
+            <input className=' m-2 btn btn-outline-light' type="button" value="Save Deadline" onClick={handleSaveDeadline}/>
+
+           
           </div>
         </div>
-      )}
+ 
     </div>
   );
 }

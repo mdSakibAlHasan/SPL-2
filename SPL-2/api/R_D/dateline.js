@@ -4,7 +4,7 @@ export const declareCall =(req,res)=>{
     const date = req.body.dateline;
     const remark = req.body.description;
 
-    const querey = `update bcsir.research_development set last_date = '${date}' , remark = '${remark}' where session = '2019-20';`
+    const querey = `update bcsir.research_development set last_date = '${date}' , remark = '${remark}' where developmentID = 1;`
     console.log(date, remark, querey);
 
     db.query(querey,(err,data)=>{

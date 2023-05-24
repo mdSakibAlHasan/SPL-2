@@ -100,14 +100,15 @@ export default function Navbar() {
   return (
     <>
       <nav className="row nav shade3 p-3">
-        <div class="row justify-content-between">
-          <div class="col-8 display-6">BCSIR</div>
-          <div class="col-4">
+        <div className="row justify-content-between">
+          <div className="col-8 display-6">BCSIR</div>
+          <div className="col-3">
               <div
                 className="shade3"
-                style={{ display: "inline-block" }}
+                style={{ display: "inline-block", color:"white", width:"100%",border:"0.1px solid white"}}
               >
                 <div>
+                  
                   <Autosuggest
                     suggestions={suggestions}
                     onSuggestionsFetchRequested={onSuggestionsFetchRequested}
@@ -125,6 +126,7 @@ export default function Navbar() {
                 </div>
               </div>
           </div>
+          {/* <div className="col-1 fa fa-search"></div> */}
         </div>
         <hr />
         <a className="col mb-1 my-nav-link" href="/home">
