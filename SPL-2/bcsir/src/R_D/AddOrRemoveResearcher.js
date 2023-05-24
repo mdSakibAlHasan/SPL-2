@@ -123,42 +123,52 @@ const AddRemoveResearcher = () => {
       deptID: info[0].departmentID,
       ID: researcherID,
     };
-   
 
-    try {
-      if (userType === 'admin') {
-        if (actionType === 'add') {
-          console.log('Admin adding researcher:', newResearcherEmail, selectedDepartment);
-          await axios.post('http://localhost:3001/api/register', input);
-          console.log('Successfully added researcher');
-        } else if (actionType === 'remove') {
-          //console.log('Admin removing researcher:', inputs, researcherID);
-          await axios.post('http://localhost:3001/app/removeResearcher',{ID: researcherID})
-          // Perform remove researcher logic addResearcherByDirector
+    const result = await axios.post("http://localhost:3001/RD/conformation", {
+           ID: info[0].ID,
+           pass: password
+    });
+    console.log("Here are match output ",result.data)
+
+    if(result.data === "Password matches"){
+      try {
+        if (userType === 'admin') {
+          if (actionType === 'add') {
+            console.log('Admin adding researcher:', newResearcherEmail, selectedDepartment);
+            await axios.post('http://localhost:3001/api/register', input);
+            console.log('Successfully added researcher');
+          } else if (actionType === 'remove') {
+            //console.log('Admin removing researcher:', inputs, researcherID);
+            await axios.post('http://localhost:3001/app/removeResearcher',{ID: researcherID})
+            // Perform remove researcher logic addResearcherByDirector
+          }
+        } else if (userType === 'Director') {
+          if (actionType === 'add') {
+            console.log('Director adding researcher:', newResearcherEmail, info[0].departmentID);
+            await axios.post('http://localhost:3001/app/addResearcherByDirector', input);
+            console.log('Successfully added researcher');
+          } else if (actionType === 'remove') {
+            //console.log('Director removing researcher:', selectedResearcher, info[0].departmentID);
+            await axios.delete('http://localhost:3001/app/removeResearcher', {ID: researcherID})
+            // Perform remove researcher logic
+          }
         }
-      } else if (userType === 'Director') {
-        if (actionType === 'add') {
-          console.log('Director adding researcher:', newResearcherEmail, info[0].departmentID);
-          await axios.post('http://localhost:3001/app/addResearcherByDirector', input);
-          console.log('Successfully added researcher');
-        } else if (actionType === 'remove') {
-          //console.log('Director removing researcher:', selectedResearcher, info[0].departmentID);
-          await axios.delete('http://localhost:3001/app/removeResearcher', {ID: researcherID})
-          // Perform remove researcher logic
+        } catch (err) {
+          setErr(err);
+          console.log(err);
         }
+
+        // Reset form fields
+        setUserType('');
+        setActionType('');
+        setSelectedDepartment('');
+        setNewResearcherEmail('');
+        setSelectedResearcher('');
+        setShowConfirmationModal(false);
       }
-    } catch (err) {
-      setErr(err);
-      console.log(err);
-    }
-
-    // Reset form fields
-    setUserType('');
-    setActionType('');
-    setSelectedDepartment('');
-    setNewResearcherEmail('');
-    setSelectedResearcher('');
-    setShowConfirmationModal(false);
+      else{
+        setErr("Password Not matched");
+      }
   };
 
   // Generate options for department selection
