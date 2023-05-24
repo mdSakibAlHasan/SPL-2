@@ -72,6 +72,8 @@ const SendNotification = () => {
         const result2 = await axios.post('http://localhost:3001/api/getDepartment');
         setDepartmentNames(result2.data);
         setUserType("admin");
+        const newItem = 'All Department';
+        setDepartmentNames(prevArray => [...prevArray, newItem]);
       }
       else if(info && info[0].type === 'Director' ){
         setUserType("Director");
@@ -86,9 +88,19 @@ const SendNotification = () => {
     handleSuggesion();
   },[info]);
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
+    const result = await axios.post("http://localhost:3001/app/sendNotification", {
+           ID: info[0].ID,
+           dept: selectedDepartment,
+           DepartmentID: info[0].DepartmentID,
+           Email: sendViaEmail,
+           Profile: sendViaProfile,
+           Tittle: title,
+           Body: body
+    });
 
+    console.log(result.data);
     // Perform notification sending logic here
     console.log('User Type:', userType);
     console.log('Department:', selectedDepartment);
