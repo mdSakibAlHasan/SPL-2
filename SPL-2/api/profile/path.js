@@ -2,7 +2,7 @@ import  express from "express";
 import { getResearcher, getProfileInfo, getEducationInfo, getJobInfo,getOtherInfo } from "./basic.js";
 import { setPersonalInfo, setEducationInfo,cookieAuth } from "./setInfo.js";
 import { getPersonalInfo, getProfileID, getResearcherName } from "./getInfo.js";
-import { getNotification } from "./notification.js";
+import { getNotification,sendNotification } from "./notification.js";
 import { addResearcherByDirector,removeResearcher } from "./addRemove.js";
 
 
@@ -22,5 +22,6 @@ router.post('/getResearcherName',getResearcherName);
 router.post('/getNotification',getNotification);
 router.post('/addResearcherByDirector',addResearcherByDirector);
 router.post('/removeResearcher',removeResearcher);
+router.post('/sendNotification',sendNotification);
 
 export default router;
