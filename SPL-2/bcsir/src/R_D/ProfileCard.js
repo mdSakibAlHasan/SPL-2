@@ -1,7 +1,7 @@
 import React,{useEffect, useState} from 'react'
 
 
-const ProfileCard = ({ name, designation, ID, photo, onClick }) => {
+const ProfileCard = ({ name, designation, ID, photo, dept, onClick }) => {
     const [imageSrc, setImageSrc] = useState(null);
 
     const handleClick = () => {
@@ -29,6 +29,7 @@ const ProfileCard = ({ name, designation, ID, photo, onClick }) => {
         <div className="card-body">
             <h5 className="card-title">{name}</h5>
             <p className="card-text">{designation}</p>
+            <p className="card-text">{dept}</p>
             <button className="profile-button" onClick={handleClick}>
                 Select
             </button>

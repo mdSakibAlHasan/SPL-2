@@ -2,15 +2,15 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { getSetCookie } from '../Set_up_profile/CookiesHandle';
 import { useNavigate } from 'react-router-dom';
+import ProfileCard from './ProfileCard';
 
 function SetCommittee(props) {
-  const [selectedOption, setSelectedOption] = useState('');
-  const [selectedID, setSelectedID] = useState();
+  const [researcherID, setID] = useState();
+  const [researcherName, setResearcherName] = useState();
   const [password, setPassword] = useState('');
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [suggesionArr, setSuggesionArr] = useState([]);
-  const [departmentSugg, setDepartmentSugg] = useState([]);
 
   const [tittle, setTittle] = useState('Set Authority');
   const [info, setInfo] = useState([]);
@@ -51,15 +51,15 @@ function SetCommittee(props) {
 
   useEffect(()=>{
     async function handleSuggesion(){
-      const result2 = await axios.post("http://localhost:3001/RD/getCommitteeSuggession");
+      const result2 = await axios.post("http://localhost:3001/RD/getCommitteeSuggession");    // RD/research and development
       setSuggesionArr(result2.data);
       console.log(info[0].type, " is researcher type")
-      if(info && info[0].type == 'admin'){
+      if(info && info[0].type === 'admin'){
         setTittle("Set Research Co-ordinator(PI)");
       }
-      else if(info && (info[0].type == 'Director' || info[0].type == 'PI')){
+      else if(info && (info[0].type === 'Director' || info[0].type === 'PI')){
         setTittle("Set Research Division Head");
-        const result = await axios.post("http://localhost:3001/RD/getResearcher", { dept: info[0].departmentID });
+        const result = await axios.post("http://localhost:3001/RD/getResearcher", { dept: info[0].departmentID });      //RD/authority
         setSuggesionArr(result.data);
       }
       else{
@@ -69,35 +69,41 @@ function SetCommittee(props) {
     handleSuggesion();
   },[info]);
 
-  useEffect(() => {
-    console.log(selectedOption, 'is selected'); // Log the selected option whenever it changes
-  }, [selectedOption]);
 
-  const handleOptionChange = (event) => {
-    setSelectedOption(event.target.value);
-  };
+
+  const handleResearcherSelect = (ID, name) => {
+    setID(ID);
+    setResearcherName(name);
+  }
 
 
   const handlePasswordChange = (event) => {
     setPassword(event.target.value);
   };
 
-  const handleAddCommitteeMember = () => {
-     suggesionArr.map((option)=>{
-      if(option.Name === selectedOption){
-        setSelectedID(option.ID);
-        inputs.ID = option.ID;
-        console.log(selectedID, " is selected ID");
-      }
-    })
-    inputs.departmentID = info[0].departmentID;
+  const handleAddCommitteeMember = async (event) => {
+    event.preventDefault();
+    const result = await axios.post("http://localhost:3001/RD/conformation", {
+           ID: info[0].ID,
+           pass: password
+    });
+    console.log("Here are match output ",result.data)
 
-    //code for check confirm password
-    if(info[0].type == 'admin'){
-      axios.post("http://localhost:3001/RD/setPI",inputs);
+    if(result.data === "Password matches"){
+      setShowConfirmationModal(false);
+      console.log("Here are result: ",researcherID);
+
+      //code for check confirm password
+      if(info[0].type === 'admin'){
+        axios.post("http://localhost:3001/RD/setPI",inputs);
+      }
+      else if(info[0].type === 'Director' || info[0].type === 'PI'){
+        axios.post("http://localhost:3001/RD/setRDHead",inputs);
+      }
     }
-    else if(info[0].type == 'Director' || info[0].type == 'PI'){
-      axios.post("http://localhost:3001/RD/setRDHead",inputs);
+    else{
+      setErrorMessage("Confirmation password not match");
+      console.log("Here are error");
     }
 
   };
@@ -105,24 +111,21 @@ function SetCommittee(props) {
   return (
     <div className="container">
       <h1>{tittle}</h1>
-      <div className="form-group">
-        <label>Select Committee Member:</label>
-        <select className="form-control" value={selectedOption} onChange={handleOptionChange}>
-  <option value="">--Select--</option>
-  {suggesionArr.map((option) => (
-    <option key={option.ID} value={option.Name}>{option.Name} </option>
-  ))}
-</select>
+      <h4>Select your researcher</h4>
+      <div className='container'>
+          <div className="row">
+            <div style={{display:"flex"}}>
+              {suggesionArr.map((user) => (<ProfileCard key={user.ID} name={user.Name} designation={user.Designation} photo={user.Photo} ID={user.ID} dept ={user.DepartmentName} onClick={handleResearcherSelect}/>))}
+            </div>
+          </div>  
       </div>
-      <div className="form-group">
-        <label>Password:</label>
-        <input type="password" className="form-control" value={password} onChange={handleAddCommitteeMember} />
-      </div>
-      <button type="button" className="btn btn-primary" onClick={handleAddCommitteeMember}>Confirm</button>
-      <button type="button" className="btn btn-primary" onClick={() => setShowConfirmationModal(true)}>Add Committee Member</button>
+      {researcherName && (<p>{researcherName} is selected as research co-ordinatore</p>)}
+     
+      <button type="button" className="btn btn-primary" onClick={() => setShowConfirmationModal(true)}>Confirm</button>
+      {/* <button type="button" className="btn btn-primary" onClick={() => setShowConfirmationModal(true)}>Add Committee Member</button> */}
       {errorMessage && <div className="alert alert-danger">{errorMessage}</div>}
       {showConfirmationModal && (
-        <div className="modal" tabIndex="-1" role="dialog">
+        <div className="modal" tabIndex="-1" role="dialog" style={{ display: 'block' }}>
           <div className="modal-dialog" role="document">
             <div className="modal-content">
               <div className="modal-header">
@@ -132,16 +135,23 @@ function SetCommittee(props) {
                 </button>
               </div>
               <div className="modal-body">
-                <p>Are you sure you want to add {selectedOption} as a committee member?</p>
+              <p>Are you sure you want to add {researcherName} as a committee member?</p>
+                <div>
+                  <label>Confirm with your Password:</label>
+                  <input type="password" value={password} onChange={handlePasswordChange} required />
+                </div>
+                {errorMessage && <p>{errorMessage}</p>}
               </div>
               <div className="modal-footer">
                 <button type="button" className="btn btn-secondary" data-dismiss="modal" onClick={() => setShowConfirmationModal(false)}>Cancel</button>
                 <button type="button" className="btn btn-primary" onClick={handleAddCommitteeMember}>Confirm</button>
               </div>
+              {errorMessage && <p>{errorMessage}</p>}
             </div>
           </div>
         </div>
       )}
+      {showConfirmationModal && <div className="modal-backdrop fade show"></div>}
     </div>
   );
 }

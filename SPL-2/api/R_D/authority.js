@@ -48,7 +48,7 @@ export const setPI = (req,res) =>{
   export const getResearcher = (req,res) =>{
     const dept = req.body.dept;
     console.log("In get researcher",dept, req.body);
-    const qur = `select ID, Name from  bcsir.researcher  where bcsir.researcher.departmentID =${dept}; `;
+    const qur = `select ID, Name, Photo, designation from  bcsir.researcher  where bcsir.researcher.departmentID =${dept}; `;
     db.query(qur,function(err,result){
       if(err){
         console.log("Something happend for check  researcher array");

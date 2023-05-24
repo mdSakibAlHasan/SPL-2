@@ -173,7 +173,7 @@ const ChangeDirector = () => {
             {selectedDepartment && (
               <div className="row">
                 <div style={{display:"flex"}}>
-                  {researchers.map((user) => (<ProfileCard key={user.ID} name={user.Name} designation={user.Designation} photo={user.Photo} ID={user.ID} onClick={handleResearcherSelect}/>))}
+                  {researchers.map((user) => (<ProfileCard key={user.ID} name={user.Name} designation={user.Designation} photo={user.Photo} ID={user.ID} dept={selectedDepartment} onClick={handleResearcherSelect}/>))}
                 </div>
               </div>
             )}

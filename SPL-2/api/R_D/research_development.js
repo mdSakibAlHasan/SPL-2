@@ -27,7 +27,7 @@ export const setCommittee = (req, res) => {
 
 export const getCommitteeSuggesion = (req,res) => {
 
-    const querey = 'SELECT ID, Name, designation, DepartmentName FROM bcsir.researcher, bcsir.department where ID=DirectorID and bcsir.department.DepartmentID <> 10;';
+    const querey = 'SELECT ID, Name, Designation, Photo,  DepartmentName FROM bcsir.researcher, bcsir.department where ID=DirectorID and bcsir.department.DepartmentID <> 10;';
     console.log(querey);
     db.query(querey,function(err,result){
         if(err){
