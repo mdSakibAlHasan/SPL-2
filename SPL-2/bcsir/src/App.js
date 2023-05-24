@@ -10,6 +10,7 @@ import Profile from "./Components/ProfileUI";
 import ChangePass from "./Frame/Change_Password";
 import AuthRequire from "./Pages/AuthRequire";
 import ShowResearcherList from "./Components/ShowResearcherList";
+import SendNotification from "./Components/SendNotification";
 
 
 import AchievementPublication from './Set_up_profile/AchievementPublication'
@@ -124,6 +125,10 @@ const router = createBrowserRouter([
   {
     path: "/createDepartment",
     element: <CreateDepartment/>,
+  },
+  {
+    path: "/sendNotification",
+    element: <SendNotification/>,
   },
 
 

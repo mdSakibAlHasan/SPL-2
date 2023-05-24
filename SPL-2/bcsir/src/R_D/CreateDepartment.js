@@ -157,13 +157,18 @@ const CreateDepartment = () => {
   
 
   return (
-    <div>
-      <h2>Create Department</h2>
+    <div className='full_page_normal p-5 shade1'>
+    <div className='shade2 p-5 rounded'>
+      {/* <h2>Create Department</h2> */}
+      <center><h4>Create Department</h4></center> <hr /> <br/>
       <form>
         <div>
           <label>New Department Name:</label>
-          <input type="text" value={newDepartmentName} onChange={handleDepartmentNameChange} required />
+          <input type="text" placeholder='Department Name here' value={newDepartmentName} onChange={handleDepartmentNameChange} required />
         </div>
+
+        <center><h5>Select A New Director for the Department</h5></center> <hr /> <br/>
+
         <div>
           <label>Previous Department:</label>
           <select value={previousDepartment} onChange={handleDepartmentSelection} required>
@@ -215,6 +220,7 @@ const CreateDepartment = () => {
         </div>
       )}
       {showConfirmationModal && <div className="modal-backdrop fade show"></div>}
+    </div>
     </div>
   );
 };

@@ -28,7 +28,7 @@ export default function Login() {
       };
   return (
     <form action="">
-        <div className='full_page shade1'>
+        <div className='full_page_normal p-5 shade1'>
         
             <div className='shade2 p-5 rounded'>
             <center><h4>লগ-ইন</h4></center> <hr /> <br/>

@@ -8,8 +8,9 @@ const ChangeDirector = () => {
   const [info,setInfo] = useState();
   const [selectedDepartment, setSelectedDepartment] = useState('');
   const [selectedDirector, setSelectedDirector] = useState([]);
-  const [selectedResearcher, setSelectedResearcher] = useState('');
+  const [selectedResearcher, setSelectedResearcher] = useState('No one new');
   const [researcherID, setResearcherID] = useState();
+  const [showCurrrentDirector, setshowCurrrentDirector] = useState(false);
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
   const [departmentNames, setDepartmentNames] = useState(['Department 1', 'Department 2', 'Department 3']);
   const [directors, setDirectors] = useState(['Director 1', 'Director 2', 'Director 3']);
@@ -19,6 +20,7 @@ const ChangeDirector = () => {
   const handleDepartmentSelection = (event) => {
     const department = event.target.value;
     setSelectedDepartment(department);
+    setshowCurrrentDirector(true)
     // Set the currently selected director based on the selected department
     // const director = directors.find((dir) => dir === department);
     // setSelectedDirector(director);
@@ -143,8 +145,10 @@ const ChangeDirector = () => {
   ));
 
   return (
-    <div>
-      <h2>Change Director</h2>
+    <div className='full_page_normal p-5 shade1'>
+    <div className='shade2 p-5 rounded'>
+      {/* <h2>Change Director</h2> */}
+      <center><h4>Change Director</h4></center> <hr /> <br/>
       <form>
         <div>
           <label>Select Department:</label>
@@ -153,21 +157,21 @@ const ChangeDirector = () => {
             {departmentOptions}
           </select>
         </div>
-        <div className='container'>
+        <hr/>
+        <div >
         {selectedDepartment && (        //need to @update idf times remain
           <div>
-            <label>Current Director:</label>
+            <label>Current Director: </label>
             {/* <ProfileCard key={selectedDirector.ID} name={selectedDirector.Name} designation={selectedDirector.Designation} photo={selectedDirector.Photo} ID={selectedDirector.ID} /> */}
-            <p>{selectedDirector[0] && selectedDirector[0].Name}</p>
-          </div>
+            <span>{selectedDirector[0] && selectedDirector[0].Name}</span> <hr/> <br/>
+          </div> 
         )}
         </div>
-
-        {setResearcherID && <p>{selectedResearcher} is set as Director of {selectedDepartment} </p>}
         
-        <button type="button" onClick={() => setShowConfirmationModal(true)}>
+        {/* <button type="button" onClick={() => setShowConfirmationModal(true)}>
           Change Director
-        </button>
+        </button> */}
+       
       </form>
       <div className='container'>
             {selectedDepartment && (
@@ -178,8 +182,14 @@ const ChangeDirector = () => {
               </div>
             )}
       </div>
+      {setResearcherID  && showCurrrentDirector && <p>{selectedResearcher} is set as Director of {selectedDepartment} </p>}
+
+      {showCurrrentDirector && (<center>
+                <input className=' m-2 btn btn-outline-light' type="button" value="Change Director" onClick={() => setShowConfirmationModal(true)}/>
+                <br/>
+        </center>)}
       {showConfirmationModal && (
-        <div className="modal" tabIndex="-1" role="dialog" style={{ display: 'block' }}>
+        <div className="modal" tabIndex="-1" role="dialog" style={{ display: 'block', color:"black"}}>
           <div className="modal-dialog" role="document">
             <div className="modal-content">
               <div className="modal-header">
@@ -200,7 +210,7 @@ const ChangeDirector = () => {
                 </p>
                 <div>
                   <label>Admin Password:</label>
-                  <input type="password" value={adminPassword} onChange={handleAdminPasswordChange} required />
+                  <input type="password" style={{border:"1px solid black"}} value={adminPassword} onChange={handleAdminPasswordChange} required />
                 </div>
               </div>
               <div className="modal-footer">
@@ -221,6 +231,7 @@ const ChangeDirector = () => {
         </div>
       )}
       {showConfirmationModal && <div className="modal-backdrop fade show"></div>}
+    </div>
     </div>
   );
 };

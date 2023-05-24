@@ -1,18 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { getSetCookie } from '../Set_up_profile/CookiesHandle';
+import axios from 'axios';
 
 const SendNotification = () => {
+  const [info, setInfo] = useState([]);
   const [userType, setUserType] = useState('');
   const [selectedDepartment, setSelectedDepartment] = useState('');
   const [sendViaEmail, setSendViaEmail] = useState(false);
   const [sendViaProfile, setSendViaProfile] = useState(false);
   const [title, setTitle] = useState('');
   const [body, setBody] = useState('');
-  const [departmentNames] = useState(['Department 1', 'Department 2', 'Department 3']); // Pre-defined department names
+  const [departmentNames, setDepartmentNames] = useState([]); // Pre-defined department names
 
-  const handleUserTypeChange = (event) => {
-    setUserType(event.target.value);
-    setSelectedDepartment('');
-  };
 
   const handleDepartmentSelection = (event) => {
     setSelectedDepartment(event.target.value);
@@ -34,8 +34,61 @@ const SendNotification = () => {
     setBody(event.target.value);
   };
 
+  var result;
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    function handleCookie(){
+      result = getSetCookie('my_cookies');
+      if(result==null){
+        navigate("/login");
+      }
+    }
+    handleCookie();
+  }, []); 
+
+  useEffect(()=>{
+    const handleProfileClick = async()=>{
+      const input = {
+        cookieID: result,
+      }
+      input.cookieID = result;
+      if(input.cookieID != null){
+        const ID = await axios.post('http://localhost:3001/app/getPersonalInfo',input)
+        //inputs.ID = ID.data['id'];
+        setInfo(ID.data);
+        console.log(" Here is info ", ID.data);
+        
+      }  
+    }
+    handleProfileClick();
+  },[result]);
+
+
+  useEffect(()=>{
+    async function handleSuggesion(){
+      console.log(info[0].type, " is researcher type")
+      if(info && (info[0].type === 'admin' || info[0].type === 'PI')){
+        const result2 = await axios.post('http://localhost:3001/api/getDepartment');
+        setDepartmentNames(result2.data);
+        setUserType("admin");
+      }
+      else if(info && info[0].type === 'Director' ){
+        setUserType("Director");
+        // setTittle("Set Research Division Head");
+        // const result = await axios.post("http://localhost:3001/RD/getResearcher", { dept: info[0].departmentID });      //RD/authority
+        // setSuggesionArr(result.data);
+      }
+      else{
+        navigate("/login");
+      }
+    }
+    handleSuggesion();
+  },[info]);
+
   const handleSubmit = (event) => {
     event.preventDefault();
+
     // Perform notification sending logic here
     console.log('User Type:', userType);
     console.log('Department:', selectedDepartment);
@@ -43,6 +96,8 @@ const SendNotification = () => {
     console.log('Send via Profile:', sendViaProfile);
     console.log('Title:', title);
     console.log('Body:', body);
+
+    
     // Reset form fields
     setUserType('');
     setSelectedDepartment('');
@@ -56,14 +111,14 @@ const SendNotification = () => {
     <div>
       <h2>Send Notification</h2>
       <form onSubmit={handleSubmit}>
-        <div>
+        {/* <div>
           <label>User Type:</label>
           <select value={userType} onChange={handleUserTypeChange} required>
             <option value="">Select user type</option>
             <option value="admin">Admin</option>
             <option value="director">Director</option>
           </select>
-        </div>
+        </div> */}
         {userType === 'admin' && (
           <div>
             <label>Select Department:</label>

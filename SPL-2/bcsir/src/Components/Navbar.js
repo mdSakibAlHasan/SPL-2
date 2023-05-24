@@ -104,7 +104,7 @@ export default function Navbar() {
           <div class="col-8 display-6">BCSIR</div>
           <div class="col-4">
               <div
-                className="shade3 full_page_height"
+                className="shade3"
                 style={{ display: "inline-block" }}
               >
                 <div>

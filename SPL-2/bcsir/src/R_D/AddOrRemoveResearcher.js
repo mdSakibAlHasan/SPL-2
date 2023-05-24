@@ -8,9 +8,14 @@ const AddRemoveResearcher = () => {
   const [info, setInfo] = useState([]);
   const [userType, setUserType] = useState('');
   const [actionType, setActionType] = useState('');
+  const [isActionTypeSet, setisActionTypeSet] = useState(false);
+  const [isDepartmentSet, setisDepartmentSet] = useState(false);
+  const [isNewResearcherSet, setisNewResearcherSet] = useState(false);
+  const [isSelectedResearcherSet, setisSelectedResearcherSet] = useState(false);
   const [selectedDepartment, setSelectedDepartment] = useState('');
   const [newResearcherEmail, setNewResearcherEmail] = useState('');
   const [selectedResearcher, setSelectedResearcher] = useState('');
+  const [password, setPassword] = useState('');
   const [researcherID, setResearcherID] = useState('');
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
   const [departmentNames, setDepartmentNames] = useState([]);
@@ -20,20 +25,27 @@ const AddRemoveResearcher = () => {
     ID: "",
   }
 
+  const handlePasswordChange =(event) =>{
+    setPassword(event.target.value);
+  }
   const handleActionTypeSelection = (event) => {
     setActionType(event.target.value);
+    setisActionTypeSet(true)
   };
 
   const handleDepartmentSelection = (event) => {
     setSelectedDepartment(event.target.value);
+    setisDepartmentSet(true)
   };
 
   const handleNewResearcherEmailChange = (event) => {
     setNewResearcherEmail(event.target.value);
+    setisNewResearcherSet(true)
   };
 
   const handleSelectedResearcherChange = (event) => {
     setSelectedResearcher(event.target.value);
+    setisSelectedResearcherSet(true)
   };
 
   var result;
@@ -166,48 +178,56 @@ const AddRemoveResearcher = () => {
     ));
 
   return (
-    <div>
-      <h2>Add/Remove Researcher</h2>
+    <div className='full_page_normal p-5 shade1'>
+    <div className='shade2 p-5 rounded'>
+      {/* <h2>Add/Remove Researcher</h2> */}
+      <center><h4>Add/Remove Researcher</h4></center> <hr /> <br/>
       <form>
-        <div>
+        <div className='p-2'>
           <label>Action Type:</label>
           <select value={actionType} onChange={handleActionTypeSelection} required>
-            <option value="">Select action type</option>
+            <option value="">Select</option>
             <option value="add">Add Researcher</option>
             <option value="remove">Remove Researcher</option>
-          </select>
+          </select> <hr/>
         </div>
+        {userType === 'admin' && isActionTypeSet && (
+          <div  className='p-2'>
+            <label>Select Department:</label>
+            <select value={selectedDepartment} onChange={handleDepartmentSelection} required>
+              <option value="">Select</option>
+              {departmentOptions}
+            </select> <hr/>
+          </div>
+        )}
         {actionType === 'add' && (
-          <div>
+          <div  className='p-2'>
             <label>New Researcher Email:</label>
-            <input type="email" value={newResearcherEmail} onChange={handleNewResearcherEmailChange} required />
+            <input type="email" placeholder='Email' value={newResearcherEmail} onChange={handleNewResearcherEmailChange} required /> <hr/>
           </div>
         )}
         {actionType === 'remove' && (
-          <div>
+          <div  className='p-2'>
             <label>Select Researcher:</label>
             <select value={selectedResearcher} onChange={handleSelectedResearcherChange} required>
               <option value="">Select a researcher</option>
               {researcherOptions}
-            </select>
-          </div>
-        )}
-        {userType === 'admin' && (
-          <div>
-            <label>Select Department:</label>
-            <select value={selectedDepartment} onChange={handleDepartmentSelection} required>
-              <option value="">Select a department</option>
-              {departmentOptions}
-            </select>
-          </div>
-        )}
+            </select><hr/>
+          </div> 
+        )} 
+       
         <p>{err}</p>
-        <button type="button" onClick={() => setShowConfirmationModal(true)}>
+        {/* <button type="button" onClick={() => setShowConfirmationModal(true)}>
           Confirm
-        </button>
+        </button> */}
+        {userType === 'admin' && isActionTypeSet && isDepartmentSet && (isNewResearcherSet|| isSelectedResearcherSet )&&(
+        <input className=' m-2 btn btn-outline-light' type="button" value="Confirm Action" onClick={() => setShowConfirmationModal(true)}/>)}
+        {userType === 'Director' && isActionTypeSet && (isNewResearcherSet|| isSelectedResearcherSet )&&(
+        <input className=' m-2 btn btn-outline-light' type="button" value="Confirm Action" onClick={() => setShowConfirmationModal(true)}/>)}
+
       </form>
       {showConfirmationModal && (
-        <div className="modal" tabIndex="-1" role="dialog" style={{ display: 'block' }}>
+        <div className="modal" tabIndex="-1" role="dialog" style={{ display: 'block', color:"black" }}>
           <div className="modal-dialog" role="document">
             <div className="modal-content">
               <div className="modal-header">
@@ -228,7 +248,13 @@ const AddRemoveResearcher = () => {
                   {actionType === 'add' ? ` Email: ${newResearcherEmail}` : ` Selected Researcher: ${selectedResearcher}`}
                   {userType === 'admin' && ` Department: ${selectedDepartment}`}
                 </p>
+
+                <div>
+                  <label>Your Password:</label>
+                  <input type="password" style={{border:"1px solid black"}} value={password} onChange={handlePasswordChange} required />
+                </div>
               </div>
+
               <div className="modal-footer">
                 <button
                   type="button"
@@ -247,6 +273,7 @@ const AddRemoveResearcher = () => {
         </div>
       )}
       {showConfirmationModal && <div className="modal-backdrop fade show"></div>}
+    </div>
     </div>
   );
 };

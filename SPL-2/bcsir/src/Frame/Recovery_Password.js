@@ -71,7 +71,7 @@ export default function Recovery_Password() {
   return (
    
     <form action="">
-        <div className='full_page shade1'>
+        <div className='full_page_normal p-5 shade1'>
         
             <div className='shade2 p-5 rounded'>
             <center><h4>পাসওয়ার্ড পুনরুদ্ধার</h4></center> <hr /> <br/>

@@ -1,6 +1,6 @@
 .my_body{
     font-family: 'CharukolaUltraLight', Arial, sans-serif !important;
-    /* color: white; */
+    color: white;
 }
 
 .shade1{
@@ -50,13 +50,24 @@ a.hover{
     display: flex;
     justify-content: center;
     align-items: center;
-    /* height: 150vh; */
+    height: 180vh;
   }
 
-input,textarea{
+  .full_page_normal {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: fit-content;
+  }
+
+input,textarea, select{
     background: transparent;
     border: transparent;
-    /* color: white; */
+    color: white;
     width: 100%;
     /* border-style: dashed; */
+}
+
+option{
+    color: black;
 }

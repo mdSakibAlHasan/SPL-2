@@ -24,10 +24,10 @@ const ProfileCard = ({ name, designation, ID, photo, dept, onClick }) => {
   
   return (
     <>
-        <div className=" mx-3 card shadow p-3 mb-5 bg-body-tertiary rounded" style={{width:"18rem",float:"left"}}>
+        <div className=" mx-3 card shadow p-3 mb-5 shade3 rounded" style={{float:"left"}}>
         <img style={{height:"300px" }} src={imageSrc} className="card-img-top" alt={`Photo of ${name}`}/>
         <div className="card-body">
-            <h5 className="card-title">{name}</h5>
+            <h5 className="card-title display-6">{name}</h5> <hr/>
             <p className="card-text">{designation}</p>
             <p className="card-text">{dept}</p>
             <button className="profile-button" onClick={handleClick}>

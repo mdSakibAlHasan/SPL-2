@@ -15,3 +15,7 @@ export const getNotification = async (req,res)=>{
         }
     })
 }
+
+export const sendNotification = async ()=>{
+    const {} = req.body;
+}
