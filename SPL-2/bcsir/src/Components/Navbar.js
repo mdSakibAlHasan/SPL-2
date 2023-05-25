@@ -136,7 +136,7 @@ export default function Navbar() {
           About BCSIR
         </a>
         <a className="col mb-1 my-nav-link" href="/institude">
-          ইনিস্টিটিউশন
+          ডিপার্টমেন্ট সমূহ
         </a>
         <a className="col mb-1 my-nav-link">
           {isLogin && (
