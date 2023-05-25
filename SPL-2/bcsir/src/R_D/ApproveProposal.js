@@ -71,7 +71,7 @@ function ApproveProposalPage() {
   useEffect(()=>{
     async function handleSuggesion(){
       console.log(info[0].type, " is researcher type")
-      const result2 = await axios.post('http://localhost:3001/api/getDepartment',{
+      const result2 = await axios.post('http://localhost:3001/RD/getProposalInfo',{
         DepartmentID: info[0].DepartmentID,
         type: info[0].type
       });
@@ -121,7 +121,7 @@ function ApproveProposalPage() {
     setProposal(
       proposals.map((proposal) =>
         proposal.ID === selectedProposal.ID
-          ? { ...proposal, status: "approved" }
+          ? { ...proposal, status: true }
           : proposal
       )
     );
@@ -140,25 +140,25 @@ function ApproveProposalPage() {
     <div className="container">
       <h1>Approve Proposal</h1>
       <div className="row">
-        {proposals
-          .filter((proposal) => proposal.status === "pending")
-          .map((proposal) => (
-            <div key={proposal.id} className="col-sm-4 mb-4">
+        {proposals.map((proposal) => (
+          
+            <div key={proposal.ID} className="col-sm-4 mb-4">
               <div
                 className="card"
                 onClick={() => handleProposalClick(proposal)}
               >
                 <div className="card-body">
-                  <h5 className="card-title">{proposal.title}</h5>
+                  <h5 className="card-title">{proposal.Title}</h5>
                   <p className="card-text">
-                    <strong>Author:</strong> {proposal.authorName}
+                    <strong>Author:</strong> {proposal.Name}
                   </p>
                   <p className="card-text">
-                    <strong>Department:</strong> {proposal.department}
+                    <strong>Department:</strong> {proposal.DepartmentName}
                   </p>
                 </div>
               </div>
             </div>
+            
           ))}
       </div>
 
@@ -167,10 +167,10 @@ function ApproveProposalPage() {
           <div className="col-sm-8 mb-4">
             <div className="card">
               <div className="card-body">
-                <h5 className="card-title">{selectedProposal.title}</h5>
+                <h5 className="card-title">{selectedProposal.Tittle}</h5>
                 <div className="text-center mb-3">
                   <a
-                    href={selectedProposal.fileUrl}
+                    href={selectedProposal.Proposal}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="btn btn-primary mr-2"

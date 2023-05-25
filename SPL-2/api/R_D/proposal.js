@@ -10,7 +10,8 @@ export const getProposalInfo =  (req,res)=>{
         approval = 'DirectorApproval';
     }
 
-    const querey =`select ResearchID, ResearcherID, Proposal, Title, Teammates, '${approval}', Date, DepartmentName from bcsir.research, bcsir.department where bcsir.research.${approval}=false and bcsir.department.DepartmentID = 11;`;
+    const querey =`select ResearchID, ResearcherID, Proposal, Title, Teammates, '${approval}' as status, Date, DepartmentName, Name from bcsir.research, bcsir.department,bcsir.researcher where bcsir.research.${approval}=false and bcsir.department.DepartmentID = 11
+    and bcsir.researcher.ID= bcsir.research.ResearcherID;`;
     console.log(querey);
     db.query(querey,(err,data)=>{
         if(err){
