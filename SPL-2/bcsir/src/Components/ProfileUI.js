@@ -205,7 +205,7 @@ export default function Profile(props) {
               <div className="col">
                 <img
                   src={imageSrc}
-                  style={{ width: "50%", height: "100%" }}
+                  style={{ width: "40%", height: "60%" }}
                   alt="Profile photo"
                 />{" "}
                 <br />
