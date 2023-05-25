@@ -3,8 +3,8 @@ import send_mail from "../control/sent_mail.js";
 
 export const getNotification = async (req, res) => {
   const ID = req.body.ID;
-  const querey = `select * from bcsir.notification where ReceiverID = 0 OR (select departmentID from bcsir.researcher where ID='${ID}');`;
-  //console.log(querey);
+  const querey = `select * from bcsir.notification where ReceiverID = 10 OR ReceiverID = (select departmentID from bcsir.researcher where ID=${ID});`;
+  console.log(querey);                                              //ReceiverID =
   db.query(querey, (err, data) => {
     if (err) {
       console.log("Error to get notification data");
@@ -96,6 +96,8 @@ export const sendNotification = async (req, res) => {
   }
 
   if (Profile) {
-    //sendNotification
+    //sendNotification @update
   }
 };
+
+
