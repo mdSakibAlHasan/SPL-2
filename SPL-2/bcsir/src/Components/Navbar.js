@@ -133,7 +133,7 @@ export default function Navbar() {
           হোমপেজ{" "}
         </a>
         <a className="col mb-1 my-nav-link" href="/home">
-          About BCSIR
+          বিসিএসআইআর সম্পর্কে
         </a>
         <a className="col mb-1 my-nav-link" href="/institude">
           ডিপার্টমেন্ট সমূহ
