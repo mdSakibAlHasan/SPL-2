@@ -35,6 +35,7 @@ import ProposalForm from "./R_D/ProposalForm";
 import AddRemoveResearcher from "./R_D/AddOrRemoveResearcher";
 import ChangeDirector from "./R_D/ChangeDirector";
 import CreateDepartment from "./R_D/CreateDepartment";
+import ApproveProposalPage from "./R_D/ApproveProposal";
 
 
 //import { BrowserRouter as  Route } from 'react-router-dom';
@@ -129,6 +130,10 @@ const router = createBrowserRouter([
   {
     path: "/sendNotification",
     element: <SendNotification/>,
+  },
+  {
+    path: "/approveProposal",
+    element: <ApproveProposalPage/>,
   },
 
 

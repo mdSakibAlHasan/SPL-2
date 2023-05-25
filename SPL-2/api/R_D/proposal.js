@@ -1,7 +1,16 @@
 import { db } from "../db.js";
 
 export const getProposalInfo = async (req,res)=>{
-    const {} = req.body;
+    const {DepartmentID,type} = req.body;
+    var approval;
+    if(type === 'RDHead'){
+        approval = 'RDapproval';
+    }
+    else{// if(type === 'Director'){
+        approval = 'DirectorApproval';
+    }
+    const querey =`select ResearchID, ResearcherID, Proposal, Title, Teammates, '${approval}', Date, DepartmentName from bcsir.research, bcsir.department where bcsir.research.${approval}=false and bcsir.department.DepartmentID = 11;`;
+
 }
 
 export const storeProposalInfo = async (req,res) =>{
