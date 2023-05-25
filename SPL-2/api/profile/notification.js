@@ -3,8 +3,8 @@ import send_mail from "../control/sent_mail.js";
 
 export const getNotification = async (req, res) => {
   const ID = req.body.ID;
-  const querey = `select * from bcsir.notification where ReceiverID = 10 OR ReceiverID = (select departmentID from bcsir.researcher where ID=${ID});`;
-  console.log(querey);                                              //ReceiverID =
+  const querey = `select * from bcsir.notification where ReceiverID = 10 OR ReceiverID = (select departmentID from bcsir.researcher where ID=${ID}) ORDER BY NotificationID DESC;`;
+  console.log(querey); //ReceiverID =
   db.query(querey, (err, data) => {
     if (err) {
       console.log("Error to get notification data");
@@ -100,4 +100,34 @@ export const sendNotification = async (req, res) => {
   }
 };
 
+export const getMaxNotification = async (req, res) => {
 
+  const querey = "SELECT MAX(NotificationID) AS max_id FROM bcsir.notification;";
+
+  db.query(querey, (err, data) => {
+    if (err) {
+      console.log("Err here in max id get");
+      return res.status(400).json("err to get max ID");
+    } else {
+      console.log("Complete get AMX ID");
+      return res.status(200).send(data);
+    }
+  });
+};
+
+export const setNotificationStatus = (req,res)=>{
+  
+  const ID = req.body.ID;
+  const maxNotification = req.body.maxNotification;
+  const querey = `update bcsir.researcher set readNotification=${maxNotification}`;
+  console.log(querey); //ReceiverID =
+  db.query(querey, (err, data) => {
+    if (err) {
+      console.log("Error to get notification data");
+      return res.status(500).json("Can't get data");
+    } else {
+      console.log("Complete get notification data", data);
+      return res.status(200).send(data);
+    }
+  });
+};

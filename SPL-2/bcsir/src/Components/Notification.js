@@ -24,6 +24,7 @@ function Notification(props) {
       if (notificationData) {
         // Perform the other code here that depends on notificationData
         console.log(notificationData, " is notification data2 ")
+        //set notification readable
       }
     };
   

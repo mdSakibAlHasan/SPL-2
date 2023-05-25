@@ -128,6 +128,7 @@ export default function Profile(props) {
   const [arr, setarr] = useState([]);
   const [modal_title, set_modal_title] = useState();
   const [modal_body, set_modal_body] = useState();
+  const [notificationRemain, setNotificationRemain] = useState(0);
 
   const updateArr = () => {
     prearr.forEach((element) => {
@@ -136,6 +137,16 @@ export default function Profile(props) {
     // setarr();
     console.log(arr);
   };
+
+  useEffect(()=>{
+    const setNotificationNumber = async () =>{
+        const output = await axios.post("http://localhost:3001/app/getMaxNotificationID",inputs);
+        console.log(output.data[0].max_id,"///////////////////////");
+        setNotificationRemain((output.data[0].max_id-profileArr[0].readNotification))
+        console.log(notificationRemain,"///////////////////////");
+    }
+    setNotificationNumber();
+  })
 
   //for popup-box
   const [showPopup, setShowPopup] = useState(false);
@@ -178,7 +189,7 @@ export default function Profile(props) {
                   fontSize: "12px",
                 }}
               >
-                1+
+                {notificationRemain}
               </span>
             </button>
 
