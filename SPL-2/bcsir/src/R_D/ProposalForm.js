@@ -59,18 +59,18 @@ function ProposalForm() {
           input
         );
         setInfo(ID.data);
-         console.log(" Here is info ", ID.data);
+        console.log(" Here is info ", ID.data);
 
         const result2 = await axios.post(
           "http://localhost:3001/RD/getResearcher",
           { dept: ID.data[0].departmentID }
         ); //RD/authority.js
         setResearchers(result2.data, "-------------");
-         console.log("cool");
-         const result3 = await axios.post(
-          "http://localhost:3001/RD/getProposalInfo",
-          { dept: ID.data[0].ID }
-        ); //profile/basic.js
+        console.log("cool");
+        //  const result3 = await axios.post(
+        //   "http://localhost:3001/RD/getProposalInfo",
+        //   { dept: ID.data[0].ID }
+        // ); //profile/basic.js
       } else {
         console.log("Here are all done");
       }
@@ -80,11 +80,11 @@ function ProposalForm() {
 
   const [selectedResearchers, setSelectedResearchers] = useState(researcher);
   const [availableResearchers, setAvailableResearchers] = useState(researcher);
-  useEffect(()=>{
-    const ResearcherInfo = async () =>{
-      setAvailableResearchers(researcher)
+  useEffect(() => {
+    const ResearcherInfo = async () => {
+      setAvailableResearchers(researcher);
       //setSelectedResearchers(researcher);
-      console.log(availableResearchers,"...........")
+      console.log(availableResearchers, "...........");
       const updatedSelectedResearchers = [...selectedResearchers, researcher];
       const updatedAvailableResearchers = availableResearchers.filter(
         (item) => item !== researcher
@@ -92,15 +92,11 @@ function ProposalForm() {
 
       //setSelectedResearchers(researcher);
       setAvailableResearchers(researcher);
-    }
-    ResearcherInfo()
-  },[researcher])
-
-
+    };
+    ResearcherInfo();
+  }, [researcher]);
 
   // const researchers = ['Researcher 1', 'Researcher 2', 'Researcher 3', 'Researcher 4'];
-
-  
 
   const handleSelectResearcher = (researcher) => {
     const updatedSelectedResearchers = [...selectedResearchers, researcher];
@@ -122,12 +118,24 @@ function ProposalForm() {
     setAvailableResearchers(updatedAvailableResearchers);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     // Perform backend submission with the selected researchers
     console.log(selectedResearchers, "-------------");
+    const output = await axios.post(
+      "http://localhost:3001/RD/storeProposalInfo",
+      {
+        ID: info[0].ID,
+        Tittle: projectTitle,
+        Proposal: "proposal.pdf",
+        Teammate: selectedResearchers,
+      }
+    );
+
+    console.log(output.data);
   };
 
   return (
+    <div className="container">
     <form onSubmit={handleSubmit}>
       <div className="form-group">
         <label htmlFor="unitName">Name of the unit:</label>
@@ -137,7 +145,7 @@ function ProposalForm() {
           id="unitName"
           value={unitName}
           onChange={(e) => setUnitName(e.target.value)}
-          required
+          //required
         />
       </div>
       <div className="form-group">
@@ -163,7 +171,7 @@ function ProposalForm() {
           id="projectLeaderName"
           value={projectLeaderName}
           onChange={(e) => setProjectLeaderName(e.target.value)}
-          required
+          //required
         />
         <input
           type="text"
@@ -171,7 +179,7 @@ function ProposalForm() {
           id="projectLeaderDesignation"
           value={projectLeaderDesignation}
           onChange={(e) => setProjectLeaderDesignation(e.target.value)}
-          required
+          //required
         />
       </div>
       {/* selection preocess */}
@@ -217,7 +225,7 @@ function ProposalForm() {
           id="projectType"
           value={projectType}
           onChange={(e) => setProjectType(e.target.value)}
-          required
+          //required
         />
       </div>
       <div className="form-group">
@@ -230,7 +238,7 @@ function ProposalForm() {
           rows="3"
           value={projectBackground}
           onChange={(e) => setProjectBackground(e.target.value)}
-          required
+          //required
         />
       </div>
       <div className="form-group">
@@ -241,7 +249,7 @@ function ProposalForm() {
           rows="3"
           value={projectObjective}
           onChange={(e) => setProjectObjective(e.target.value)}
-          required
+          //required
         />
       </div>
       <div className="form-group">
@@ -254,7 +262,7 @@ function ProposalForm() {
           rows="3"
           value={socioEconomicImportance}
           onChange={(e) => setSocioEconomicImportance(e.target.value)}
-          required
+          //required
         />
       </div>
       <div className="form-group">
@@ -268,7 +276,7 @@ function ProposalForm() {
           rows="3"
           value={professionalTraining}
           onChange={(e) => setProfessionalTraining(e.target.value)}
-          required
+          //required
         />
       </div>
       <div className="form-group">
@@ -281,7 +289,7 @@ function ProposalForm() {
           rows="3"
           value={workPlan}
           onChange={(e) => setWorkPlan(e.target.value)}
-          required
+          //required
         />
       </div>
       <div className="form-group">
@@ -294,7 +302,7 @@ function ProposalForm() {
           rows="3"
           value={expectedOutcome}
           onChange={(e) => setExpectedOutcome(e.target.value)}
-          required
+          //required
         />
       </div>
       <div className="form-group">
@@ -307,7 +315,7 @@ function ProposalForm() {
           rows="3"
           value={timeBoundActionPlan}
           onChange={(e) => setTimeBoundActionPlan(e.target.value)}
-          required
+          //required
         />
       </div>
       <div className="form-group">
@@ -320,7 +328,7 @@ function ProposalForm() {
           rows="3"
           value={researchFacilities}
           onChange={(e) => setResearchFacilities(e.target.value)}
-          required
+          //required
         />
       </div>
       <div className="form-group">
@@ -334,7 +342,7 @@ function ProposalForm() {
           rows="3"
           value={requiredFacilities}
           onChange={(e) => setRequiredFacilities(e.target.value)}
-          required
+          //required
         />
       </div>
       <div className="form-group">
@@ -348,7 +356,7 @@ function ProposalForm() {
           rows="3"
           value={previousPrograms}
           onChange={(e) => setPreviousPrograms(e.target.value)}
-          required
+          //required
         />
       </div>
       <div className="form-group">
@@ -359,7 +367,7 @@ function ProposalForm() {
           id="implementationPeriod"
           value={implementationPeriod}
           onChange={(e) => setImplementationPeriod(e.target.value)}
-          required
+          //required
         />
       </div>
       <div className="form-group">
@@ -370,7 +378,7 @@ function ProposalForm() {
           id="budgetInfo"
           value={budgetInfo}
           onChange={(e) => setBudgetInfo(e.target.value)}
-          required
+          //required
         />
       </div>
       <div className="form-group">
@@ -384,7 +392,7 @@ function ProposalForm() {
           id="otherProjects"
           value={otherProjects}
           onChange={(e) => setOtherProjects(e.target.value)}
-          required
+          //required
         />
       </div>
       <div className="form-group">
@@ -395,7 +403,7 @@ function ProposalForm() {
           id="projectProgress"
           value={projectProgress}
           onChange={(e) => setProjectProgress(e.target.value)}
-          required
+          //required
         />
       </div>
       <div className="form-group">
@@ -409,7 +417,7 @@ function ProposalForm() {
           rows="3"
           value={additionalInfo}
           onChange={(e) => setAdditionalInfo(e.target.value)}
-          required
+          //required
         />
       </div>
       <div className="form-group">
@@ -422,7 +430,7 @@ function ProposalForm() {
           id="projectLeaderSignature"
           value={projectLeaderSignature}
           onChange={(e) => setProjectLeaderSignature(e.target.value)}
-          required
+          //required
         />
       </div>
       <div className="form-group">
@@ -435,13 +443,19 @@ function ProposalForm() {
           id="headSignature"
           value={headSignature}
           onChange={(e) => setHeadSignature(e.target.value)}
-          required
+          //required
         />
       </div>
       <button type="submit" className="btn btn-primary">
         Submit
       </button>
     </form>
+
+    {/* <div>
+      <button onClick={handleSubmit}>Submit</button>
+    </div> */}
+    </div>
+    
   );
 }
 
