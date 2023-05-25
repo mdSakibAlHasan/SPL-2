@@ -42,16 +42,18 @@ function ShowResearcherList() {
   }, [selectedDepartment]);
 
   return (
-    <div className="container">
-      <h1>Show Researcher List</h1>
+    <div className="full_page_normal p-5 shade1">
+    <div className="shade2 p-5 rounded">
+      <center><h3>ডিপার্টমেন্ট ভিত্তিক তথ্য</h3></center><hr/>
       <div className="form-group">
-        <label htmlFor="departmentSelect">Select Department:</label>
-        <select className="form-control" id="departmentSelect" value={selectedDepartment} onChange={handleDepartmentChange}>
-          <option value="">Select a department</option>
+        <label htmlFor="departmentSelect">ডিপার্টমেন্ট সিলেক্ট করুনঃ</label>
+        <select id="departmentSelect" value={selectedDepartment} onChange={handleDepartmentChange}>
+          <option value="">--</option>
           {departmentArr.map((option) => (
             <option key={option} value={option}>{option}</option>
           ))}
         </select>
+        <hr/>
         <br/><br/>
       </div>
       {selectedDepartment && (
@@ -62,7 +64,8 @@ function ShowResearcherList() {
         </div>
       )}
     </div>
+    </div>
   );
 }
 
-export default ShowResearcherList;
+export default ShowResearcherList;;
