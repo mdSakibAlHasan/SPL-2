@@ -21,7 +21,7 @@ export default function InfoShowCard(props) {
   
   return (
     <>
-        <div className=" mx-3 card shadow p-3 mb-5 bg-body-tertiary rounded" style={{width:"18rem",float:"left"}}>
+        <div className="shade3 mx-3 card shadow p-3 mb-5 bg-body-tertiary rounded" style={{width:"18rem",float:"left"}}>
         <img style={{height:"300px" }} src={imageSrc} className="card-img-top" alt={`Photo of ${name}`}/>
         <div className="card-body">
             <h5 className="card-title">{name}</h5>
