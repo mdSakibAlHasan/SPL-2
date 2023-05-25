@@ -4,16 +4,16 @@ export const getProposalInfo =  (req,res)=>{
     const {DepartmentID,type} = req.body;
     var approval;
     if(type === 'RDHead'){
-        approval = 'RDapproval';
+        approval = `select ResearchID, ResearcherID, Proposal, Title, Teammates, RDapproval as status, Date, DepartmentName, Name from bcsir.research, bcsir.department,bcsir.researcher where bcsir.research.RDapproval=false and bcsir.department.DepartmentID = ${DepartmentID}
+        and bcsir.researcher.ID= bcsir.research.ResearcherID;`;
     }
     else{// if(type === 'Director'){
-        approval = 'DirectorApproval';
+        approval = `select ResearchID, ResearcherID, Proposal, Title, Teammates, DirectorApproval as status, Date, DepartmentName, Name from bcsir.research, bcsir.department,bcsir.researcher where bcsir.research.RDapproval=true and bcsir.research.DirectorApproval=false and bcsir.department.DepartmentID = ${DepartmentID}
+        and bcsir.researcher.ID= bcsir.research.ResearcherID;`;
     }
 
-    const querey =`select ResearchID, ResearcherID, Proposal, Title, Teammates, '${approval}' as status, Date, DepartmentName, Name from bcsir.research, bcsir.department,bcsir.researcher where bcsir.research.${approval}=false and bcsir.department.DepartmentID = 11
-    and bcsir.researcher.ID= bcsir.research.ResearcherID;`;
-    console.log(querey);
-    db.query(querey,(err,data)=>{
+    console.log(approval);
+    db.query(approval,(err,data)=>{
         if(err){
             console.log("Err to get data from research table");
             return res.status(400).json("Err to get data from research table");
@@ -51,6 +51,46 @@ export const storeProposalInfo = async (req,res) =>{    //avatars/a1.jpg
         else{
             console.log("Successfuly added data");
             return res.status(200).json("Successfuly added data")
+        }
+    })
+}
+
+export const approveProposal = (req,res) =>{
+    const {selectedProposal,type} = req.body;
+    var approval;
+    if(type === 'RDHead'){
+        approval = 'RDapproval';
+    }
+    else{// if(type === 'Director'){
+        approval = 'DirectorApproval';
+    }
+    const querey = `update bcsir.research set ${approval} = true where ResearchID = ${selectedProposal.ResearchID};`;
+    console.log(querey);
+    db.query(querey,(err,data)=>{
+        if(err){
+            console.log("err to set data in research table");
+            return res.status(400).json("err to set data in research table");
+        }
+        else{
+            console.log("Complete set data");
+            return res.status(200).json("coplete set data");
+        }
+    })
+}
+
+export const declineProposal = (req,res) =>{
+    const {selectedProposal} = req.body;
+   
+    const querey = `delete from bcsir.research where ResearchID = ${selectedProposal.ResearchID};`;
+    console.log(querey);
+    db.query(querey,(err,data)=>{
+        if(err){
+            console.log("err to delete row in research table");
+            return res.status(400).json("err to delete row in research table");
+        }
+        else{
+            console.log("Complete set data");
+            return res.status(200).json("coplete set data");
         }
     })
 }

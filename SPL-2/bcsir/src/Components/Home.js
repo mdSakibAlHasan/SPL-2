@@ -41,56 +41,76 @@ export default function HomeMain() {
   </>;
   return (
     <>
-    <div className="shade1 full_page_height">
-      <div className="p-5 shade2">
-        <div className="row m-5 p-3 shade3">
-          <center><p className="display-6">Welcome to BCSIR</p></center><hr/><br/>
+      <div className="shade1 full_page_normal">
+        <div className="p-5 shade2">
+          <div className="row m-5 p-3 shade3">
+            <center>
+              <p className="display-6">Welcome to BCSIR</p>
+            </center>
+            <hr />
+            <br />
             <p>
-                বাংলাদেশ বিজ্ঞান ও শিল্প গবেষণা পরিষদ (বিসিএসআইআর) তদানীন্তন
-                পিসিএসআইআর-এর অঙ্গ প্রতিষ্ঠান ’পূর্বাঞ্চলীয় গবেষণাগার’ নামে ১৯৫৫
-                সালে কার্যক্রম শুরু করে। বাংলাদেশের স্বাধীনতার পর এদেশে বিজ্ঞান ও
-                প্রযুক্তির অগ্রযাত্রাকে ত্বরান্বিত করতে ১৯৭৩ সালে জাতির পিতা
-                বঙ্গবন্ধু শেখ মুজিবুর রহমান এক অধ্যাদেশ জারীর মাধ্যমে ‘বাংলাদেশ
-                বিজ্ঞান ও শিল্প গবেষণা পরিষদ (বিসিএসআইআর)’ প্রতিষ্ঠা করেন। বর্তমান
-                সরকার ২০১৩ সালে ’বিসিএসআইআর আইন ২০১৩’ জাতীয় সংসদে অনুমোদন করেন এবং
-                বিসিএসআইআর বর্তমানে এই আইন দ্বারাই পরিচালিত হচ্ছে।
+              বাংলাদেশ বিজ্ঞান ও শিল্প গবেষণা পরিষদ (বিসিএসআইআর) তদানীন্তন
+              পিসিএসআইআর-এর অঙ্গ প্রতিষ্ঠান ’পূর্বাঞ্চলীয় গবেষণাগার’ নামে ১৯৫৫
+              সালে কার্যক্রম শুরু করে। বাংলাদেশের স্বাধীনতার পর এদেশে বিজ্ঞান ও
+              প্রযুক্তির অগ্রযাত্রাকে ত্বরান্বিত করতে ১৯৭৩ সালে জাতির পিতা
+              বঙ্গবন্ধু শেখ মুজিবুর রহমান এক অধ্যাদেশ জারীর মাধ্যমে ‘বাংলাদেশ
+              বিজ্ঞান ও শিল্প গবেষণা পরিষদ (বিসিএসআইআর)’ প্রতিষ্ঠা করেন। বর্তমান
+              সরকার ২০১৩ সালে ’বিসিএসআইআর আইন ২০১৩’ জাতীয় সংসদে অনুমোদন করেন এবং
+              বিসিএসআইআর বর্তমানে এই আইন দ্বারাই পরিচালিত হচ্ছে।
             </p>
-        </div>
-        <div className="row m-5 p-3 shade3">
-          <center><p className="display-6">Our Authority</p></center><hr/><br/>
+          </div>
+          <div className="row m-5 p-3 shade3">
+            <center>
+              <p className="display-6">Our Authority</p>
+            </center>
+            <hr />
+            <br />
             {authorities.map((authority, index) => (
-                  <div className="col" key={index}>
-                    <div className="shade2 p-3">
-                      <center>
-                        <img src={authority.image} alt={authority.name} style={{height:"300px",width:"300px"}}
-                        /><br /><hr />
-                        <h5>{authority.name}</h5>
-                        <p>{authority.designation}</p>
-                      </center>
-                    </div>
-                  </div>
-                ))}
-        </div>
-        
-        <div className="row m-5 p-3 shade3">
-        <center><p className="display-6">Image Gallary</p></center><hr/><br/>
-          {achievements.map((authority, index) => (
-                  <div className="col" key={index}>
-                    <div className="shade2 p-3">
-                      <center>
-                        <img src={authority.image} alt={authority.name} style={{height:"300px",width:"400px"}}
-                        /><br /><hr />
-                        <h5>{authority.title}</h5>
-                        <p>{authority.description}</p>
-                      </center>
-                    </div>
-                  </div>
-                ))}
-        </div>
+              <div className="col" key={index}>
+                <div className="shade2 p-3">
+                  <center>
+                    <img
+                      src={authority.image}
+                      alt={authority.name}
+                      style={{ height: "300px", width: "300px" }}
+                    />
+                    <br />
+                    <hr />
+                    <h5>{authority.name}</h5>
+                    <p>{authority.designation}</p>
+                  </center>
+                </div>
+              </div>
+            ))}
+          </div>
 
+          <div className="row m-5 p-3 shade3">
+            <center>
+              <p className="display-6">Image Gallary</p>
+            </center>
+            <hr />
+            <br />
+            {achievements.map((authority, index) => (
+              <div className="col" key={index}>
+                <div className="shade2 p-3">
+                  <center>
+                    <img
+                      src={authority.image}
+                      alt={authority.name}
+                      style={{ height: "300px", width: "400px" }}
+                    />
+                    <br />
+                    <hr />
+                    <h5>{authority.title}</h5>
+                    <p>{authority.description}</p>
+                  </center>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
-      
-    </div>
     </>
   );
 }

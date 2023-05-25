@@ -3,7 +3,7 @@ import { getCommitteeSuggesion } from "../R_D/research_development.js";
 import { declareCall,getDateline,editdateline } from "../R_D/dateline.js";
 import { setPI,setRDHead, getResearcher } from "../R_D/authority.js";
 import { changeDirector, previousDirectorInfo, getOnlyResearcher, createNewDepartment, passwordConfirmationWithID } from "../R_D/director.js";
-import { storeProposalInfo, getProposalInfo } from "../R_D/proposal.js";
+import { storeProposalInfo, getProposalInfo, approveProposal, declineProposal } from "../R_D/proposal.js";
 
 const router = express.Router()
 
@@ -23,5 +23,7 @@ router.post('/conformation',passwordConfirmationWithID);
 
 router.post('/storeProposalInfo',storeProposalInfo);
 router.post('/getProposalInfo',getProposalInfo)
+router.post('/approveProposal',approveProposal);
+router.post('/declineProposal',declineProposal);
 
 export default router;

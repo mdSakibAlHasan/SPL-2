@@ -4,34 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { getSetCookie } from "../Set_up_profile/CookiesHandle";
 
 function ApproveProposalPage() {
-  // const [proposals, setProposals] = useState([
-  //   {
-  //     id: 1,
-  //     title: "Research on How to sleep properly",
-  //     fileUrl: "/path/to/proposal1.pdf",
-  //     status: "pending",
-  //     authorName: "Fahim",
-  //     department: "Department 1",
-  //   },
-  //   {
-  //     id: 2,
-  //     title: "An study with Music",
-  //     fileUrl: "/path/to/proposal2.pdf",
-  //     status: "pending",
-  //     authorName: "Sakib",
-  //     department: "Department 2",
-  //   },
-  //   {
-  //     id: 3,
-  //     title: "Research on how to be mad",
-  //     fileUrl: "/path/to/proposal3.pdf",
-  //     status: "pending",
-  //     authorName: "Momin",
-  //     department: "Department 3",
-  //   },
-  // ]);
   const [info, setInfo] = useState([]);
-  const [proposals,setProposal] = useState([]);
+  const [proposals, setProposal] = useState([]);
   const [userType, setUserType] = useState();
   const [selectedProposal, setSelectedProposal] = useState(null);
   const [showModal, setShowModal] = useState(false);
@@ -41,72 +15,76 @@ function ApproveProposalPage() {
   var result;
   const navigate = useNavigate();
   useEffect(() => {
-    function handleCookie(){
-      result = getSetCookie('my_cookies');
-      if(result==null){
+    function handleCookie() {
+      result = getSetCookie("my_cookies");
+      if (result == null) {
         navigate("/login");
       }
     }
     handleCookie();
-  }, []); 
+  }, []);
 
-  useEffect(()=>{
-    const handleProfileClick = async()=>{
+  useEffect(() => {
+    const handleProfileClick = async () => {
       const input = {
         cookieID: result,
-      }
+      };
       input.cookieID = result;
-      if(input.cookieID != null){
-        const ID = await axios.post('http://localhost:3001/app/getPersonalInfo',input)
+      if (input.cookieID != null) {
+        const ID = await axios.post(
+          "http://localhost:3001/app/getPersonalInfo",
+          input
+        );
         //inputs.ID = ID.data['id'];
         setInfo(ID.data);
         console.log(" Here is info ", ID.data);
-        
-      }  
-    }
+      }
+    };
     handleProfileClick();
-  },[result]);
+  }, [result]);
 
-
-  useEffect(()=>{
-    async function handleSuggesion(){
-      console.log(info[0].type, " is researcher type")
-      const result2 = await axios.post('http://localhost:3001/RD/getProposalInfo',{
-        DepartmentID: info[0].DepartmentID,
-        type: info[0].type
-      });
+  useEffect(() => {
+    async function handleSuggesion() {
+      console.log(info[0].type, " is researcher type");
+      const result2 = await axios.post(
+        "http://localhost:3001/RD/getProposalInfo",
+        {
+          DepartmentID: info[0].departmentID,
+          type: info[0].type,
+        }
+      );
       setProposal(result2.data);
-      console.log(result2.data,"=========",proposals);
+      // console.log(result2.data, "=========", proposals);
       // setUserType("admin");
-      if(info && info[0].type === 'RDHead'){
-        // const result2 = await axios.post('http://localhost:3001/api/getDepartment',{
-        //   DepartmentID: info[0].DepartmentID,
-        //   type: info[0].type
-        // });
-        // setProposal(result2.data);
-        setUserType("RDHead")
+      if (info && (info[0].type === "RDHead" || info[0].type === "Director" || info[0].type === "PI")) {
         
-      }
-      else if(info && (info[0].type === 'Director' || info[0].type === 'PI') ){
-        setUserType("Director");
-        // setTittle("Set Research Division Head");
-        // const result = await axios.post("http://localhost:3001/RD/getResearcher", { dept: info[0].departmentID });      //RD/authority
-        // setSuggesionArr(result.data);
-      }
-      else{
-        //setUserType("DirectorApproval");
+      } else {
         navigate("/login");
       }
     }
     handleSuggesion();
-  },[info]);
+  }, [info]);
 
   const handleProposalClick = (proposal) => {
     setSelectedProposal(proposal);
+    console.log(selectedProposal,"-----")
   };
 
   const handleDeclineProposal = () => {
     setShowModal(true);
+    if (password !== "admin") {
+      alert("Incorrect password!");
+      return;
+    }
+    const updatedProposals = proposals.filter(
+      (item) => item !== selectedProposal
+    );
+    setProposal(updatedProposals);
+    axios.post("http://localhost:3001/RD/approveProposal",{selectedProposal: selectedProposal });
+    
+    setSelectedProposal(null);
+    setShowModal(false);
+    setPassword("");
   };
 
   const handlePasswordChange = (event) => {
@@ -118,13 +96,27 @@ function ApproveProposalPage() {
       alert("Incorrect password!");
       return;
     }
-    setProposal(
-      proposals.map((proposal) =>
-        proposal.ID === selectedProposal.ID
-          ? { ...proposal, status: true }
-          : proposal
-      )
+
+    const updatedProposals = proposals.filter(
+      (item) => item !== selectedProposal
     );
+    
+    setProposal(updatedProposals);
+    //send selected proposal in backend 
+    axios.post(
+      "http://localhost:3001/RD/approveProposal",
+      {
+        selectedProposal: selectedProposal,
+        type: info[0].type,
+      }
+    );
+    // setProposal(
+    //   proposals.map((proposal) =>
+    //     proposal.ID === selectedProposal.ID
+    //       ? { ...proposal, status: true }
+    //       : proposal
+    //   )
+    // );
     setApprovedProposals([...approvedProposals, selectedProposal]);
     setSelectedProposal(null);
     setShowModal(false);
@@ -137,29 +129,25 @@ function ApproveProposalPage() {
   };
 
   return (
-    <div className="container">
-      <h1>Approve Proposal</h1>
+    <div className="shade1 p-5">
+      <center><h3>Approve Proposal</h3></center><hr/><br/>
+      
       <div className="row">
         {proposals.map((proposal) => (
-          
-            <div key={proposal.ID} className="col-sm-4 mb-4">
-              <div
-                className="card"
-                onClick={() => handleProposalClick(proposal)}
-              >
-                <div className="card-body">
-                  <h5 className="card-title">{proposal.Title}</h5>
-                  <p className="card-text">
-                    <strong>Author:</strong> {proposal.Name}
-                  </p>
-                  <p className="card-text">
-                    <strong>Department:</strong> {proposal.DepartmentName}
-                  </p>
-                </div>
+          <div key={proposal.ID} className="col-sm-4 mb-4">
+            <div className="shade3 card" onClick={() => handleProposalClick(proposal)}>
+              <div className="card-body">
+                <h5 className="card-title">{proposal.Title}</h5>
+                <p className="card-text">
+                  <strong>Author:</strong> {proposal.Name}
+                </p>
+                <p className="card-text">
+                  <strong>Department:</strong> {proposal.DepartmentName}
+                </p>
               </div>
             </div>
-            
-          ))}
+          </div>
+        ))}
       </div>
 
       {selectedProposal && (
@@ -167,7 +155,13 @@ function ApproveProposalPage() {
           <div className="col-sm-8 mb-4">
             <div className="card">
               <div className="card-body">
-                <h5 className="card-title">{selectedProposal.Tittle}</h5>
+                <h5 className="shade3 card-title">{selectedProposal.Title}</h5>
+                <p className="shade3 card-text">
+                  <strong>Author:</strong> {selectedProposal.Name}
+                </p>
+                <p className="shade3 card-text">
+                  <strong>Department:</strong> {selectedProposal.DepartmentName}
+                </p>
                 <div className="text-center mb-3">
                   <a
                     href={selectedProposal.Proposal}
@@ -193,11 +187,17 @@ function ApproveProposalPage() {
               </div>
             </div>
           </div>
+          {/* <h3 className="shade3 card-text">Approved Proposal: {approvedProposals.Title}</h3> */}
         </div>
       )}
 
       {showModal && (
-        <div className="modal" tabIndex="-1" role="dialog" style={{ display: "block" }}>
+        <div
+          className="modal"
+          tabIndex="-1"
+          role="dialog"
+          style={{ display: "block" }}
+        >
           <div className="modal-dialog" role="document">
             <div className="modal-content">
               <div className="modal-header">

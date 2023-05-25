@@ -42,6 +42,11 @@ import ApproveProposalPage from "./R_D/ApproveProposal";
 
 const router = createBrowserRouter([
   {
+    path: "/",
+    element: <HomeMain/>,
+
+  },
+  {
     path: "/home",
     element: <HomeMain/>,
 
