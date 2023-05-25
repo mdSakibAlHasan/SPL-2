@@ -9,6 +9,7 @@ export const getProposalInfo = async (req,res)=>{
     else{// if(type === 'Director'){
         approval = 'DirectorApproval';
     }
+    
     const querey =`select ResearchID, ResearcherID, Proposal, Title, Teammates, '${approval}', Date, DepartmentName from bcsir.research, bcsir.department where bcsir.research.${approval}=false and bcsir.department.DepartmentID = 11;`;
 
 }
