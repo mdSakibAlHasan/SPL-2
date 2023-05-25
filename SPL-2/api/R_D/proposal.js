@@ -1,6 +1,6 @@
 import { db } from "../db.js";
 
-export const getProposalInfo = async (req,res)=>{
+export const getProposalInfo =  (req,res)=>{
     const {DepartmentID,type} = req.body;
     var approval;
     if(type === 'RDHead'){
@@ -9,12 +9,22 @@ export const getProposalInfo = async (req,res)=>{
     else{// if(type === 'Director'){
         approval = 'DirectorApproval';
     }
-    
-    const querey =`select ResearchID, ResearcherID, Proposal, Title, Teammates, '${approval}', Date, DepartmentName from bcsir.research, bcsir.department where bcsir.research.${approval}=false and bcsir.department.DepartmentID = 11;`;
 
+    const querey =`select ResearchID, ResearcherID, Proposal, Title, Teammates, '${approval}', Date, DepartmentName from bcsir.research, bcsir.department where bcsir.research.${approval}=false and bcsir.department.DepartmentID = 11;`;
+    console.log(querey);
+    db.query(querey,(err,data)=>{
+        if(err){
+            console.log("Err to get data from research table");
+            return res.status(400).json("Err to get data from research table");
+        }
+        else{
+            console.log("Sucessfull");
+            return res.status(200).send(data);
+        }
+    })
 }
 
-export const storeProposalInfo = async (req,res) =>{
+export const storeProposalInfo = async (req,res) =>{    //avatars/a1.jpg
     const {ID,Tittle,Proposal, Teammate} = req.body;
     console.log(ID,Tittle,Proposal,Teammate);
     //consider about teammate

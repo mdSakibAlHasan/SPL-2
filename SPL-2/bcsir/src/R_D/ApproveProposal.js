@@ -76,6 +76,7 @@ function ApproveProposalPage() {
         type: info[0].type
       });
       setProposal(result2.data);
+      console.log(result2.data,"=========",proposals);
       // setUserType("admin");
       if(info && info[0].type === 'RDHead'){
         // const result2 = await axios.post('http://localhost:3001/api/getDepartment',{
@@ -93,7 +94,7 @@ function ApproveProposalPage() {
         // setSuggesionArr(result.data);
       }
       else{
-        setUserType("DirectorApproval");
+        //setUserType("DirectorApproval");
         navigate("/login");
       }
     }
