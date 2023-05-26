@@ -6,6 +6,7 @@ import Navbar from "../Components/Navbar";
 
 function PersonalInfoForm() {
   const [name, setName] = useState("");
+  const [photo, setPhoto] = useState(null);
   const [fatherName, setFatherName] = useState("");
   const [motherName, setMotherName] = useState("");
   const [birthDate, setBirthDate] = useState("");
@@ -13,6 +14,10 @@ function PersonalInfoForm() {
   const [nationalId, setNationalId] = useState("");
   const [cookie, setCookie] = useState("");
   const [error, setError] = useState(null);
+  const [googleScholar, setGoogleScholar] = useState("");
+const [researchGate, setResearchGate] = useState("");
+const [orchidProfile, setOrchidProfile] = useState("");
+
   const [researchExperienceList, setResearchExperienceList] = useState([
     { value: "" },
   ]);
@@ -95,7 +100,12 @@ function PersonalInfoForm() {
     thesisSupervisionList,
     professionalAffiliationList,
     cookie,
+    photo,
+    googleScholar,
+    researchGate,
+    orchidProfile,
   };
+  
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -141,7 +151,7 @@ function PersonalInfoForm() {
     <div className="shade2 p-5 rounded">
     <center><h4>Personal Information</h4></center> <hr /> <br/>
     <form onSubmit={handleSubmit}>
-      <div className="form-group">
+      <div className="form-group m-2">
         <label htmlFor="name">Name</label>
         <input
           type="text"
@@ -152,7 +162,7 @@ function PersonalInfoForm() {
           onChange={(e) => setName(e.target.value)}
         />
       </div>
-      <div className="form-group">
+      <div className="form-group m-2">
         <label htmlFor="fatherName">Father's Name</label>
         <input
           type="text"
@@ -162,7 +172,16 @@ function PersonalInfoForm() {
           onChange={(e) => setFatherName(e.target.value)}
         />
       </div>
-      <div className="form-group">
+      <div className="form-group m-2">
+  <label htmlFor="photo">Photo</label>
+  <input
+    type="file"
+    id="photo"
+    onChange={(e) => setPhoto(e.target.files[0])}
+  />
+</div>
+
+      <div className="form-group m-2">
         <label htmlFor="motherName">Mother's Name</label>
         <input
           type="text"
@@ -172,7 +191,7 @@ function PersonalInfoForm() {
           onChange={(e) => setMotherName(e.target.value)}
         />
       </div>
-      <div className="form-group">
+      <div className="form-group m-2">
         <label htmlFor="birthDate">Birth Date</label>
         <input
           type="date"
@@ -182,7 +201,7 @@ function PersonalInfoForm() {
           onChange={(e) => setBirthDate(e.target.value)}
         />
       </div>
-      <div className="form-group">
+      <div className="form-group m-2">
         <label htmlFor="gender">Gender</label>
         <select
           
@@ -195,7 +214,7 @@ function PersonalInfoForm() {
           <option value="female">Female</option>
         </select>
       </div>
-      <div className="form-group">
+      <div className="form-group m-2">
         <label htmlFor="nationalId">National ID</label>
         <input
           type="text"
@@ -206,7 +225,7 @@ function PersonalInfoForm() {
         />
       </div>
       <br/><center><h4>Your Excellency</h4></center> <hr /> <br/>
-      <div className="form-group">
+      <div className="form-group m-2">
         <label htmlFor="researchExperience">Research Experience</label>
         {researchExperienceList.map((experience, index) => (
           <div key={index}>
@@ -225,7 +244,7 @@ function PersonalInfoForm() {
           </div>
         ))}
       </div>
-      <div className="form-group">
+      <div className="form-group m-2">
         <label htmlFor="thesisSupervision">Thesis Supervision</label>
         {thesisSupervisionList.map((thesis, index) => (
           <div key={index}>
@@ -244,7 +263,7 @@ function PersonalInfoForm() {
           </div>
         ))}
       </div>
-      <div className="form-group">
+      <div className="form-group m-2">
         <label htmlFor="professionalAffiliation">
           Professional Affiliation
         </label>
@@ -267,6 +286,36 @@ function PersonalInfoForm() {
           </div>
         ))}
       </div>
+      <div className="form-group m-2">
+  <label htmlFor="googleScholar">Google Scholar Link</label>
+  <input
+    type="text"
+    id="googleScholar"
+    value={googleScholar}
+    onChange={(e) => setGoogleScholar(e.target.value)}
+  />
+</div>
+
+<div className="form-group m-2">
+  <label htmlFor="researchGate">ResearchGate Link</label>
+  <input
+    type="text"
+    id="researchGate"
+    value={researchGate}
+    onChange={(e) => setResearchGate(e.target.value)}
+  />
+</div>
+
+<div className="form-group m-2">
+  <label htmlFor="orchidProfile">ORCID Profile Link</label>
+  <input
+    type="text"
+    id="orchidProfile"
+    value={orchidProfile}
+    onChange={(e) => setOrchidProfile(e.target.value)}
+  />
+</div>
+
       <br/><center>
           {/* @sakib  onlcick add kore action/navigate korte hobe*/}
           <button type="button" className="m-2 btn btn-outline-light">
