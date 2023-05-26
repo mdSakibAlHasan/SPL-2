@@ -51,30 +51,32 @@ function PostingInfo() {
   };
 
   return (
-    <div className="container mt-4">
-      <h2>Posting Information</h2>
+    <div className='full_page_normal p-5 shade1'>
+    <div className="shade2 p-5 rounded">
+      {/* <h2>Posting Information</h2/> */}
+      <center><h4>Posting Information</h4></center> <hr /> <br/>
       <form onSubmit={handleSubmit}>
         {postingInfo.map((posting, index) => (
-          <div className="card mb-4" key={index}>
+          <div className="mb-4" key={index}>
             <div className="card-body">
-              <h4 className="card-title">Posting {index + 1}</h4>
+              <h4 className="card-title">Posting {index + 1}</h4><hr/>
               <div className="form-row">
-                <div className="form-group col-md-6">
+                <div className="form-group">
                   <label htmlFor={`designation${index}`}>Designation</label>
                   <input
                     type="text"
-                    className="form-control"
+                    
                     id={`designation${index}`}
                     name="designation"
                     value={posting.designation}
                     onChange={(event) => handlePostingInfoChange(index, event)}
                   />
                 </div>
-                <div className="form-group col-md-6">
+                <div className="form-group">
                   <label htmlFor={`office${index}`}>Office</label>
                   <input
                     type="text"
-                    className="form-control"
+                    
                     id={`office${index}`}
                     name="office"
                     value={posting.office}
@@ -83,45 +85,45 @@ function PostingInfo() {
                 </div>
               </div>
               <div className="form-row">
-                <div className="form-group col-md-4">
+                <div className="form-group">
                   <label htmlFor={`district${index}`}>District</label>
                   <input
                     type="text"
-                    className="form-control"
+                    
                     id={`district${index}`}
                     name="district"
                     value={posting.district}
                     onChange={(event) => handlePostingInfoChange(index, event)}
                   />
                 </div>
-                <div className="form-group col-md-4">
+                <div className="form-group">
                   <label htmlFor={`upazila${index}`}>Upazila</label>
                   <input
                     type="text"
-                    className="form-control"
+                    
                     id={`upazila${index}`}
                     name="upazila"
                     value={posting.upazila}
                     onChange={(event) => handlePostingInfoChange(index, event)}
                   />
                 </div>
-                <div className="form-group col-md-4">
+                <div className="form-group">
                   <label htmlFor={`fromDate${index}`}>From Date</label>
                   <input
                     type="date"
-                    className="form-control"
+                    
                     id={`fromDate${index}`}
                     name="fromDate"
                     value={posting.fromDate}
                     onChange={(event) => handlePostingInfoChange(index, event)}
                   />
                 </div>
-                <div className="form-group col-md-4">
+                <div className="form-group">
                   <label htmlFor={`toDate${index}`}>To Date</label>
-                  <div className="d-flex">
+                  <div >
                     <input
                       type="date"
-                      className="form-control"
+                      
                       id={`toDate${index}`}
                       name="toDate"
                       value={posting.toDate}
@@ -156,28 +158,35 @@ function PostingInfo() {
                     className="btn btn-danger mt-4"
                     onClick={() => removePosting(index)}
                   >
-                    Remove Posting
+                    Remove
                   </button>
+                  
                 </div>
               </div>
             </div>
           </div>
         ))}
         <div className="text-center">
-          <button
+          
+        </div>
+        <br/><center>
+        <button
             type="button"
-            className="btn btn-primary mt-4"
+            className="m-2 btn btn-outline-light"
             onClick={addPosting}
           >
-            Add Posting
+            Add Another Posting
           </button>
-        </div>
-        <div className="text-center mt-4">
-          <button type="submit" className="btn btn-success">
-            Submit
+          {/* @sakib  onlcick add kore action/navigate korte hobe*/}
+          <button type="button" className="m-2 btn btn-outline-light">
+            Save Data
           </button>
-        </div>
+          <button type="submit" className="m-2 btn btn-outline-light">
+            Go to Next Page
+          </button>
+        </center>
       </form>
+    </div>
     </div>
   );
 }
