@@ -58,17 +58,19 @@ function PS_AddressForm() {
   }
 
   return (
-    <div className="container mt-5">
-      <h1>Address Form</h1>
+    <div  className='full_page_normal p-5 shade1'>
+    <div className="shade2 p-5 rounded">
+
+      <center><h4>Address Information</h4></center> <hr /> <br/>
       <form onSubmit={handleSubmit}>
         <div className="row">
           <div className="col-md-6">
-            <h2>Present Address</h2>
+            <h4>Present Address</h4> <hr/>
             <div className="form-group">
               <label htmlFor="presentHomeAddress">Home Address</label>
               <input
                 type="text"
-                className="form-control"
+                
                 id="presentHomeAddress"
                 name="homeAddress"
                 value={presentAddress.homeAddress}
@@ -79,7 +81,7 @@ function PS_AddressForm() {
               <label htmlFor="presentPostOffice">Post Office</label>
               <input
                 type="text"
-                className="form-control"
+                
                 id="presentPostOffice"
                 name="postOffice"
                 value={presentAddress.postOffice}
@@ -90,7 +92,7 @@ function PS_AddressForm() {
               <label htmlFor="presentPoliceStation">Police Station</label>
               <input
                 type="text"
-                className="form-control"
+                
                 id="presentPoliceStation"
                 name="policeStation"
                 value={presentAddress.policeStation}
@@ -101,7 +103,7 @@ function PS_AddressForm() {
               <label htmlFor="presentDistrict">District</label>
               <input
                 type="text"
-                className="form-control"
+                
                 id="presentDistrict"
                 name="district"
                 value={presentAddress.district}
@@ -112,7 +114,7 @@ function PS_AddressForm() {
               <label htmlFor="presentUpazila">Upazila</label>
               <input
                 type="text"
-                className="form-control"
+                
                 id="presentUpazila"
                 name="upazila"
                 value={presentAddress.upazila}
@@ -132,12 +134,12 @@ function PS_AddressForm() {
             </div>
           </div>
           <div className="col-md-6">
-            <h2>Permanent Address</h2>
+            <h4>Permanent Address</h4> <hr/>
             <div className="form-group">
               <label htmlFor="permanentHomeAddress">Home Address</label>
               <input
                 type="text"
-                className="form-control"
+                
                 id="permanentHomeAddress"
                 name="homeAddress"
                 value={permanentAddress.homeAddress}
@@ -148,7 +150,7 @@ function PS_AddressForm() {
               <label htmlFor="permanentPostOffice">Post Office</label>
               <input
                 type="text"
-                className="form-control"
+                
                 id="permanentPostOffice"
                 name="postOffice"
                 value={permanentAddress.postOffice}
@@ -159,7 +161,7 @@ function PS_AddressForm() {
               <label htmlFor="permanentPoliceStation">Police Station</label>
               <input
                 type="text"
-                className="form-control"
+                
                 id="permanentPoliceStation"
                 name="policeStation"
                 value={permanentAddress.policeStation}
@@ -170,7 +172,7 @@ function PS_AddressForm() {
               <label htmlFor="permanentDistrict">District</label>
               <input
                 type="text"
-                className="form-control"
+                
                 id="permanentDistrict"
                 name="district"
                 value={permanentAddress.district}
@@ -181,7 +183,7 @@ function PS_AddressForm() {
               <label htmlFor="permanentUpazila">Upazila</label>
               <input
                 type="text"
-                className="form-control"
+                
                 id="permanentUpazila"
                 name="upazila"
                 value={permanentAddress.upazila}
@@ -191,14 +193,21 @@ function PS_AddressForm() {
           </div>
         </div>
         <div className="form-group">
-        <button  className="btn btn-success mx-1" onClick={updateData}>Proceed to Next</button>
+        <br/><center>
+          {/* @sakib  onlcick add kore action/navigate korte hobe*/}
+          <button type="button" className="m-2 btn btn-outline-light">
+            Save Data
+          </button>
+          <button type="submit" className="m-2 btn btn-outline-light">
+            Go to Next Page
+          </button>
+        </center>
 
         </div>
       </form>
+    </div>
     </div>
   );
 }
 
 export default PS_AddressForm;
-
-               
