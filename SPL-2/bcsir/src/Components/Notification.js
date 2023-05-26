@@ -33,18 +33,36 @@ function Notification(props) {
   }, [notificationData]);
 
   
-
   return (
-    <div >
-      
-      
-      {notificationData && notificationData.map((option) =>{
-         //console.log(option.body);
-         return(
-        <p>{option.body}</p>)
-      })}
+    <div className="notification-list">
+      {notificationData.map((notification) => (
+        <NotificationShow
+          key={notification.NotificationID}
+          notificationTitle={notification.Tittle}
+          notificationDetails={notification.body}
+        />
+      ))}
     </div>
   );
 }
+
+
+const NotificationShow = ({ notificationTitle, notificationDetails }) => {
+  const [expanded, setExpanded] = useState(false);
+
+  const toggleExpand = () => {
+    setExpanded(!expanded);
+  };
+
+  return (
+    <div className="notification">
+      <div className="notification-header" onClick={toggleExpand}>
+        <h3>{notificationTitle}</h3>
+        <span>{expanded ? '▲' : '▼'}</span>
+      </div>
+      {expanded && <p className="notification-details">{notificationDetails}</p>}
+    </div>
+  );
+};
 
 export default Notification;

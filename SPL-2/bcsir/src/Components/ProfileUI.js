@@ -204,7 +204,7 @@ export default function Profile(props) {
                 <div className="popup-content">
                   <h2>Notification</h2>
                   <Notification ID={inputs.ID}  maxNotification ={ maxID }/>
-                  <button onClick={togglePopup}>Close</button>
+                  {/* <button onClick={togglePopup}>Close</button> */}
                 </div>
               </div>
             )}
