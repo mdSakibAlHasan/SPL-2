@@ -2,6 +2,7 @@ import express from "express";
  import authRoutes from "./Path/auth.js";
  import profileRoute from "./profile/path.js";
  import RDroute from "./Path/RD.js";
+ import EditProfile from './EditProfile/path.js';
 
  //import userRoutes from "./path/users.js";
  import cookieParser from "cookie-parser";
@@ -32,6 +33,7 @@ app.use('/p',postROUTE);
 app.use('/api',authRoutes);
 app.use('/app',profileRoute);
 app.use('/RD',RDroute);
+app.use('/edit',EditProfile);
 
 
 {/* <script src="https://smtpjs.com/v3/smtp.js">
