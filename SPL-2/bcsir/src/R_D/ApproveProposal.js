@@ -129,13 +129,14 @@ function ApproveProposalPage() {
   };
 
   return (
-    <div className="shade1 p-5">
-      <center><h3>Approve Proposal</h3></center><hr/><br/>
+    <div  className='full_page_normal p-5 shade1'>
+    <div className="shade2 p-5 rounded">
+      <center><h4>Approve Proposal</h4></center> <hr /> <br/>
       
       <div className="row">
         {proposals.map((proposal) => (
           <div key={proposal.ID} className="col-sm-4 mb-4">
-            <div className="shade3 card" onClick={() => handleProposalClick(proposal)}>
+            <div className="shade3" onClick={() => handleProposalClick(proposal)}>
               <div className="card-body">
                 <h5 className="card-title">{proposal.Title}</h5>
                 <p className="card-text">
@@ -153,7 +154,7 @@ function ApproveProposalPage() {
       {selectedProposal && (
         <div className="row">
           <div className="col-sm-8 mb-4">
-            <div className="card">
+            <div>
               <div className="card-body">
                 <h5 className="shade3 card-title">{selectedProposal.Title}</h5>
                 <p className="shade3 card-text">
@@ -246,6 +247,7 @@ function ApproveProposalPage() {
           </div>
         </div>
       )}
+    </div>
     </div>
   );
 }
