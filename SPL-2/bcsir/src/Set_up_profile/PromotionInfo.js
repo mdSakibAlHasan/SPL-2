@@ -46,19 +46,21 @@ function PromotionInfo() {
   };
 
   return (
-    <div className="container mt-4">
-      <h2>Promotion Information</h2>
+    <div  className='full_page_normal p-5 shade1'>
+    <div className="shade2 p-5 rounded">
+      {/* <h2>Promotion Information</h2> */}
+      <center><h4>Promotion Information</h4></center> <hr /> <br/>
       <form onSubmit={handleSubmit}>
         {promotions.map((promotion, index) => (
-          <div className="card mb-4" key={index}>
+          <div className="mb-4" key={index}>
             <div className="card-body">
-              <h4 className="card-title">Promotion {index + 1}</h4>
+              <h4 className="card-title">Promotion {index + 1}</h4><hr/>
               <div className="form-group row">
                 <label className="col-sm-3 col-form-label">Designation</label>
                 <div className="col-sm-9">
                   <input
                     type="text"
-                    className="form-control"
+                    
                     name="designation"
                     value={promotion.designation}
                     onChange={(event) => handlePromotionChange(index, event)}
@@ -69,7 +71,7 @@ function PromotionInfo() {
                 <label className="col-sm-3 col-form-label">Nature</label>
                 <div className="col-sm-9">
                   <select
-                    className="form-control"
+                    
                     name="nature"
                     value={promotion.nature}
                     onChange={(event) => handlePromotionChange(index, event)}
@@ -90,7 +92,7 @@ function PromotionInfo() {
                 <div className="col-sm-9">
                   <input
                     type="date"
-                    className="form-control"
+                    
                     name="promotionDate"
                     value={promotion.promotionDate}
                     onChange={(event) => handlePromotionChange(index, event)}
@@ -102,7 +104,7 @@ function PromotionInfo() {
                 <div className="col-sm-9">
                   <input
                     type="text"
-                    className="form-control"
+                    
                     name="orderNo"
                     value={promotion.orderNo}
                     onChange={(event) => handlePromotionChange(index, event)}
@@ -114,7 +116,7 @@ function PromotionInfo() {
                 <div className="col-sm-9">
                   <input
                     type="date"
-                    className="form-control"
+                    
                     name="orderDate"
                     value={promotion.orderDate}
                     onChange={(event) => handlePromotionChange(index, event)}
@@ -126,7 +128,7 @@ function PromotionInfo() {
                 <div className="col-sm-9">
                   <input
                     type="text"
-                    className="form-control"
+                    
                     name="remarks"
                     value={promotion.remarks}
                     onChange={(event) => handlePromotionChange(index, event)}
@@ -146,20 +148,26 @@ function PromotionInfo() {
           </div>
         ))}
         <div className="text-center">
+         
+        </div>
+        <br/><center> 
           <button
             type="button"
-            className="btn btn-success mb-2"
+            className="m-2 btn btn-outline-light"
             onClick={addPromotion}
           >
             Add Promotion
           </button>
-        </div>
-        <div className="text-center">
-          <button type="submit" className="btn btn-primary">
-            Save
+          {/* @sakib  onlcick add kore action/navigate korte hobe*/}
+          <button type="button" className="m-2 btn btn-outline-light">
+            Save Data
           </button>
-        </div>
+          <button type="submit" className="m-2 btn btn-outline-light">
+            Go to Next Page
+          </button>
+        </center>
       </form>
+    </div>
     </div>
   );
 }
