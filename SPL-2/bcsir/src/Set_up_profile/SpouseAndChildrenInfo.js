@@ -53,15 +53,16 @@ export default function SpouseAndChildrenInfo() {
         // databese connection korte hobe
       }
       return (
-        <div className="container">
-          <h1>Spouse and Children Information</h1>
-          <h2>Spouse Information</h2>
+        <div  className='full_page_normal p-5 shade1'>
+        <div className="shade2 p-5 rounded">
+          <center><h4>Spouse and Children Information</h4></center> <hr /> <br/>
+          <h4>Spouse Information</h4> <hr/>
           <form onSubmit={handleSubmit}>
             <div className="form-group">
               <label htmlFor="spouseName">Spouse Name</label>
               <input
                 type="text"
-                className="form-control"
+                
                 id="spouseName"
                 name="name"
                 value={spouseInfo.name}
@@ -72,7 +73,7 @@ export default function SpouseAndChildrenInfo() {
               <label htmlFor="spouseDistrict">Home District</label>
               <input
                 type="text"
-                className="form-control"
+                
                 id="spouseDistrict"
                 name="district"
                 value={spouseInfo.district}
@@ -83,7 +84,7 @@ export default function SpouseAndChildrenInfo() {
               <label htmlFor="occupation">Occupation</label>
               <input
                 type="text"
-                className="form-control"
+                
                 id="occupation"
                 name="occupation"
                 value={spouseInfo.occupation}
@@ -94,7 +95,7 @@ export default function SpouseAndChildrenInfo() {
               <label htmlFor="designation">Designation</label>
               <input
                 type="text"
-                className="form-control"
+                
                 id="designation"
                 name="designation"
                 value={spouseInfo.designation}
@@ -105,7 +106,7 @@ export default function SpouseAndChildrenInfo() {
               <label htmlFor="spouseOrgName">Organization Name</label>
               <input
                 type="text"
-                className="form-control"
+                
                 id="spouseOrgName"
                 name="orgName"
                 value={spouseInfo.orgName}
@@ -116,7 +117,7 @@ export default function SpouseAndChildrenInfo() {
               <label htmlFor="orgAddress">Organization Address</label>
               <input
                 type="text"
-                className="form-control"
+                
                 id="orgAddress"
                 name="orgAddress"
                 value={spouseInfo.orgAddress}
@@ -128,29 +129,27 @@ export default function SpouseAndChildrenInfo() {
               </label>
           <input
             type="text"
-            className="form-control"
+            
             id="cellNo"
             name="cellNo"
             value={spouseInfo.cellNo}
             onChange={handleSpouseInfoChange}
           />
         </div>
-
-        <h4>Children Information</h4>
+        <br/><br/>
+        <h4>Children Information</h4><hr/>
         {children.map((child, index) => (
-          <div className="card mb-3" key={index}>
+          <div className="mb-3" key={index}>
             <div className="card-header">
-              <h5>Child {index + 1}</h5>
-              <button className="btn btn-danger" onClick={() => removeChild(index)}>
-                Remove
-              </button>
+              <h4>Child {index + 1}</h4> <hr/>
+              
             </div>
             <div className="card-body">
               <div className="form-group">
                 <label htmlFor="childName">Child Name</label>
                 <input
                   type="text"
-                  className="form-control"
+                  
                   id="childName"
                   name="childName"
                   value={child.childName}
@@ -160,7 +159,7 @@ export default function SpouseAndChildrenInfo() {
               <div className="form-group">
                 <label htmlFor="gender">Gender</label>
                 <select
-                  className="form-control"
+                  
                   id="gender"
                   name="gender"
                   value={child.gender}
@@ -176,7 +175,7 @@ export default function SpouseAndChildrenInfo() {
                 <label htmlFor="birthDate">Birth Date</label>
                 <input
                   type="date"
-                  className="form-control"
+                  
                   id="birthDate"
                   name="birthDate"
                   value={child.birthDate}
@@ -187,7 +186,7 @@ export default function SpouseAndChildrenInfo() {
                 <label htmlFor="birthPlace">Birth Place</label>
                 <input
                   type="text"
-                  className="form-control"
+                  
                   id="birthPlace"
                   name="birthPlace"
                   value={child.birthPlace}
@@ -198,25 +197,36 @@ export default function SpouseAndChildrenInfo() {
                 <label htmlFor="remarks">Remarks</label>
                 <input
                   type="text"
-                  className="form-control"
+                  
                   id="remarks"
                   name="remarks"
                   value={child.remarks}
                   onChange={(event) => handleChildChange(event, index)}
                 />
               </div>
+              <br />
+              <button className="btn btn-danger" onClick={() => removeChild(index)}>
+                Remove
+              </button>
             </div>
           </div>
         ))}
 
-        <button className="btn btn-primary" onClick={addChild}>
+        <button className="m-2 btn btn-outline-light" onClick={addChild}>
           Add Child
         </button>
 
-        <button className="btn btn-success mt-3" type="submit">
-          Submit
-        </button>
+        <br/><center>
+          {/* @sakib  onlcick add kore action/navigate korte hobe*/}
+          <button type="button" className="m-2 btn btn-outline-light">
+            Save Data
+          </button>
+          <button type="submit" className="m-2 btn btn-outline-light">
+            Go to Next Page
+          </button>
+        </center>
       </form>
+    </div>
     </div>
       );
 

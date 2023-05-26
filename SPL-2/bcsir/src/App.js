@@ -102,8 +102,28 @@ const router = createBrowserRouter([
     element: <OtherJobExperience/>,
   },
   {
+    path: "/address",
+    element: <PS_AddressForm/>,
+  },
+  {
     path: "/personalInfo",
     element: <PersonalInfoForm/>,
+  },
+  {
+    path: "/postingInfo",
+    element: <PostingInfo/>,
+  },
+  {
+    path: "/promotionInfo",
+    element: <PromotionInfo/>,
+  },
+  {
+    path: "/spouseandchild",
+    element: <SpouseAndChildrenInfo/>,
+  },
+  {
+    path: "/traingInfo",
+    element: <TrainingInfo/>,
   },
   {
     path: "/editdateline",

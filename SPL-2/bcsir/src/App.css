@@ -1,24 +1,20 @@
 .my_body{
     font-family: 'CharukolaUltraLight', Arial, sans-serif !important;
-    /* color: white; */
+    color: white;
 }
 
-.shade1{
-    background-color: #0A2647;
-}
 .shade2{
-    background-color: #144272;
+    background-color: #073973;
+}
+.shade1{
+    background-color: #b3d7ff;
 }
 .shade3{
-    background-color: #205295;
+    background-color: #204b83;
 }
 .shade4{
     background-color: #20539525;
 }
-.shade5{
-    background-color: #fdfdfdf6;
-}
-
 
 a{
     color: white;
@@ -27,7 +23,7 @@ a{
 a:hover{
     text-decoration: dashed;
     color: aquamarine;
-    font-size: larger;
+    /* font-size: larger; */
 }
 .my-nav-link{
     text-decoration: none;
@@ -54,25 +50,21 @@ a.hover{
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 180vh;
+    /* height: 150vh; */
   }
 
-  .full_page_normal {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: fit-content;
-  }
-
-input,textarea, select{
+input,select{
     background: transparent;
-    border: transparent;
-    /* color: white; */
+    border: 1px solid #205295;
+    color: white;
     width: 100%;
     /* border-style: dashed; */
 }
 
-option{
-    color: black;
+textarea{
+    background: transparent;
+    /* border: transparent; */
+    border: 1px solid #205295;
+    color: white;
+    width: 100%;
 }
-
