@@ -47,25 +47,26 @@ function AchievementPublication() {
   };
 
   return (
-    <div className="container mt-4">
-      <h2>Achievement and Publication</h2>
+    <div className='full_page_normal p-5 shade1'>
+    <div className="shade2 p-5 rounded">
+      <center><h4>Achievement and Publication</h4></center> <hr /> <br/>
       <form onSubmit={handleSubmit}>
         {achievements.map((achievement, index) => (
-          <div className="card mb-4" key={index}>
-            <div className="card-body">
-              <h4 className="card-title">Achievement/Publication {index + 1}</h4>
+          <div className="mb-4" key={index}>
+            <div>
+              <h4>Achievement/Publication {index + 1}</h4>
               <div className="form-group row">
                 <label className="col-sm-3 col-form-label">Type</label>
                 <div className="col-sm-9">
                   <select
-                    className="form-control"
                     name="type"
                     value={achievement.type}
                     onChange={(event) => handleAchievementChange(index, event)}
+                    
                   >
                     <option value="">Select Type</option>
                     {achievementTypes.map((type, i) => (
-                      <option key={i} value={type}>
+                      <option style={{color:"black"}} key={i} value={type}>
                         {type}
                       </option>
                     ))}
@@ -77,7 +78,6 @@ function AchievementPublication() {
                 <div className="col-sm-9">
                   <input
                     type="number" placeholder="YYYY" min="1959" max="2030"
-                    className="form-control"
                     name="year"
                     value={achievement.year}
                     onChange={(event) => handleAchievementChange(index, event)}
@@ -88,7 +88,6 @@ function AchievementPublication() {
                 <label className="col-sm-3 col-form-label">Description</label>
                 <div className="col-sm-9">
                   <textarea
-                    className="form-control"
                     name="description"
                     value={achievement.description}
                     onChange={(event) => handleAchievementChange(index, event)}
@@ -107,13 +106,22 @@ function AchievementPublication() {
             </div>
           </div>
         ))}
-        <button type="button" className="btn btn-primary" onClick={addAchievement}>
-          Add Achievement/Publication
-        </button>
-        <button type="submit" className="btn btn-success ml-3">
-          Submit
-        </button>
+        
+          <button type="button" className="m-2 btn btn-outline-light" onClick={addAchievement}>
+            Add Achievement/Publication
+          </button><br/><center>
+          {/* @sakib  onlcick kore action/navigate korte hobe*/}
+          <button type="button" className="m-2 btn btn-outline-light">
+            Save Data
+          </button>
+          
+          
+          <button type="submit" className="m-2 btn btn-outline-light">
+            Go to Next Page
+          </button>
+        </center>
       </form>
+    </div>
     </div>
   );
 }
