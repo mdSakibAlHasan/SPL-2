@@ -73,19 +73,20 @@ function EducationInfo() {
   };
 
   return (
-    <div className="container mt-4">
-      <h2>Education Information</h2>
+    <div className='full_page_normal p-5 shade1'>
+    <div className="shade2 p-5 rounded">
+      <center><h4>Education Information</h4></center> <hr /> <br/>
       <form onSubmit={handleSubmit}>
         {educationInfo.map((education, index) => (
-          <div className="card mb-4" key={index}>
-            <div className="card-body">
-              <h4 className="card-title">Degree {index + 1}</h4>
+          <div className="mb-4" key={index}>
+            <div >
+              <strong> <h4 >Degree {index + 1}</h4></strong> <hr/>
               <div className="form-row">
-                <div className="form-group col-md-4">
+                <div className="form-group p-2">
                   <label htmlFor={`degree${index}`}>Degree</label>
                   <input
                     type="text"
-                    className="form-control"
+                    
                     id={`degree${index}`}
                     name="degree"
                     value={education.degree}
@@ -94,11 +95,11 @@ function EducationInfo() {
                     }
                   />
                 </div>
-                <div className="form-group col-md-4">
+                <div className="form-group p-2">
                   <label htmlFor={`group${index}`}>Group/Department</label>
                   <input
                     type="text"
-                    className="form-control"
+                    
                     id={`group${index}`}
                     name="group"
                     value={education.group}
@@ -107,11 +108,11 @@ function EducationInfo() {
                     }
                   />
                 </div>
-                <div className="form-group col-md-4">
+                <div className="form-group p-2">
                   <label htmlFor={`board${index}`}>Board/University</label>
                   <input
                     type="text"
-                    className="form-control"
+                    
                     id={`board${index}`}
                     name="board"
                     value={education.board}
@@ -122,11 +123,11 @@ function EducationInfo() {
                 </div>
               </div>
               <div className="form-row">
-                <div className="form-group col-md-4">
+                <div className="form-group p-2">
                   <label htmlFor={`passingYear${index}`}>Passing Year</label>
                   <input
-                    type="text"
-                    className="form-control"
+                    type="number"
+                    placeholder="YYYY"
                     id={`passingYear${index}`}
                     name="passingYear"
                     value={education.passingYear}
@@ -135,11 +136,11 @@ function EducationInfo() {
                     }
                   />
                 </div>
-                <div className="form-group col-md-4">
+                <div className="form-group p-2">
                   <label htmlFor={`result${index}`}>Result</label>
                   <input
                     type="text"
-                    className="form-control"
+                    
                     id={`result${index}`}
                     name="result"
                     value={education.result}
@@ -148,11 +149,11 @@ function EducationInfo() {
                     }
                   />
                 </div>
-                <div className="form-group col-md-4">
+                <div className="form-group p-2">
                   <label htmlFor={`distinction${index}`}>Distinction</label>
                   <input
                     type="text"
-                    className="form-control"
+                    
                     id={`distinction${index}`}
                     name="distinction"
                     value={education.distinction}
@@ -175,15 +176,22 @@ function EducationInfo() {
             </div>
           </div>
         ))}
-        <div className="text-center">
-          <button className="btn btn-success mr-2" onClick={addEducation}>
-            Add Education
+        <div>
+          <button className="btn btn btn-outline-light mr-2" onClick={addEducation}>
+            Add Another Degree
           </button>
-          <button type="submit" className="btn btn-primary" onClick={nextPage}>
-            Submit
+          <br/><center>
+          {/* @sakib  onlcick kore action/navigate korte hobe*/}
+          <button type="button" className="m-2 btn btn-outline-light">
+            Save Data
           </button>
+          <button type="submit" className="m-2 btn btn-outline-light">
+            Go to Next Page
+          </button>
+        </center>
         </div>
       </form>
+    </div>
     </div>
   );
 }

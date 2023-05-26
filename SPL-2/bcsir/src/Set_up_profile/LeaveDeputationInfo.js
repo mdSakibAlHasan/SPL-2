@@ -49,18 +49,19 @@ function LeaveDeputationInfo() {
   };
 
   return (
-    <div className="container mt-4">
-      <h2>Leave/Deputation Information</h2>
+    <div className='full_page_normal p-5 shade1'>
+    <div className="shade2 p-5 rounded">
+      <center><h4>Leave/Deputation Information</h4></center> <hr /> <br/>
       <form onSubmit={handleSubmit}>
         {leaveDeputations.map((leaveDeputation, index) => (
-          <div className="card mb-4" key={index}>
+          <div className="mb-4" key={index}>
             <div className="card-body">
-              <h4 className="card-title">Leave/Deputation {index + 1}</h4>
+              <h4 className="card-title">Leave/Deputation {index + 1}</h4> <hr/>
               <div className="form-group row">
                 <label className="col-sm-3 col-form-label">Type</label>
                 <div className="col-sm-9">
                   <select
-                    className="form-control"
+                    
                     name="type"
                     value={leaveDeputation.type}
                     onChange={(event) =>
@@ -79,7 +80,7 @@ function LeaveDeputationInfo() {
                 <div className="col-sm-9">
                   <input
                     type="date"
-                    className="form-control"
+                    
                     name="fromDate"
                     value={leaveDeputation.fromDate}
                     onChange={(event) =>
@@ -93,14 +94,14 @@ function LeaveDeputationInfo() {
                 <div className="col-sm-6">
                   <input
                     type="date"
-                    className="form-control"
+                    
                     name="toDate"
                     value={leaveDeputation.toDate}
                     onChange={(event) =>
                       handleLeaveDeputationChange(index, event)
                     }
                     disabled={leaveDeputation.tillToday}
-                  />
+                  /> 
                 </div>
                 <div className="col-sm-3">
                   <div className="form-check">
@@ -121,7 +122,7 @@ function LeaveDeputationInfo() {
                 <label className="col-sm-3 col-form-label">Description</label>
                 <div className="col-sm-9">
                   <textarea
-                    className="form-control"
+                    
                     name="description"
                     value={leaveDeputation.description}
                     onChange={(event) =>
@@ -146,11 +147,11 @@ function LeaveDeputationInfo() {
             </div>
           </div>
         ))}
-        <div className="form-group row">
-          <div className="col-sm-9 offset-sm-3">
+        <div >
+          <div>
             <button
               type="button"
-              className="btn btn-success"
+              className="btn btn-outline-light"
               onClick={addLeaveDeputation}
             >
               Add Leave/Deputation
@@ -159,12 +160,19 @@ function LeaveDeputationInfo() {
         </div>
         <div className="form-group row">
           <div className="col-sm-9 offset-sm-3">
-            <button type="submit" className="btn btn-primary">
-              Save
-            </button>
+          <br/><center>
+          {/* @sakib  onlcick add kore action/navigate korte hobe*/}
+          <button type="button" className="m-2 btn btn-outline-light">
+            Save Data
+          </button>
+          <button type="submit" className="m-2 btn btn-outline-light">
+            Go to Next Page
+          </button>
+        </center>
           </div>
         </div>
       </form>
+    </div>
     </div>
   );
 }
