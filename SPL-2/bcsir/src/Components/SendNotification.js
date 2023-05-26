@@ -120,8 +120,9 @@ const SendNotification = () => {
   };
 
   return (
-    <div>
-      <h2>Send Notification</h2>
+    <div  className='full_page_normal p-5 shade1'>
+    <div className="shade2 p-5 rounded">
+      <center><h4>Send Notice/Notification</h4></center> <hr /> <br/>
       <form onSubmit={handleSubmit}>
         {/* <div>
           <label>User Type:</label>
@@ -160,8 +161,12 @@ const SendNotification = () => {
           <label>Body:</label>
           <textarea value={body} onChange={handleBodyChange} required />
         </div>
-        <button type="submit">Send</button>
+        <center>
+           <button type="submit" className="m-2 btn btn-outline-light">Send</button>
+        </center>
+       
       </form>
+    </div>
     </div>
   );
 };
