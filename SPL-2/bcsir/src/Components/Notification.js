@@ -40,6 +40,7 @@ function Notification(props) {
           key={notification.NotificationID}
           notificationTitle={notification.Tittle}
           notificationDetails={notification.body}
+          time = {notification.DateTime}
         />
       ))}
     </div>
@@ -47,7 +48,7 @@ function Notification(props) {
 }
 
 
-const NotificationShow = ({ notificationTitle, notificationDetails }) => {
+const NotificationShow = ({ notificationTitle, notificationDetails, time }) => {
   const [expanded, setExpanded] = useState(false);
 
   const toggleExpand = () => {
@@ -57,7 +58,8 @@ const NotificationShow = ({ notificationTitle, notificationDetails }) => {
   return (
     <div className="notification">
       <div className="notification-header" onClick={toggleExpand}>
-        <h3>{notificationTitle}</h3>
+        <h3>{notificationTitle} </h3>
+        <small>{time}</small>
         <span>{expanded ? '▲' : '▼'}</span>
       </div>
       {expanded && <p className="notification-details">{notificationDetails}</p>}
