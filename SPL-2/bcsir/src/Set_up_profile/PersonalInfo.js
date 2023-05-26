@@ -17,8 +17,8 @@ function PersonalInfoForm() {
   const [cookie, setCookie] = useState("");
   const [error, setError] = useState(null);
   const [googleScholar, setGoogleScholar] = useState("");
-const [researchGate, setResearchGate] = useState("");
-const [orchidProfile, setOrchidProfile] = useState("");
+  const [researchGate, setResearchGate] = useState("");
+  const [orchidProfile, setOrchidProfile] = useState("");
 
   const [researchExperienceList, setResearchExperienceList] = useState([
     { value: "" },
@@ -63,7 +63,6 @@ const [orchidProfile, setOrchidProfile] = useState("");
     handleProfileClick();
   }, [result]);
 
-
   useEffect(() => {
     const setUpInfo = () => {
       if (info !== null) {
@@ -71,7 +70,7 @@ const [orchidProfile, setOrchidProfile] = useState("");
         const year = dateObject.getFullYear();
         const month = String(dateObject.getMonth() + 1).padStart(2, "0");
         const day = String(dateObject.getDate()).padStart(2, "0");
-        const convertedDate = `${year}/${month}/${day}`;
+        const convertedDate = `${year}-${month}-${day}`;
         console.log(convertedDate);
 
         //console.log(info[0]);
@@ -80,25 +79,37 @@ const [orchidProfile, setOrchidProfile] = useState("");
         setMotherName(info.length > 0 && info[0].MotherName);
         setBirthDate(convertedDate);
         setGender(info.length > 0 && info[0].BirthDate);
-        setNationalId(info.length > 0 && (info[0].NationalID && "null"));
+        setNationalId(info.length > 0 && info[0].NationalID && "null");
 
-        const ResearchExp = (info.length > 0 && info[0].ResearchExperience.split("#$"));
+        const ResearchExp =
+          info.length > 0 && info[0].ResearchExperience.split("#$");
         //console.log(ResearchExp,"----------------------");
-        const convertedArray = ResearchExp.length>0 && ResearchExp.map((item, index) => {
-          return { value: item };
-        });
+        const convertedArray =
+          ResearchExp.length > 0 &&
+          ResearchExp.map((item, index) => {
+            return { value: item };
+          });
         //console.log(convertArray)
         setResearchExperienceList(convertedArray);
-        const ThesisSup = (info.length > 0 && info[0].ThesisSupervision.split("#$"));
-        const ThesisSupArr =ThesisSup.length>0 && ThesisSup.map((item, index) => {
-          return { value: item };
-        });
+        const ThesisSup =
+          info.length > 0 && info[0].ThesisSupervision.split("#$");
+        const ThesisSupArr =
+          ThesisSup.length > 0 &&
+          ThesisSup.map((item, index) => {
+            return { value: item };
+          });
         setThesisSupervisionList(ThesisSupArr);
-        const ProfessionalAff = (info.length > 0 && info[0].ProfessionalAffiliation.split("#$"));
-        const ProfessionalAffArr =ProfessionalAff.length>0 && ProfessionalAff.map((item, index) => {
-          return { value: item };
-        });
+        const ProfessionalAff =
+          info.length > 0 && info[0].ProfessionalAffiliation.split("#$");
+        const ProfessionalAffArr =
+          ProfessionalAff.length > 0 &&
+          ProfessionalAff.map((item, index) => {
+            return { value: item };
+          });
         setProfessionalAffiliationList(ProfessionalAffArr);
+        setGoogleScholar(info.length > 0 && info.GoogleScholarlink);
+        setOrchidProfile(info.length > 0 && info.Orchidlink);
+        setResearchGate(info.length > 0 && info.ResearchGateLink);
       }
     };
     setUpInfo();
@@ -107,7 +118,7 @@ const [orchidProfile, setOrchidProfile] = useState("");
   const handleResearchExperienceChange = (index, event) => {
     const values = [...researchExperienceList];
     values[index].value = event.target.value;
-    console.log(values, "-----");
+    //console.log(values, "-----");
     setResearchExperienceList(values);
   };
 
@@ -157,25 +168,30 @@ const [orchidProfile, setOrchidProfile] = useState("");
     researchGate,
     orchidProfile,
   };
-  
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const researchArray = researchExperienceList.map(item => item.value);
-    const thesisSupArray = thesisSupervisionList.map(item => item.value);
-    const proAffArray = professionalAffiliationList.map(item => item.value);
-    const output =  axios.post("http://localhost:3001/app/getMaxNotificationID",{
-      Name: name,
-      fatherName: fatherName,
-      motherName: motherName,
-      birthDate: birthDate,
-      gender: gender,
-      nationalId: nationalId,
-      researchExperienceList: researchArray,
-      thesisSupervisionList: thesisSupArray,
-      professionalAffiliationList: proAffArray
-    });
-    console.log(output.data);
+    const researchArray = researchExperienceList.map((item) => item.value);
+    const thesisSupArray = thesisSupervisionList.map((item) => item.value);
+    const proAffArray = professionalAffiliationList.map((item) => item.value);
+    const output = axios.post(
+      "http://localhost:3001/edit/setProfileInfo",
+      {
+        Name: name,
+        fatherName: fatherName,
+        motherName: motherName,
+        birthDate: birthDate,
+        gender: gender,
+        nationalId: nationalId,
+        researchExperienceList: researchArray,
+        thesisSupervisionList: thesisSupArray,
+        professionalAffiliationList: proAffArray,
+        Orchidlink: orchidProfile,
+        GoogleScholarlink: googleScholar,
+        ResearchGateLink: researchGate
+      }
+    );
+    console.log(output.data,orchidProfile, googleScholar, researchGate);
   };
 
   const nextPage = async (e) => {
@@ -200,189 +216,202 @@ const [orchidProfile, setOrchidProfile] = useState("");
   };
 
   return (
-    <div className='full_page_normal p-5 shade1'>
-    <div className="shade2 p-5 rounded">
-    <center><h4>Personal Information</h4></center> <hr /> <br/>
-    <form onSubmit={handleSubmit}>
-      <div className="form-group m-2">
-        <label htmlFor="name">Name</label>
-        <input
-          type="text"
-          
-          id="name"
-          value={name}
-          // placeholder={infoArr && infoArr.length > 0 &&infoArr.name}
-          onChange={(e) => setName(e.target.value)}
-        />
-      </div>
-      <div className="form-group m-2">
-        <label htmlFor="fatherName">Father's Name</label>
-        <input
-          type="text"
-          
-          id="fatherName"
-          value={fatherName}
-          onChange={(e) => setFatherName(e.target.value)}
-        />
-      </div>
-      <div className="form-group m-2">
-  <label htmlFor="photo">Photo</label>
-  <input
-    type="file"
-    id="photo"
-    onChange={(e) => setPhoto(e.target.files[0])}
-  />
-</div>
-
-      <div className="form-group m-2">
-        <label htmlFor="motherName">Mother's Name</label>
-        <input
-          type="text"
-          
-          id="motherName"
-          value={motherName}
-          onChange={(e) => setMotherName(e.target.value)}
-        />
-      </div>
-      <div className="form-group m-2">
-        <label htmlFor="birthDate">Birth Date</label>
-        <input
-          type="date"
-          
-          id="birthDate"
-          value={birthDate}
-          onChange={(e) => setBirthDate(e.target.value)}
-        />
-      </div>
-      <div className="form-group m-2">
-        <label htmlFor="gender">Gender</label>
-        <select
-          
-          id="gender"
-          value={gender}
-          onChange={(e) => setGender(e.target.value)}
-        >
-          <option value="">--Select--</option>
-          <option value="male">Male</option>
-          <option value="female">Female</option>
-        </select>
-      </div>
-      <div className="form-group m-2">
-        <label htmlFor="nationalId">National ID</label>
-        <input
-          type="text"
-          
-          id="nationalId"
-          value={nationalId}
-          onChange={(e) => setNationalId(e.target.value)}
-        />
-      </div>
-      <br/><center><h4>Your Excellency</h4></center> <hr /> <br/>
-      <div className="form-group m-2">
-        <label htmlFor="researchExperience">Research Experience</label>
-        {researchExperienceList && researchExperienceList.map((experience, index) => (
-          <div key={index}>
+    <div className="full_page_normal p-5 shade1">
+      <div className="shade2 p-5 rounded">
+        <center>
+          <h4>Personal Information</h4>
+        </center>{" "}
+        <hr /> <br />
+        <form onSubmit={handleSubmit}>
+          <div className="form-group m-2">
+            <label htmlFor="name">Name</label>
             <input
               type="text"
-              
-              id="researchExperience"
-              value={experience.value}
-              onChange={(event) => handleResearchExperienceChange(index, event)}
+              id="name"
+              value={name}
+              // placeholder={infoArr && infoArr.length > 0 &&infoArr.name}
+              onChange={(e) => setName(e.target.value)}
             />
-            {index === researchExperienceList.length - 1 && (
-              <button type="button" className="m-2 btn btn-outline-light" onClick={handleAddResearchExperience}>
-                Add More
-              </button>
-            )}
           </div>
-        ))}
-      </div>
-      <div className="form-group m-2">
-        <label htmlFor="thesisSupervision">Thesis Supervision</label>
-        {thesisSupervisionList && thesisSupervisionList.map((thesis, index) => (
-          <div key={index}>
+          <div className="form-group m-2">
+            <label htmlFor="fatherName">Father's Name</label>
             <input
               type="text"
-              
-              id="thesisSupervision"
-              value={thesis.value}
-              onChange={(event) => handleThesisSupervisionChange(index, event)}
+              id="fatherName"
+              value={fatherName}
+              onChange={(e) => setFatherName(e.target.value)}
             />
-            {index === thesisSupervisionList.length - 1 && (
-              <button type="button" className="m-2 btn btn-outline-light" onClick={handleAddThesisSupervision}>
-                Add More
-              </button>
-            )}
           </div>
-        ))}
-      </div>
-      <div className="form-group m-2">
-        <label htmlFor="professionalAffiliation">
-          Professional Affiliation
-        </label>
-        {professionalAffiliationList && professionalAffiliationList.map((affiliation, index) => (
-          <div key={index}>
+          <div className="form-group m-2">
+            <label htmlFor="photo">Photo</label>
+            <input
+              type="file"
+              id="photo"
+              onChange={(e) => setPhoto(e.target.files[0])}
+            />
+          </div>
+          <div className="form-group m-2">
+            <label htmlFor="motherName">Mother's Name</label>
             <input
               type="text"
-              
-              id="professionalAffiliation"
-              value={affiliation.value}
-              onChange={(event) =>
-                handleProfessionalAffiliationChange(index, event)
-              }
+              id="motherName"
+              value={motherName}
+              onChange={(e) => setMotherName(e.target.value)}
             />
-            {index === professionalAffiliationList.length - 1 && (
-              <button type="button" className="m-2 btn btn-outline-light" onClick={handleAddProfessionalAffiliation}>
-                Add More
-              </button>
-            )}
           </div>
-        ))}
+          <div className="form-group m-2">
+            <label htmlFor="birthDate">Birth Date</label>
+            <input
+              type="date"
+              id="birthDate"
+              value={birthDate}
+              onChange={(e) => setBirthDate(e.target.value)}
+            />
+          </div>
+          <div className="form-group m-2">
+            <label htmlFor="gender">Gender</label>
+            <select
+              id="gender"
+              value={gender}
+              onChange={(e) => setGender(e.target.value)}
+            >
+              <option value="">--Select--</option>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+            </select>
+          </div>
+          <div className="form-group m-2">
+            <label htmlFor="nationalId">National ID</label>
+            <input
+              type="text"
+              id="nationalId"
+              value={nationalId}
+              onChange={(e) => setNationalId(e.target.value)}
+            />
+          </div>
+          <br />
+          <center>
+            <h4>Your Excellency</h4>
+          </center>{" "}
+          <hr /> <br />
+          <div className="form-group m-2">
+            <label htmlFor="researchExperience">Research Experience</label>
+            {researchExperienceList &&
+              researchExperienceList.map((experience, index) => (
+                <div key={index}>
+                  <input
+                    type="text"
+                    id="researchExperience"
+                    value={experience.value}
+                    onChange={(event) =>
+                      handleResearchExperienceChange(index, event)
+                    }
+                  />
+                  {index === researchExperienceList.length - 1 && (
+                    <button
+                      type="button"
+                      className="m-2 btn btn-outline-light"
+                      onClick={handleAddResearchExperience}
+                    >
+                      Add More
+                    </button>
+                  )}
+                </div>
+              ))}
+          </div>
+          <div className="form-group m-2">
+            <label htmlFor="thesisSupervision">Thesis Supervision</label>
+            {thesisSupervisionList &&
+              thesisSupervisionList.map((thesis, index) => (
+                <div key={index}>
+                  <input
+                    type="text"
+                    id="thesisSupervision"
+                    value={thesis.value}
+                    onChange={(event) =>
+                      handleThesisSupervisionChange(index, event)
+                    }
+                  />
+                  {index === thesisSupervisionList.length - 1 && (
+                    <button
+                      type="button"
+                      className="m-2 btn btn-outline-light"
+                      onClick={handleAddThesisSupervision}
+                    >
+                      Add More
+                    </button>
+                  )}
+                </div>
+              ))}
+          </div>
+          <div className="form-group m-2">
+            <label htmlFor="professionalAffiliation">
+              Professional Affiliation
+            </label>
+            {professionalAffiliationList &&
+              professionalAffiliationList.map((affiliation, index) => (
+                <div key={index}>
+                  <input
+                    type="text"
+                    id="professionalAffiliation"
+                    value={affiliation.value}
+                    onChange={(event) =>
+                      handleProfessionalAffiliationChange(index, event)
+                    }
+                  />
+                  {index === professionalAffiliationList.length - 1 && (
+                    <button
+                      type="button"
+                      className="m-2 btn btn-outline-light"
+                      onClick={handleAddProfessionalAffiliation}
+                    >
+                      Add More
+                    </button>
+                  )}
+                </div>
+              ))}
+          </div>
+          <div className="form-group m-2">
+            <label htmlFor="googleScholar">Google Scholar Link</label>
+            <input
+              type="text"
+              id="googleScholar"
+              value={googleScholar}
+              onChange={(e) => setGoogleScholar(e.target.value)}
+            />
+          </div>
+          <div className="form-group m-2">
+            <label htmlFor="researchGate">ResearchGate Link</label>
+            <input
+              type="text"
+              id="researchGate"
+              value={researchGate}
+              onChange={(e) => setResearchGate(e.target.value)}
+            />
+          </div>
+          <div className="form-group m-2">
+            <label htmlFor="orchidProfile">ORCID Profile Link</label>
+            <input
+              type="text"
+              id="orchidProfile"
+              value={orchidProfile}
+              onChange={(e) => setOrchidProfile(e.target.value)}
+            />
+          </div>
+          <br />
+          <center>
+            {/* @sakib  onlcick add kore action/navigate korte hobe*/}
+            <button type="button" className="m-2 btn btn-outline-light" onClick={handleSubmit}>
+              Save Data
+            </button>
+            <button type="submit" className="m-2 btn btn-outline-light">
+              Go to Next Page
+            </button>
+          </center>
+        </form>
       </div>
-      <div className="form-group m-2">
-  <label htmlFor="googleScholar">Google Scholar Link</label>
-  <input
-    type="text"
-    id="googleScholar"
-    value={googleScholar}
-    onChange={(e) => setGoogleScholar(e.target.value)}
-  />
-</div>
-
-<div className="form-group m-2">
-  <label htmlFor="researchGate">ResearchGate Link</label>
-  <input
-    type="text"
-    id="researchGate"
-    value={researchGate}
-    onChange={(e) => setResearchGate(e.target.value)}
-  />
-</div>
-
-<div className="form-group m-2">
-  <label htmlFor="orchidProfile">ORCID Profile Link</label>
-  <input
-    type="text"
-    id="orchidProfile"
-    value={orchidProfile}
-    onChange={(e) => setOrchidProfile(e.target.value)}
-  />
-</div>
-
-      <br/><center>
-          {/* @sakib  onlcick add kore action/navigate korte hobe*/}
-          <button type="button" className="m-2 btn btn-outline-light">
-            Save Data
-          </button>
-          <button type="submit" className="m-2 btn btn-outline-light">
-            Go to Next Page
-          </button>
-        </center>
-    </form>
-    </div>
     </div>
   );
 }
-
 
 export default PersonalInfoForm;
