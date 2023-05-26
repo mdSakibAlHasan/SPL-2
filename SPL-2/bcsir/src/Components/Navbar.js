@@ -130,13 +130,13 @@ export default function Navbar() {
         </div>
         <hr />
         <a className="col mb-1 my-nav-link" href="/home">
-          হোমপেজ{" "}
+          Home{" "}
         </a>
         <a className="col mb-1 my-nav-link" href="/home">
-          বিসিএসআইআর সম্পর্কে
+          About BCSIR
         </a>
         <a className="col mb-1 my-nav-link" href="/institude">
-          ডিপার্টমেন্ট সমূহ
+          Department Info
         </a>
         <a className="col mb-1 my-nav-link">
           {isLogin && (
