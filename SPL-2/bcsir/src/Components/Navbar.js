@@ -101,7 +101,8 @@ export default function Navbar() {
     <>
       <nav className="row nav shade3 p-3">
         <div className="row justify-content-between">
-          <div className="col-8 display-6">BCSIR</div>
+                    <div class="col-8" style={{fontSize:"15pt"}}><strong><big><big><big><big>BCSIR</big></big></big></big> (Bangladesh Council of Scientific and Industrial Research)</strong></div>
+
           <div className="col-3">
               <div
                 className="shade3"
