@@ -152,47 +152,53 @@ function PersonalInfoForm() {
     setProfessionalAffiliationList(values);
   };
 
-  const personalInfo = {
-    name,
-    fatherName,
-    motherName,
-    birthDate,
-    gender,
-    nationalId,
-    researchExperienceList,
-    thesisSupervisionList,
-    professionalAffiliationList,
-    cookie,
-    photo,
-    googleScholar,
-    researchGate,
-    orchidProfile,
+  //const [file, setFile] = useState(null);
+
+  const handleFileChange = (e) => {
+    setPhoto(e.target.files[0]);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    const researchArray = researchExperienceList.map((item) => item.value);
-    const thesisSupArray = thesisSupervisionList.map((item) => item.value);
-    const proAffArray = professionalAffiliationList.map((item) => item.value);
-    const output = axios.post(
-      "http://localhost:3001/edit/setProfileInfo",
-      {
-        Name: name,
-        fatherName: fatherName,
-        motherName: motherName,
-        birthDate: birthDate,
-        gender: gender,
-        nationalId: nationalId,
-        researchExperienceList: researchArray,
-        thesisSupervisionList: thesisSupArray,
-        professionalAffiliationList: proAffArray,
-        Orchidlink: orchidProfile,
-        GoogleScholarlink: googleScholar,
-        ResearchGateLink: researchGate
-      }
-    );
-    console.log(output.data,orchidProfile, googleScholar, researchGate);
+  
+    const researchArray = researchExperienceList.map((item) => item.value).join('#$');
+    //console.log(researchArray);
+    const thesisSupArray = thesisSupervisionList.map((item) => item.value).join('#$');
+    const proAffArray = professionalAffiliationList.map((item) => item.value).join('#$');
+  
+    const formData = new FormData();
+    formData.append('ID',info[0].ID);
+    formData.append('file', photo); // Assuming you have the file stored in the 'file' variable
+    formData.append('Name', name);
+    formData.append('fatherName', fatherName);
+    formData.append('motherName', motherName);
+    formData.append('birthDate', birthDate);
+    formData.append('gender', gender);
+    formData.append('nationalId', nationalId);
+    formData.append('researchExperienceList', researchArray);
+    formData.append('thesisSupervisionList', thesisSupArray);
+    formData.append('professionalAffiliationList',proAffArray);
+    formData.append('Orchidlink', orchidProfile);
+    formData.append('GoogleScholarlink', googleScholar);
+    formData.append('ResearchGateLink', researchGate);
+  
+    try {
+      const response = await axios.post(
+        "http://localhost:3001/edit/setProfileInfo",
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        }
+      );
+  
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
+    }
   };
+  
 
   const nextPage = async (e) => {
     setCookie(getCookie("my_cookies"));
@@ -201,10 +207,10 @@ function PersonalInfoForm() {
       e.preventDefault();
       try {
         console.log("in the rey");
-        await axios.post(
-          "http://localhost:3001/app/setPersonalInfo",
-          personalInfo
-        );
+        // await axios.post(
+        //   "http://localhost:3001/app/setPersonalInfo",
+        //   personalInfo
+        // );
         navigate("/education");
       } catch (err) {
         setError(err.response.data);
@@ -401,7 +407,11 @@ function PersonalInfoForm() {
           <br />
           <center>
             {/* @sakib  onlcick add kore action/navigate korte hobe*/}
-            <button type="button" className="m-2 btn btn-outline-light" onClick={handleSubmit}>
+            <button
+              type="button"
+              className="m-2 btn btn-outline-light"
+              onClick={handleSubmit}
+            >
               Save Data
             </button>
             <button type="submit" className="m-2 btn btn-outline-light">

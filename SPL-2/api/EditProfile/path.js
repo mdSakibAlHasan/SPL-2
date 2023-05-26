@@ -1,4 +1,5 @@
 import  express from "express";
+import multer from "multer";
 import { getProfileInfo, setProfileInfo } from "./profile.js";
 
 

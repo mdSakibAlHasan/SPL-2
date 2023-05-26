@@ -2,7 +2,7 @@ import { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { getSetCookie } from "../Set_up_profile/CookiesHandle";
-import html2pdf from "html2pdf.js";
+// import html2pdf from "html2pdf.js";
 
 
 function ProposalForm() {
@@ -142,26 +142,26 @@ function ProposalForm() {
     console.log("Generating PDF...");
   
     // Generate the PDF with the applied CSS and form data
-    html2pdf()
-      .set({
-        margin: 10,
-        filename: "proposal.pdf",
-        image: { type: "jpeg", quality: 0.98 },
-        html2canvas: { dpi: 192, letterRendering: true },
-        jsPDF: { unit: "pt", format: "a4", orientation: "portrait" },
-        pagebreak: { mode: "avoid-all", before: "#page3" },
-        formValues: true, // Capture form field values
-      })
-      .from(form)
-      .toPdf()
-      .get("pdf")
-      .then((pdf) => {
-        // Attach form field values to the PDF
-        pdf.addFormFields(formValues);
+    // html2pdf()
+    //   .set({
+    //     margin: 10,
+    //     filename: "proposal.pdf",
+    //     image: { type: "jpeg", quality: 0.98 },
+    //     html2canvas: { dpi: 192, letterRendering: true },
+    //     jsPDF: { unit: "pt", format: "a4", orientation: "portrait" },
+    //     pagebreak: { mode: "avoid-all", before: "#page3" },
+    //     formValues: true, // Capture form field values
+    //   })
+    //   .from(form)
+    //   .toPdf()
+    //   .get("pdf")
+    //   .then((pdf) => {
+    //     // Attach form field values to the PDF
+    //     pdf.addFormFields(formValues);
   
-        // Save the PDF
-        pdf.save("proposal.pdf");
-      });
+    //     // Save the PDF
+    //     pdf.save("proposal.pdf");
+    //   });
   
     // Perform backend submission with the selected researchers
     console.log(selectedResearchers, "-------------");

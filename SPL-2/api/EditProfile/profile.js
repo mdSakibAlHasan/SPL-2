@@ -1,75 +1,84 @@
 import { db } from "../db.js";
 import { getID } from "../profile/setInfo.js";
+import multer from "multer";
 
 export const getProfileInfo = async (req, res) => {
-    try {
-      const token = req.body.cookieID;
-      //console.log("Token is ",token);
-      const ID = await getID(token);
+  try {
+    const token = req.body.cookieID;
+    //console.log("Token is ",token);
+    const ID = await getID(token);
     //const ID = 10000;
-      //console.log("ID: in personal ", ID);
-  
-      const q = `SELECT ID, Name, FatherName, MotherName,BirthDate, Gender, NationalID, ResearchExperience, ThesisSupervision, ProfessionalAffiliation,Orchidlink,GoogleScholarlink,ResearchGateLink  FROM bcsir.researcher WHERE ID = '${ID}';`;
-      //console.log(q,"-------------------");
-      db.query(q, (err, data) => {
-        if (err) {
-          console.log("Something happened while get profileInfo: ", err);
-          return res.status(409).json("not updated");
-        }
-        else {
-          console.log("Data fetch  successfully ", data);
-          return res.status(200).send(data);
-        }
-      });
-     }
-    catch (err) { 
-      console.error(err); // handle error here
-      return res.status(500).json("Internal Server Error");
-     }
+    //console.log("ID: in personal ", ID);
+
+    const q = `SELECT ID, Name, FatherName, MotherName,BirthDate, Gender, NationalID, ResearchExperience, ThesisSupervision, ProfessionalAffiliation,Orchidlink,GoogleScholarlink,ResearchGateLink  FROM bcsir.researcher WHERE ID = '${ID}';`;
+    //console.log(q,"-------------------");
+    db.query(q, (err, data) => {
+      if (err) {
+        console.log("Something happened while get profileInfo: ", err);
+        return res.status(409).json("not updated");
+      } else {
+        console.log("Data fetch  successfully ", data);
+        return res.status(200).send(data);
+      }
+    });
+  } catch (err) {
+    console.error(err); // handle error here
+    return res.status(500).json("Internal Server Error");
   }
+};
 
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "F:\\5th semister\\5th Semister\\SPL-2\\SPL-2\\api\\Photo");
+  },
+  filename: function (req, file, cb) {
+    const fileExtension = file.originalname.split(".").pop(); // Extract the file extension
+    const uniqueFileName =
+      file.fieldname + "-" + Date.now() + "." + fileExtension;
+    cb(null, uniqueFileName);
+  },
+});
 
-  export const setProfileInfo = async (req, res) => {
-    try {
-        const {Name,fatherName,motherName, birthDate,gender,nationalId,researchExperienceList, thesisSupervisionList, professionalAffiliationList,Orchidlink,GoogleScholarlink,ResearchGateLink} = req.body;
-        console.log(req.body, Orchidlink);
-    //     const token = req.body.cookie;
-    //   const ID = await getID(token);
-    //   console.log("ID: ", ID);
-  
-    //   var thesisSuper = '';
-    //   req.body.thesisSupervisionList.forEach((user) => {
-    //     thesisSuper += user.value + '#';
-    //   });
-    //   var researchExp = '';
-    //   req.body.researchExperienceList.forEach((user) => {
-    //     researchExp += user.value + '#';
-    //   });
-    //   var professionalAff = '';
-    //   req.body.professionalAffiliationList.forEach((user) => {
-    //     professionalAff += user.value + '#';
-    //   });
+const upload = multer({ storage: storage });
+
+export const setProfileInfo = async (req, res, next) => {
+  try {
+    upload.single("file")(req, res, (err) => {
+      
+      const {ID,Name,fatherName,motherName, birthDate,gender,nationalId,researchExperienceList, thesisSupervisionList, professionalAffiliationList,Orchidlink,GoogleScholarlink,ResearchGateLink} = req.body;
+      //console.log(Name,fatherName,motherName, birthDate,gender,nationalId,researchExperienceList, thesisSupervisionList, professionalAffiliationList,Orchidlink,GoogleScholarlink,ResearchGateLink);
      
-    //   var q=`SELECT EXISTS(SELECT * FROM sakib.personal_info WHERE id = '${ID}');`;
-    //   const result = db.query(q);
-    //   if(result==0)
-    //      q = `INSERT INTO sakib.personal_info (ID, name, fatherName, motherName, DoB, gender, researchExperience, thesisSupervise, affilation) VALUES ('${ID}', '${req.body.name}', '${req.body.fatherName}', '${req.body.motherName}', '${req.body.birthDate}', '${req.body.gender}', '${researchExp}', '${thesisSuper}', '${professionalAff}');`
-    //   else
-    //     q = `UPDATE sakib.personal_info SET name='${req.body.name}', fatherName = '${req.body.fatherName}',motherName = '${req.body.motherName}',DoB= '${req.body.birthDate}', gender='${req.body.gender}', researchExperience='${researchExp}', thesisSupervise='${thesisSuper}', affilation='${professionalAff}' WHERE (ID = '${ID}');`;
-    //                                              // ${req.body.name}', '${req.body.fatherName}', '${req.body.motherName}', '${req.body.birthDate}', '${req.body.gender}', '${researchExp}', '${thesisSuper}', '${professionalAff}');`
-    //   db.query(q, (err, data) => {
-    //     if (err) {
-    //       console.log("Something happened while adding to db: ", err);
-    //       return res.status(409).json("not updated");
-    //     }
-    //     else {
-    //       console.log("Data added successfully");
-    //       return res.status(200).json("successfully updated");
-    //     }
-    //   });
-    }
-    catch (err) {
-      console.error(err); // handle error here
-      return res.status(500).json("Internal Server Error");
-    }
+      if (err instanceof multer.MulterError) {
+        console.log(err);
+        return res.status(400).json({ error: "Multer error" });
+      } else if (err) {
+        // Handle other errors
+        console.log(err);
+        return res.status(500).json({ error: "Internal server error" });
+      }
+      const path = req.file.path;
+      console.log(req.file.path);
+      const querey = `UPDATE your_table_name
+      SET Name = 'John Doe',
+          fatherName = 'John Doe Sr.',
+          motherName = 'Jane Doe',
+          birthDate = '2000-12-31',
+          gender = 'Male',
+          nationalId = '123456789',
+          researchExperienceList = 'Research Experience 1, Research Experience 2',
+          thesisSupervisionList = 'Thesis 1, Thesis 2',
+          professionalAffiliationList = 'Affiliation 1, Affiliation 2',
+          Orchidlink = 'https://orchidlink.com/johndoe',
+          GoogleScholarlink = 'https://scholar.google.com/johndoe',
+          ResearchGateLink = 'https://researchgate.net/johndoe'
+      WHERE ID = ${ID};`
+
+
+      res.status(200).json({ message: "Data stored successfully" });
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Internal server error" });
   }
+};
+
