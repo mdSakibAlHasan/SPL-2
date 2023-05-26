@@ -33,15 +33,16 @@ function JoiningInfo() {
   };
 
   return (
-    <div className="container mt-4">
-      <h2>Joining Information</h2>
+    <div className='full_page_normal p-5 shade1'>
+    <div className="shade2 p-5 rounded">
+    <center><h4>Joining Information</h4></center> <hr /> <br/>
       <form onSubmit={handleSubmit}>
         <div className="form-group row">
           <label className="col-sm-3 col-form-label">Rank/Class</label>
           <div className="col-sm-9">
             <input
               type="text"
-              className="form-control"
+              
               name="rank"
               value={joiningInfo.rank}
               onChange={handleChange}
@@ -53,7 +54,7 @@ function JoiningInfo() {
           <div className="col-sm-9">
             <input
               type="text"
-              className="form-control"
+              
               name="grade"
               value={joiningInfo.grade}
               onChange={handleChange}
@@ -65,7 +66,7 @@ function JoiningInfo() {
           <div className="col-sm-9">
             <input
               type="text"
-              className="form-control"
+              
               name="post"
               value={joiningInfo.post}
               onChange={handleChange}
@@ -77,7 +78,7 @@ function JoiningInfo() {
           <div className="col-sm-9">
             <input
               type="text"
-              className="form-control"
+              
               name="batch"
               value={joiningInfo.batch}
               onChange={handleChange}
@@ -85,11 +86,11 @@ function JoiningInfo() {
           </div>
         </div>
         <div className="form-group row">
-          <label className="col-sm-3 col-form-label">Posting Place/Workstation</label>
+          <label className="col-sm-3 col-form-label">Posting Place</label>
           <div className="col-sm-9">
             <input
               type="text"
-              className="form-control"
+              
               name="postingPlace"
               value={joiningInfo.postingPlace}
               onChange={handleChange}
@@ -101,7 +102,7 @@ function JoiningInfo() {
           <div className="col-sm-9">
             <input
               type="date"
-              className="form-control"
+              
               name="joiningDate"
               value={joiningInfo.joiningDate}
               onChange={handleChange}
@@ -112,7 +113,7 @@ function JoiningInfo() {
           <label className="col-sm-3 col-form-label">Office Name</label>
           <div className="col-sm-9">
             <input type="text"
-className="form-control"
+
 name="officeName"
 value={joiningInfo.officeName}
 onChange={handleChange}
@@ -124,7 +125,7 @@ onChange={handleChange}
 <div className="col-sm-9">
 <input
            type="date"
-           className="form-control"
+           
            name="prlDate"
            value={joiningInfo.prlDate}
            onChange={handleChange}
@@ -136,7 +137,7 @@ onChange={handleChange}
 <div className="col-sm-9">
 <input
            type="text"
-           className="form-control"
+           
            name="department"
            value={joiningInfo.department}
            onChange={handleChange}
@@ -148,7 +149,7 @@ onChange={handleChange}
 <div className="col-sm-9">
 <input
            type="text"
-           className="form-control"
+           
            name="notificationNo"
            value={joiningInfo.notificationNo}
            onChange={handleChange}
@@ -160,7 +161,7 @@ onChange={handleChange}
 <div className="col-sm-9">
 <input
            type="date"
-           className="form-control"
+           
            name="notificationDate"
            value={joiningInfo.notificationDate}
            onChange={handleChange}
@@ -172,7 +173,7 @@ onChange={handleChange}
 <div className="col-sm-9">
 <input
            type="text"
-           className="form-control"
+           
            name="district"
            value={joiningInfo.district}
            onChange={handleChange}
@@ -184,7 +185,7 @@ onChange={handleChange}
 <div className="col-sm-9">
 <input
            type="date"
-           className="form-control"
+           
            name="confirmationDate"
            value={joiningInfo.confirmationDate}
            onChange={handleChange}
@@ -196,7 +197,7 @@ onChange={handleChange}
 <div className="col-sm-9">
 <input
            type="text"
-           className="form-control"
+           
            name="upazila"
            value={joiningInfo.upazila}
            onChange={handleChange}
@@ -208,7 +209,7 @@ onChange={handleChange}
 <div className="col-sm-9">
 <input
            type="date"
-           className="form-control"
+           
            name="gazettedDate"
            value={joiningInfo.gazettedDate}
            onChange={handleChange}
@@ -219,14 +220,14 @@ onChange={handleChange}
 <label className="col-sm-3 col-form-label">Job Nature</label>
 <div className="col-sm-9">
 <select
-className="form-control"
+
 name="jobNature"
 value={joiningInfo.jobNature}
 onChange={handleChange}>
-<option value="">Select Job Nature</option>
-<option value="Permanent">Permanent</option>
-<option value="Temporary">Temporary</option>
-<option value="Contractual">Contractual</option>
+<option style={{color:"black"}} value="">Select Job Nature</option>
+<option style={{color:"black"}} value="Permanent">Permanent</option>
+<option style={{color:"black"}} value="Temporary">Temporary</option>
+<option style={{color:"black"}} value="Contractual">Contractual</option>
 </select>
 </div>
 </div>
@@ -235,7 +236,7 @@ onChange={handleChange}>
 <div className="col-sm-9">
 <input
            type="text"
-           className="form-control"
+           
            name="postingDistrict"
            value={joiningInfo.postingDistrict}
            onChange={handleChange}
@@ -247,7 +248,7 @@ onChange={handleChange}>
 <div className="col-sm-9">
 <input
            type="text"
-           className="form-control"
+           
            name="postingUpazila"
            value={joiningInfo.postingUpazila}
            onChange={handleChange}
@@ -259,7 +260,7 @@ onChange={handleChange}>
 <div className="col-sm-9">
 <input
            type="text"
-           className="form-control"
+           
            name="presentPayScale"
            value={joiningInfo.presentPayScale}
            onChange={handleChange}
@@ -270,15 +271,24 @@ onChange={handleChange}>
 <label className="col-sm-3 col-form-label">Remarks</label>
 <div className="col-sm-9">
 <textarea
-           className="form-control"
+           
            name="remarks"
            value={joiningInfo.remarks}
            onChange={handleChange}
          />
 </div>
 </div>
-<button type="submit" className="btn btn-primary">Submit</button>
+<br/><center>
+          {/* @sakib  onlcick add kore action/navigate korte hobe*/}
+          <button type="button" className="m-2 btn btn-outline-light">
+            Save Data
+          </button>
+          <button type="submit" className="m-2 btn btn-outline-light">
+            Go to Next Page
+          </button>
+        </center>
 </form>
+</div>
 </div>
 
 );
