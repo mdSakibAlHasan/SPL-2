@@ -129,6 +129,7 @@ export default function Profile(props) {
   const [modal_title, set_modal_title] = useState();
   const [modal_body, set_modal_body] = useState();
   const [notificationRemain, setNotificationRemain] = useState(0);
+  const [maxID, setMaxID] = useState();
 
   const updateArr = () => {
     prearr.forEach((element) => {
@@ -140,10 +141,11 @@ export default function Profile(props) {
 
   useEffect(()=>{
     const setNotificationNumber = async () =>{
-        const output = await axios.post("http://localhost:3001/app/getMaxNotificationID",inputs);
-        console.log(output.data[0].max_id,"///////////////////////");
-        setNotificationRemain((output.data[0].max_id-profileArr[0].readNotification))
-        console.log(notificationRemain,"///////////////////////");
+        const output = await axios.post("http://localhost:3001/app/getMaxNotificationID",{deptID: profileArr[0].departmentID});
+        //console.log(output.data[0].max_id,"///////////////////////");
+        setNotificationRemain((output.data[0].max_id-profileArr[0].readNotification));
+        setMaxID(output.data[0].max_id)
+        //console.log(notificationRemain,"///////////////////////");
     }
     setNotificationNumber();
   })
@@ -201,7 +203,7 @@ export default function Profile(props) {
 
                 <div className="popup-content">
                   <h2>Notification</h2>
-                  <Notification ID={inputs.ID} />
+                  <Notification ID={inputs.ID}  maxNotification ={ maxID }/>
                   <button onClick={togglePopup}>Close</button>
                 </div>
               </div>

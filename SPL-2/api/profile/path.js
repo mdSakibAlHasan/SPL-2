@@ -2,7 +2,7 @@ import  express from "express";
 import { getResearcher, getProfileInfo, getEducationInfo, getJobInfo,getOtherInfo } from "./basic.js";
 import { setPersonalInfo, setEducationInfo,cookieAuth } from "./setInfo.js";
 import { getPersonalInfo, getProfileID, getResearcherName } from "./getInfo.js";
-import { getNotification,sendNotification, getMaxNotification } from "./notification.js";
+import { getNotification,sendNotification, getMaxNotification,setNotificationStatus } from "./notification.js";
 import { addResearcherByDirector,removeResearcher } from "./addRemove.js";
 // import { getProposalInfo, storeProposalInfo } from "../R_D/proposal.js";
 
@@ -25,6 +25,7 @@ router.post('/addResearcherByDirector',addResearcherByDirector);
 router.post('/removeResearcher',removeResearcher);
 router.post('/sendNotification',sendNotification);
 router.post('/getMaxNotificationID',getMaxNotification);
+router.post('/setNotificationStatus', setNotificationStatus);
 
 // router.post('/getProposalInfo',getProposalInfo);
 // router.post('/storeProposalInfo',storeProposalInfo)

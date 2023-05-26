@@ -101,8 +101,8 @@ export const sendNotification = async (req, res) => {
 };
 
 export const getMaxNotification = async (req, res) => {
-
-  const querey = "SELECT MAX(NotificationID) AS max_id FROM bcsir.notification;";
+  const deptID = req.body.deptID;
+  const querey = `SELECT COUNT(*) AS max_id FROM bcsir.notification where ReceiverID = 10 OR ReceiverID = ${deptID} ;`;
 
   db.query(querey, (err, data) => {
     if (err) {

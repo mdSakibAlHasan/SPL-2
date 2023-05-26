@@ -22,6 +22,7 @@ function Notification(props) {
     // The second useEffect
     const executeOtherCode = () => {
       if (notificationData) {
+        const result = axios.post('http://localhost:3001/app/setNotificationStatus',{maxNotification: props.maxNotification});
         // Perform the other code here that depends on notificationData
         console.log(notificationData, " is notification data2 ")
         //set notification readable
