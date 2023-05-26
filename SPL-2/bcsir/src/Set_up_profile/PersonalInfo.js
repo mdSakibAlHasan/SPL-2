@@ -137,13 +137,15 @@ function PersonalInfoForm() {
   };
 
   return (
-    <div className="container">
+    <div className='full_page_normal p-5 shade1'>
+    <div className="shade2 p-5 rounded">
+    <center><h4>Personal Information</h4></center> <hr /> <br/>
     <form onSubmit={handleSubmit}>
       <div className="form-group">
         <label htmlFor="name">Name</label>
         <input
           type="text"
-          className="form-control"
+          
           id="name"
           value={name}
           // placeholder={infoArr && infoArr.length > 0 &&infoArr.name}
@@ -154,7 +156,7 @@ function PersonalInfoForm() {
         <label htmlFor="fatherName">Father's Name</label>
         <input
           type="text"
-          className="form-control"
+          
           id="fatherName"
           value={fatherName}
           onChange={(e) => setFatherName(e.target.value)}
@@ -164,7 +166,7 @@ function PersonalInfoForm() {
         <label htmlFor="motherName">Mother's Name</label>
         <input
           type="text"
-          className="form-control"
+          
           id="motherName"
           value={motherName}
           onChange={(e) => setMotherName(e.target.value)}
@@ -174,7 +176,7 @@ function PersonalInfoForm() {
         <label htmlFor="birthDate">Birth Date</label>
         <input
           type="date"
-          className="form-control"
+          
           id="birthDate"
           value={birthDate}
           onChange={(e) => setBirthDate(e.target.value)}
@@ -183,7 +185,7 @@ function PersonalInfoForm() {
       <div className="form-group">
         <label htmlFor="gender">Gender</label>
         <select
-          className="form-control"
+          
           id="gender"
           value={gender}
           onChange={(e) => setGender(e.target.value)}
@@ -197,26 +199,27 @@ function PersonalInfoForm() {
         <label htmlFor="nationalId">National ID</label>
         <input
           type="text"
-          className="form-control"
+          
           id="nationalId"
           value={nationalId}
           onChange={(e) => setNationalId(e.target.value)}
         />
       </div>
+      <br/><center><h4>Your Excellency</h4></center> <hr /> <br/>
       <div className="form-group">
         <label htmlFor="researchExperience">Research Experience</label>
         {researchExperienceList.map((experience, index) => (
           <div key={index}>
             <input
               type="text"
-              className="form-control"
+              
               id="researchExperience"
               value={experience.value}
               onChange={(event) => handleResearchExperienceChange(index, event)}
             />
             {index === researchExperienceList.length - 1 && (
-              <button type="button" onClick={handleAddResearchExperience}>
-                +
+              <button type="button" className="m-2 btn btn-outline-light" onClick={handleAddResearchExperience}>
+                Add More
               </button>
             )}
           </div>
@@ -228,14 +231,14 @@ function PersonalInfoForm() {
           <div key={index}>
             <input
               type="text"
-              className="form-control"
+              
               id="thesisSupervision"
               value={thesis.value}
               onChange={(event) => handleThesisSupervisionChange(index, event)}
             />
             {index === thesisSupervisionList.length - 1 && (
-              <button type="button" onClick={handleAddThesisSupervision}>
-                +
+              <button type="button" className="m-2 btn btn-outline-light" onClick={handleAddThesisSupervision}>
+                Add More
               </button>
             )}
           </div>
@@ -249,7 +252,7 @@ function PersonalInfoForm() {
           <div key={index}>
             <input
               type="text"
-              className="form-control"
+              
               id="professionalAffiliation"
               value={affiliation.value}
               onChange={(event) =>
@@ -257,17 +260,24 @@ function PersonalInfoForm() {
               }
             />
             {index === professionalAffiliationList.length - 1 && (
-              <button type="button" onClick={handleAddProfessionalAffiliation}>
-                +
+              <button type="button" className="m-2 btn btn-outline-light" onClick={handleAddProfessionalAffiliation}>
+                Add More
               </button>
             )}
           </div>
         ))}
       </div>
-      <button type="submit" className="btn btn-primary" onClick={nextPage}>
-        Next
-      </button>
+      <br/><center>
+          {/* @sakib  onlcick add kore action/navigate korte hobe*/}
+          <button type="button" className="m-2 btn btn-outline-light">
+            Save Data
+          </button>
+          <button type="submit" className="m-2 btn btn-outline-light">
+            Go to Next Page
+          </button>
+        </center>
     </form>
+    </div>
     </div>
   );
 }
