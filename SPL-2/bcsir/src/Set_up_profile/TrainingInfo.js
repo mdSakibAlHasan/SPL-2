@@ -48,41 +48,42 @@ function TrainingInfo() {
   };
 
   return (
-    <div className="container mt-4">
-      <h2>Training Information</h2>
+    <div className='full_page_normal p-5 shade1'>
+    <div className="shade2 p-5 rounded">
+      <center><h4>Trainging Information</h4></center> <hr /> <br/>
       <form onSubmit={handleSubmit}>
         {trainingInfo.map((training, index) => (
-          <div className="card mb-4" key={index}>
+          <div className="mb-4" key={index}>
             <div className="card-body">
-              <h4 className="card-title">Training {index + 1}</h4>
+              <h4 className="card-title">Training {index + 1}</h4> <hr/>
               <div className="form-row">
-                <div className="form-group col-md-4">
+                <div className="form-group">
                   <label htmlFor={`type${index}`}>Type</label>
                   <input
                     type="text"
-                    className="form-control"
+                    
                     id={`type${index}`}
                     name="type"
                     value={training.type}
                     onChange={(event) => handleTrainingInfoChange(index, event)}
                   />
                 </div>
-                <div className="form-group col-md-4">
+                <div className="form-group">
                   <label htmlFor={`title${index}`}>Title</label>
                   <input
                     type="text"
-                    className="form-control"
+                    
                     id={`title${index}`}
                     name="title"
                     value={training.title}
                     onChange={(event) => handleTrainingInfoChange(index, event)}
                   />
                 </div>
-                <div className="form-group col-md-4">
+                <div className="form-group">
                   <label htmlFor={`institution${index}`}>Institution</label>
                   <input
                     type="text"
-                    className="form-control"
+                    
                     id={`institution${index}`}
                     name="institution"
                     value={training.institution}
@@ -91,33 +92,33 @@ function TrainingInfo() {
                 </div>
               </div>
               <div className="form-row">
-                <div className="form-group col-md-4">
+                <div className="form-group">
                   <label htmlFor={`country${index}`}>Country</label>
                   <input
                     type="text"
-                    className="form-control"
+                    
                     id={`country${index}`}
                     name="country"
                     value={training.country}
                     onChange={(event) => handleTrainingInfoChange(index, event)}
                   />
                 </div>
-                <div className="form-group col-md-4">
+                <div className="form-group">
                   <label htmlFor={`startDate${index}`}>Start Date</label>
                   <input
-                    type="text"
-                    className="form-control"
+                    type="date"
+                    
                     id={`startDate${index}`}
                     name="startDate"
                     value={training.startDate}
                     onChange={(event) => handleTrainingInfoChange(index, event)}
                   />
                 </div>
-                <div className="form-group col-md-4">
+                <div className="form-group">
                   <label htmlFor={`endDate${index}`}>End Date</label>
                   <input
-                    type="text"
-                    className="form-control"
+                    type="date"
+                    
                     id={`endDate${index}`}
                     name="endDate"
                     value={training.endDate}
@@ -126,22 +127,22 @@ function TrainingInfo() {
                 </div>
               </div>
               <div className="form-row">
-                <div className="form-group col-md-4">
+                <div className="form-group">
                   <label htmlFor={`grade${index}`}>Grade</label>
                   <input
                     type="text"
-                    className="form-control"
+                    
                     id={`grade${index}`}
                     name="grade"
                     value={training.grade}
                     onChange={(event) => handleTrainingInfoChange(index, event)}
                   />
                 </div>
-                <div className="form-group col-md-4">
+                <div className="form-group">
                   <label htmlFor={`position${index}`}>Position</label>
                   <input
                     type="text"
-                    className="form-control"
+                    
                     id={`position${index}`}
                     name="position"
                     value={training.position}
@@ -160,20 +161,26 @@ function TrainingInfo() {
           </div>
         ))}
         <div className="text-center">
+          
+        </div>
+        <br/><center>
           <button
             type="button"
-            className="btn btn-primary mt-3"
+            className="m-2 btn btn-outline-light"
             onClick={() => addTraining()}
           >
-            Add Training
+            Add Another Training
           </button>
-        </div>
-        <div className="text-center mt-3">
-          <button type="submit" className="btn btn-success">
-            Save
+          {/* @sakib  onlcick add kore action/navigate korte hobe*/}
+          <button type="button" className="m-2 btn btn-outline-light">
+            Save Data
           </button>
-        </div>
+          <button type="submit" className="m-2 btn btn-outline-light">
+            Go to Next Page
+          </button>
+        </center>
       </form>
+    </div>
     </div>
   );
 }
