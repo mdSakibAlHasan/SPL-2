@@ -12,7 +12,6 @@ function EducationInfo() {
       passingYear: "",
       result: "",
       distinction: "",
-      cookie: "",
     },
   ]);
   const [info, setInfo] = useState([]);
@@ -38,11 +37,11 @@ function EducationInfo() {
       input.cookieID = result;
       if (input.cookieID != null) {
         const ID = await axios.post(
-          "http://localhost:3001/edit/getProfileInfo",
+          "http://localhost:3001/edit/getEducationInfo",
           input
         );
         setInfo(ID.data);
-        console.log("Here is info:", ID.data);
+        //console.log("Here is info:", ID.data);
       }
     };
     handleProfileClick();
@@ -51,37 +50,21 @@ function EducationInfo() {
   useEffect(() => {
     const setUpInfo = () => {
       const HSC = info.length > 0 && info[0].HSC.split("#");
-      //console.log(ResearchExp,"----------------------");
-      const convertedArray =
-        HSC.length > 0 &&
-        HSC.map((item, index) => {
-          return { value: item };
-        });
-      console.log(convertedArray);
+      const Honourse=info.length>0 && info[0].Honourse?.split("#");
+      const Masters = info.length > 0 && info[0].Masters.split("#");
+      
+      const HSCArr=[{degree: HSC[0],group: HSC[1],board: HSC[2],passingYear: HSC[3], result: HSC[4], distinction: HSC[5],},
+        {degree: Honourse[0],group:Honourse[1],board: Honourse[2],passingYear: Honourse[3], result: Honourse[4], distinction: Honourse[5],},
+        {degree: Masters[0],group: Masters[1],board: Masters[2],passingYear: Masters[3], result: Masters[4], distinction: Masters[5],},
+        ];
+        setEducationInfo(HSCArr);
+      //console.log("----------------------", educationInfo);
     };
-  });
+    setUpInfo();
+  },[info]);
 
-  const nextPage = async (e) => {
-    // const co = await getCookie('my_cookies');
-    // setCookie(co);
-    //educationInfo[0].cookie = co;
-    console.log(cookie);
-    if (cookie) {
-      e.preventDefault();
-      try {
-        console.log("in the rey");
-        await axios.post(
-          "http://localhost:3001/app/setEducationInfo",
-          educationInfo
-        );
-        navigate("/education");
-      } catch (err) {
-        setError(err.response.data);
-      }
-    } else {
-      console.log("Invalid");
-      setError("Invalid access");
-    }
+  const nextPage = async (e) => {     
+    navigate("/education");
   };
 
   const handleEducationInfoChange = (index, event) => {
@@ -113,6 +96,20 @@ function EducationInfo() {
   const handleSubmit = (event) => {
     event.preventDefault();
     console.log("Education Info:", educationInfo);
+    const educationInfoString = educationInfo
+    .map((info) =>
+      Object.values(info)
+        .filter((value) => value !== "")
+        .join("#")
+    )
+    .join("##");
+    const educationArr = educationInfoString.split('##');
+    console.log(educationArr,"............",educationInfoString);
+    axios.post(
+      "http://localhost:3001/edit/setEducationInfo",     //profile.education
+      {educationArr: educationArr,
+      ID:info[0].ID}
+    );
   };
 
   return (
@@ -231,10 +228,10 @@ function EducationInfo() {
             <br />
             <center>
               {/* @sakib  onlcick kore action/navigate korte hobe*/}
-              <button type="button" className="m-2 btn btn-outline-light">
+              <button type="button" className="m-2 btn btn-outline-light" onClick={handleSubmit}>
                 Save Data
               </button>
-              <button type="submit" className="m-2 btn btn-outline-light">
+              <button type="submit" className="m-2 btn btn-outline-light" onClick={nextPage}>
                 Go to Next Page
               </button>
             </center>
