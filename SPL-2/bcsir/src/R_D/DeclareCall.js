@@ -6,6 +6,7 @@ import { getSetCookie } from '../Set_up_profile/CookiesHandle';
 function DeclareCall() {
   const [deadline, setDeadline] = useState('');
   const [description, setDescription] = useState('');
+  const [info,setInfo] = useState([])
   const [input, setinput] = useState({
     dateline: "",
     description: "",
@@ -56,6 +57,16 @@ function DeclareCall() {
     console.log("submit clicked")
     input.dateline = deadline;
     input.description = description;
+
+    const result = await axios.post("http://localhost:3001/app/sendNotification", {
+           ID: info[0].ID,
+           dept: "",
+           DepartmentID: info[0].DepartmentID,
+           Email: true,
+           Profile: true,
+           Tittle: "PI declare a call for proposal submit",
+           Body: description
+    });
 
     e.preventDefault();
     console.log(`Deadline: ${input.dateline}\nDescription: ${input.description}, input ${input}`);
