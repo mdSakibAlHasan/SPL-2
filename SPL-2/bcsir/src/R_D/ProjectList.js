@@ -59,20 +59,21 @@ const ProjectList = () => {
 
   useEffect(()=>{
     const setUpInfo = () =>{
-
+        //const array = projectLists
     }
     setUpInfo();
   },[projectLists])
 
 
   const updateProgress = (projectId, newProgress) => {
-    const updatedList = updatedProjects.map(project => {
-      if (project.id === projectId) {
-        return { ...project, progress: newProgress };
+    const updatedList = projectLists.map(project => {
+      if (project.ResearchID === projectId) {
+        return { ...project, Progress: newProgress };
       }
       return project;
     });
-    setUpdatedProjects(updatedList);
+    setProjectList(updatedList);
+     axios.post('http://localhost:3001/RD/storeListUpdate', {projectLists: projectLists});
   };
 
  
@@ -83,12 +84,12 @@ const ProjectList = () => {
     <div className="shade2 p-5 rounded">
       <center><h3><strong>Ongoing Project List</strong></h3></center> <hr /> <br/>
       {projectLists.map(project => (
-        <div key={project.id} className="shade3 m-3 p-3 rounded">
-          <h4>{project.title}</h4> <hr/>
-          <p><strong>Project Leader: </strong>{project.leader}</p>
-          <p><strong>Associates: </strong>{project.teammates.join(', ')}</p>
+        <div key={project.ResearchID} className="shade3 m-3 p-3 rounded">
+          <h4>{project.Title}</h4> <hr/>
+          <p><strong>Project Leader: </strong>{project.Name}</p>
+          {/* <p><strong>Associates: </strong>{project.teammates.join(', ')}</p> */}
           <p><strong>Description: </strong>{project.description}</p>
-          <p><strong>Progress: </strong>{project.progress}%</p>
+          <p><strong>Progress: </strong>{project.Progress}%</p>
           {editPermission && (
             <div>
               <input
@@ -96,9 +97,9 @@ const ProjectList = () => {
                 min={0}
                 max={100}
                 placeholder='Enter New Progress (in %)'
-                onChange={e => updateProgress(project.id, e.target.value)}
+                onChange={e => updateProgress(project.ResearchID, e.target.value)}
               />
-              <button className='btn btn-outline-light' onClick={() => updateProgress(project.id, project.progress)}>Update Progress</button>
+              <button className='btn btn-outline-light' onClick={() => updateProgress(project.ResearchID, project.Progress)}>Update Progress</button>
             </div>
           )}
         </div>

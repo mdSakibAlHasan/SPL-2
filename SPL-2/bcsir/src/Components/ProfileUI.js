@@ -7,8 +7,9 @@ import Notification from "./Notification";
 import RG from './photo/reseachgate.png';
 import GS from './photo/googleshcholar.png';
 import OC from './photo/orcid.jpg';
-import { Graph } from 'react-d3-graph';
+// import { Graph } from 'react-d3-graph';
 import { ReactDOM } from "react";
+
 
 export default function Profile(props) {
   const teammateNames = ['Karim', 'Jovan', 'Abdul', 'Majid'];
@@ -561,11 +562,11 @@ export default function Profile(props) {
           <br />
           <div>
       <h1>Rahim's Teammates Connection Graph</h1>
-      <Graph
+      {/* <Graph
         id="connection-graph"
         data={graphData}
         config={graphConfig}
-      />
+      /> */}
     </div>
         </div>
       </div>
