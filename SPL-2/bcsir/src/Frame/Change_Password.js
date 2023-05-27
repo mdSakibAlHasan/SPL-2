@@ -45,9 +45,18 @@ export default function ChangePass() {
     handleCookie();
   }, []); 
 
-  const update_password = async (e) =>{
-    if(inputs.newPassword == inputs.RetypePassword){
-
+  const update_password = async () => {
+    if (inputs.newPassword === inputs.RetypePassword) {
+      // Password validation criteria
+      const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*]).{8,}$/;
+  
+      if (!passwordRegex.test(inputs.newPassword)) {
+        setError(
+          "Password must be at least 8 characters long, contain both lowercase and uppercase letters, and have at least one special character."
+        );
+        return;
+      }
+  
       console.log(getCookie('my_cookies'));
       const api = axios.create({
         baseURL: 'http://localhost:3001/api',
@@ -56,18 +65,16 @@ export default function ChangePass() {
           'Authorization': getCookie('my_cookies')
         }
       });
-
+  
       try {
-        await api.post("/changePass",inputs);
-        navigate("/");       
+        await api.post("/changePass", inputs);
+        navigate("/");
       } catch (error) {
         setError(error);
       }
-      
+    } else {
+      setError("Confirm password does not match");
     }
-    else{
-     setError("confirm password not matched")
-    }      
   }
 
   return (

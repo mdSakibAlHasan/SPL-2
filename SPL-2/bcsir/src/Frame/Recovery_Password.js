@@ -55,19 +55,31 @@ export default function Recovery_Password() {
     }
 
     const navigate = useNavigate();
-    const check_password= async (e) =>{
-        console.log(cansubmit);
-        if(input.newPass == input.conPass){
-            setError("উভয় পাসওয়ার্ড মিলে গেছে");
-            set_cansubmit(false);
+    const check_password = async () => {
+        if (input.newPass === input.conPass) {
+          // Password validation criteria
+          const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*]).{8,}$/;
+      
+          if (!passwordRegex.test(input.newPass)) {
+            setError(
+                "Password must be at least 8 characters long, contain both lowercase and uppercase letters, and have at least one special character."
+                );
+            return;
+          }
+      
+          setError("Both Password Matched");
+          set_cansubmit(false);
+      
+          try {
             await axios.post("http://localhost:3001/api/inputPass", input);
             navigate("/Login");
+          } catch (err) {
+            setError(err.response.data);
+          }
+        } else {
+          setError("Both password are not matched. Try Again");
         }
-        else{
-            setError("উভয় পাসওয়ার্ড ভিন্ন! পুরনায় টাইপ করুন");
-        }
-        console.log(cansubmit);
-    }
+      };
   return (
    
     <form action="">
