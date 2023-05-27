@@ -37,6 +37,7 @@ import ChangeDirector from "./R_D/ChangeDirector";
 import CreateDepartment from "./R_D/CreateDepartment";
 import ApproveProposalPage from "./R_D/ApproveProposal";
 import ProjectList from "./R_D/ProjectList";
+import FinalApproveProposalPage from "./R_D/FinalApproval";
 
 
 //import { BrowserRouter as  Route } from 'react-router-dom';
@@ -165,6 +166,10 @@ const router = createBrowserRouter([
   {
     path: "/projectList",
     element: <ProjectList/>,
+  },
+  {
+    path: "/finalApprove",
+    element: <FinalApproveProposalPage/>,
   },
 
 

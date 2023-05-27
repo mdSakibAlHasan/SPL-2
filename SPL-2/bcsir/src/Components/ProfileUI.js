@@ -7,31 +7,8 @@ import Notification from "./Notification";
 import RG from './photo/reseachgate.png';
 import GS from './photo/googleshcholar.png';
 import OC from './photo/orcid.jpg';
-// import { Graph } from 'react-d3-graph';
-import { ReactDOM } from "react";
-
 
 export default function Profile(props) {
-  const teammateNames = ['Karim', 'Jovan', 'Abdul', 'Majid'];
-
-  // Generate graph data
-  const graphData = {
-    nodes: teammateNames.map(name => ({ id: name })),
-    links: teammateNames.map(name => ({ source: 'Rahim', target: name })),
-  };
-
-  // Graph configuration
-  const graphConfig = {
-    node: {
-      color: 'lightblue',
-      size: 400,
-      highlightStrokeColor: 'blue',
-    },
-    link: {
-      highlightColor: 'lightblue',
-    },
-  };
-
   const location = useLocation();
   const segments = location.pathname.split("/");
   const profileID = segments[segments.length - 1];
@@ -151,6 +128,8 @@ export default function Profile(props) {
   const [arr, setarr] = useState([]);
   const [modal_title, set_modal_title] = useState();
   const [modal_body, set_modal_body] = useState();
+  const [notificationRemain, setNotificationRemain] = useState(0);
+  const [maxID, setMaxID] = useState();
 
   const updateArr = () => {
     prearr.forEach((element) => {
@@ -159,6 +138,16 @@ export default function Profile(props) {
     // setarr();
     console.log(arr);
   };
+
+  useEffect(()=>{
+    const setNotificationNumber = async () =>{
+        const output = await axios.post("http://localhost:3001/app/getMaxNotificationID",{deptID: profileArr[0].departmentID});
+        //console.log(output.data[0].max_id,"///////////////////////");
+        setNotificationRemain((output.data[0].max_id-profileArr[0].readNotification));
+        setMaxID(output.data[0].max_id)
+    }
+    setNotificationNumber();
+  })
 
   //for popup-box
   const [showPopup, setShowPopup] = useState(false);
@@ -201,20 +190,20 @@ export default function Profile(props) {
                   fontSize: "12px",
                 }}
               >
-                1+
+                {notificationRemain}
               </span>
             </button>
 
-            {showPopup && (
+            {showPopup && isOwner &&(
               <div className="popup-box">
                 <button className="close-button" onClick={togglePopup}>
                   <i className="fas fa-times"></i>
                 </button>
 
                 <div className="popup-content">
-                  <h2>Notification</h2>
-                  <Notification ID={inputs.ID} />
-                  <button onClick={togglePopup}>Close</button>
+                  <h4>Notification</h4><hr/>
+                  <Notification ID={inputs.ID}  maxNotification ={ maxID }/>
+                  {/* <button onClick={togglePopup}>Close</button> */}
                 </div>
               </div>
             )}
@@ -228,13 +217,13 @@ export default function Profile(props) {
               <div className="col">
                 <img
                   src={imageSrc}
-                  style={{ width: "50%", height: "100%" }}
+                  style={{ width: "40%", height: "60%" }}
                   alt="Profile photo"
                 />{" "}
                 <br />
-                <h4>
+                <h3> <strong>
                   {profileArr.length > 0 && profileArr[0].Name} <hr/><br />
-                </h4>
+                 </strong></h3>
                 
                 {profileArr.length > 0 && profileArr[0].Designation} <br />
                 {profileArr.length > 0 && profileArr[0].DepartmentName} <br />
@@ -261,18 +250,68 @@ export default function Profile(props) {
                           Password Changes
                         </a>
                       </li>
-                      {isAddResearcher && (
+                       <li>    {/*  //check condition for declare call */}
+                        <a className="dropdown-item" href="/submitProposal">
+                          Proposal Submit
+                        </a>
+                      </li>
+                      <li>    {/*  //check condition for declare call */}
+                        <a className="dropdown-item" href="/projectList">
+                          Ongoing Project List
+                        </a>
+                      </li>
+                      {profileArr[0].type === 'PI' && (
                         <li>
-                          <a className="dropdown-item" href="/Register">
-                            Add Researcher
+                          <a className="dropdown-item" href="/declareCall">
+                            Declare a call
+                          </a>
+                        </li>
+                      )&&(<li>
+                        <a className="dropdown-item" href="/editdateline">
+                         Edit Dateline
+                        </a>
+                      </li>)&&(<li>
+                        <a className="dropdown-item" href='/finalApprove'>
+                         Approve Final project
+                        </a>
+                      </li>)}
+                      {profileArr[0].type === 'admin' && (
+                        <li>
+                          <a className="dropdown-item" href="/createDepartment">
+                            Create a Department
+                          </a>
+                        </li>
+                      )&&(<li>
+                        <a className="dropdown-item" href="/changeDirector">
+                         Change Director
+                        </a>
+                      </li>)}
+                      {(profileArr[0].type === 'admin' || profileArr[0].type === 'Director') && (
+                        <li>
+                          <a className="dropdown-item" href="/addRemoveResearcher">
+                            Add or Remove Researcher
                           </a>
                         </li>
                       )}
-                      {isAddResearcher && (
+                      {(profileArr[0].type === 'PI' || profileArr[0].type === 'Director') && (
                         <li>
-                          <a className="dropdown-item" href="/changepass">
-                            Remove Researcher
+                          <a className="dropdown-item" href="/changeDirector">
+                            Change RDHead
                           </a>
+                        </li>
+                      )}
+                      {(profileArr[0].type === 'PI' || profileArr[0].type === 'Director' || profileArr[0].type === 'admin') && (
+                        <li>
+                          <a className="dropdown-item" href="/sendNotification">
+                            Send a Notification
+                          </a>
+                        </li>
+                      )}
+                      {(profileArr[0].type === 'PI' || profileArr[0].type === 'Director' || profileArr[0].type === 'RDHead' )&& (
+                        <li>
+                        <a className="dropdown-item" href='/approveProposal'>
+                          Approve Proposal
+                        </a>
                         </li>
                       )}
                     </ul>
@@ -280,11 +319,11 @@ export default function Profile(props) {
                 )}
               </div>
               <div className="col">
-                <h4>নিজের সম্পর্কে</h4>
+                <h3> <strong>About Me </strong></h3>
                 <hr/>
                 <p>{profileArr.length > 0 && profileArr[0].AboutMe}</p>
 
-                <h4>অন্যান্য লিংকস</h4><hr/><br/>
+                <h3> <strong>Find me Also </strong></h3><hr/><br/>
                 
                 <a
                   href={profileArr.length > 0 && profileArr[0].ResearchGateLink}
@@ -307,7 +346,7 @@ export default function Profile(props) {
               </div>
             </div>
             <br />
-            <center><h4>অন্যান্য তথ্য</h4></center>
+            <center><h3> <strong>Other Information </strong></h3></center>
             <hr/>
             <br />
             <div className="row">
@@ -560,14 +599,6 @@ export default function Profile(props) {
           <br />
           <br />
           <br />
-          <div>
-      <h1>Rahim's Teammates Connection Graph</h1>
-      {/* <Graph
-        id="connection-graph"
-        data={graphData}
-        config={graphConfig}
-      /> */}
-    </div>
         </div>
       </div>
     </>

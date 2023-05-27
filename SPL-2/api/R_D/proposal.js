@@ -7,12 +7,16 @@ export const getProposalInfo =  (req,res)=>{
         approval = `select ResearchID, ResearcherID, Proposal, Title, Teammates, RDapproval as status, Date, DepartmentName, Name from bcsir.research, bcsir.department,bcsir.researcher where bcsir.research.RDapproval=false and bcsir.department.DepartmentID = ${DepartmentID}
         and bcsir.researcher.ID= bcsir.research.ResearcherID;`;
     }
+    else if(type === 'Final'){
+        approval = `select ResearchID, ResearcherID, Proposal, Title, Teammates, DirectorApproval as status, Date,DepartmentName, Name from bcsir.research, bcsir.department,bcsir.researcher where 
+        bcsir.research.RDapproval=true and bcsir.research.DirectorApproval=true and bcsir.researcher.ID= bcsir.research.ResearcherID and bcsir.department.DepartmentID= bcsir.research.DepartmentID; `;
+    }
     else{// if(type === 'Director'){
         approval = `select ResearchID, ResearcherID, Proposal, Title, Teammates, DirectorApproval as status, Date, DepartmentName, Name from bcsir.research, bcsir.department,bcsir.researcher where bcsir.research.RDapproval=true and bcsir.research.DirectorApproval=false and bcsir.department.DepartmentID = ${DepartmentID}
         and bcsir.researcher.ID= bcsir.research.ResearcherID;`;
     }
 
-    console.log(approval);
+    console.log(approval,"====================");
     db.query(approval,(err,data)=>{
         if(err){
             console.log("Err to get data from research table");
@@ -60,6 +64,9 @@ export const approveProposal = (req,res) =>{
     var approval;
     if(type === 'RDHead'){
         approval = 'RDapproval';
+    }
+    else if(type === 'Final'){
+        approval = 'RCapproval';
     }
     else{// if(type === 'Director'){
         approval = 'DirectorApproval';

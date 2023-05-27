@@ -3,7 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { getSetCookie } from "../Set_up_profile/CookiesHandle";
 
-function ApproveProposalPage(props) {
+function FinalApproveProposalPage(props) {
   const [info, setInfo] = useState([]);
   const [proposals, setProposal] = useState([]);
   const [userType, setUserType] = useState();
@@ -50,13 +50,13 @@ function ApproveProposalPage(props) {
         "http://localhost:3001/RD/getProposalInfo",
         {
           DepartmentID: info[0].departmentID,
-          type: info[0].type,
+          type: 'Final',
         }
       );
       setProposal(result2.data);
       // console.log(result2.data, "=========", proposals);
       // setUserType("admin");
-      if (info && (info[0].type === "RDHead" || info[0].type === "Director" || info[0].type === "PI")) {
+      if (info && ( info[0].type === "PI" )) {
         
       } else {
         navigate("/login");
@@ -77,15 +77,16 @@ function ApproveProposalPage(props) {
            pass: password
     });
     if(result.data === "Password matches"){
-      const updatedProposals = proposals.filter(
+        const updatedProposals = proposals.filter(
         (item) => item !== selectedProposal
-      );
-      setProposal(updatedProposals);
-      axios.post("http://localhost:3001/RD/approveProposal",{selectedProposal: selectedProposal });
-      
-      setSelectedProposal(null);
-      setShowModal(false);
-      setPassword("");
+        );
+        setProposal(updatedProposals);
+        axios.post("http://localhost:3001/RD/approveProposal",{selectedProposal: selectedProposal });
+        
+        
+        setSelectedProposal(null);
+        setShowModal(false);
+        setPassword("");
     }
   };
 
@@ -95,27 +96,26 @@ function ApproveProposalPage(props) {
 
   const handleApproveProposal = async () => {
     const result = await axios.post("http://localhost:3001/RD/conformation", {
-      ID: info[0].ID,
-      pass: password
+           ID: info[0].ID,
+           pass: password
     });
-
     if(result.data === "Password matches"){
-      const updatedProposals = proposals.filter(
+        const updatedProposals = proposals.filter(
         (item) => item !== selectedProposal
-      ); 
-      setProposal(updatedProposals);
-      axios.post(
-        "http://localhost:3001/RD/approveProposal",
+        ); 
+        setProposal(updatedProposals);
+        axios.post(
+        "http://localhost:3001/RD/approveProposal",       //RD/proposal
         {
-          selectedProposal: selectedProposal,
-          type: info[0].type,
+            selectedProposal: selectedProposal,
+            type: 'Final',
         }
-      );
-      
-      setApprovedProposals([...approvedProposals, selectedProposal]);
-      setSelectedProposal(null);
-      setShowModal(false);
-      setPassword("");
+        );
+    
+        setApprovedProposals([...approvedProposals, selectedProposal]);
+        setSelectedProposal(null);
+        setShowModal(false);
+        setPassword("");
     }
   };
 
@@ -127,7 +127,7 @@ function ApproveProposalPage(props) {
   return (
     <div  className='full_page_normal p-5 shade1'>
     <div className="shade2 p-5 rounded">
-      <center><h4>Approve Proposal</h4></center> <hr /> <br/>
+      <center><h4>Final Approve Proposal</h4></center> <hr /> <br/>
       
       <div className="row">
         {proposals.map((proposal) => (
@@ -248,4 +248,4 @@ function ApproveProposalPage(props) {
   );
 }
 
-export default ApproveProposalPage;
+export default FinalApproveProposalPage;
