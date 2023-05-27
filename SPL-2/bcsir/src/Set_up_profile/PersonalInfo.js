@@ -107,9 +107,9 @@ function PersonalInfoForm() {
             return { value: item };
           });
         setProfessionalAffiliationList(ProfessionalAffArr);
-        setGoogleScholar(info.length > 0 && info.GoogleScholarlink);
-        setOrchidProfile(info.length > 0 && info.Orchidlink);
-        setResearchGate(info.length > 0 && info.ResearchGateLink);
+        setGoogleScholar(info.length > 0 && (info.GoogleScholarlink?info.GoogleScholarlink: " "));
+        setOrchidProfile(info.length > 0 && (info.Orchidlink?info.Orchidlink: ""));
+        setResearchGate(info.length > 0 && (info.ResearchGateLink?info.ResearchGateLink:""));
       }
     };
     setUpInfo();
@@ -184,7 +184,7 @@ function PersonalInfoForm() {
   
     try {
       const response = await axios.post(
-        "http://localhost:3001/edit/setProfileInfo",
+        "http://localhost:3001/edit/setProfileInfo",      //editProfile/profile.js
         formData,
         {
           headers: {
@@ -201,24 +201,8 @@ function PersonalInfoForm() {
   
 
   const nextPage = async (e) => {
-    setCookie(getCookie("my_cookies"));
-    console.log(cookie);
-    if (cookie) {
       e.preventDefault();
-      try {
-        console.log("in the rey");
-        // await axios.post(
-        //   "http://localhost:3001/app/setPersonalInfo",
-        //   personalInfo
-        // );
-        navigate("/education");
-      } catch (err) {
-        setError(err.response.data);
-      }
-    } else {
-      console.log("Invalid");
-      setError("Invalid access");
-    }
+      navigate("/education");  
   };
 
   return (
@@ -414,7 +398,7 @@ function PersonalInfoForm() {
             >
               Save Data
             </button>
-            <button type="submit" className="m-2 btn btn-outline-light">
+            <button type="submit" className="m-2 btn btn-outline-light" onClick={nextPage}>
               Go to Next Page
             </button>
           </center>

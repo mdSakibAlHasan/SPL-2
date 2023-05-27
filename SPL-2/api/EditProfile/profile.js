@@ -58,23 +58,33 @@ export const setProfileInfo = async (req, res, next) => {
       }
       const path = req.file.path;
       console.log(req.file.path);
-      const querey = `UPDATE your_table_name
-      SET Name = 'John Doe',
-          fatherName = 'John Doe Sr.',
-          motherName = 'Jane Doe',
-          birthDate = '2000-12-31',
-          gender = 'Male',
-          nationalId = '123456789',
-          researchExperienceList = 'Research Experience 1, Research Experience 2',
-          thesisSupervisionList = 'Thesis 1, Thesis 2',
-          professionalAffiliationList = 'Affiliation 1, Affiliation 2',
-          Orchidlink = 'https://orchidlink.com/johndoe',
-          GoogleScholarlink = 'https://scholar.google.com/johndoe',
-          ResearchGateLink = 'https://researchgate.net/johndoe'
-      WHERE ID = ${ID};`
+      const querey = `UPDATE bcsir.researcher
+      SET Name = '${Name}',
+          fatherName = '${fatherName}',
+          motherName = '${motherName}',
+          birthDate = '${birthDate}',
+          gender = '${gender}',
+          nationalId = '${nationalId}',
+          ResearchExperience = '${researchExperienceList}',
+          ThesisSupervision = '${thesisSupervisionList}',
+          ProfessionalAffiliation = '${professionalAffiliationList}',
+          Orchidlink = '${Orchidlink}',
+          GoogleScholarlink = '${GoogleScholarlink}',
+          ResearchGateLink = '${ResearchGateLink}',
+          Photo = '${path}'
+      WHERE ID = ${ID};`;
+      console.log(querey);
+      db.query(querey,(err,data)=>{
+        if(err){
+          console.log("Err to update data");
+          return res.status(400).json("Something happend to update data");
+        }
+        // else{
+        //   return res.status(200).json("data update successfully")
+        // }
+      })
 
-
-      res.status(200).json({ message: "Data stored successfully" });
+      //res.status(200).json({ message: "Data stored successfully" });
     });
   } catch (error) {
     console.log(error);
