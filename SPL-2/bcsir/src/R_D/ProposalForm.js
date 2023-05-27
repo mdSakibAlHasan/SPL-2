@@ -33,6 +33,7 @@ function ProposalForm() {
   const [headSignature, setHeadSignature] = useState("");
   const formRef = useRef(null);
   const [formFields, setFormFields] = useState({});
+  const [submitDate, setSubmitDate] = useState();
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -80,6 +81,13 @@ function ProposalForm() {
         ); //RD/authority.js
         setResearchers(result2.data, "-------------");
         console.log("cool");
+        const output2 = await axios.post("http://localhost:3001/RD/getDateline");
+        if(!output2.data[0].start_dateline){
+          navigate('/login');
+        }
+        setSubmitDate(output2.data);
+
+        console.log(output2.data,"///////////////////////");
         //  const result3 = await axios.post(
         //   "http://localhost:3001/RD/getProposalInfo",
         //   { dept: ID.data[0].ID }
@@ -184,6 +192,7 @@ function ProposalForm() {
     <div  className='full_page_normal p-5 shade1'>
     <div className="shade2 p-5 rounded">
       <center><h4>Project Proposal Form</h4></center> <hr /> <br/>
+      <p>{!(submitDate && submitDate[0].start_dateline) && "Proposal Call not yet started" } </p>
     <form ref={formRef} onSubmit={handleSubmit}>
       <div className="form-group">
       <br/><h4><ul><li> Project Introduction</li></ul></h4><hr/><hr/><br/>

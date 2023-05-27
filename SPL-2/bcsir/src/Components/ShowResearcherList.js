@@ -9,12 +9,13 @@ function ShowResearcherList() {
   });
   const [researcherArr, setresearcherArr] = useState([]);
   const [selectedDepartment, setSelectedDepartment] = useState();
+  const [director,setDirector] = useState();
 
   useEffect(() => {
     const handleDepartment = async () => {
       try {
         const result = await axios.post(
-          "http://localhost:3001/api/getDepartment"
+          "http://localhost:3001/api/getDepartment"   //controll/auth.js
         );
         setdepartmentsArr(result.data);
       } catch (err) {
@@ -27,7 +28,7 @@ function ShowResearcherList() {
   const handleResearcher = async () => {
     try {
       const result = await axios.post(
-        "http://localhost:3001/app/getResearcher",
+        "http://localhost:3001/app/getResearcher",        //profile/basic.js
         { dept: selectedDepartment }
       );
       setresearcherArr(result.data);
@@ -45,7 +46,17 @@ function ShowResearcherList() {
 
   useEffect(() => {
     if (selectedDepartment) {
+      const setDIrectorName = async ()=>{
+        const result2 = await axios.post(
+          "http://localhost:3001/app/getConnectedResearcher",        //profile/basic.js
+          { ID: 11003 }
+        );
+        setDirector(result2.data);
+        console.log()
+      }   
+      
       handleResearcher();
+      setDIrectorName();
     }
   }, [selectedDepartment]);
 
@@ -84,6 +95,7 @@ function ShowResearcherList() {
                   designation={user.Designation}
                   photo={user.Photo}
                   ID={user.ID}
+                  type={user.type}
                 />
               ))}
             </div>

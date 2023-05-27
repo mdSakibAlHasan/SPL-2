@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { getSetCookie } from '../Set_up_profile/CookiesHandle';
 
 function DeclareCall() {
   const [deadline, setDeadline] = useState('');
@@ -8,7 +9,40 @@ function DeclareCall() {
   const [input, setinput] = useState({
     dateline: "",
     description: "",
+    ID:"",
   })
+
+  var result;
+  const navigate = useNavigate();
+  useEffect(() => {
+    function handleCookie() {
+      result = getSetCookie('my_cookies');
+      if (result == null) {
+        navigate('/login');
+      }
+    }
+    handleCookie();
+  }, []);
+
+  useEffect(() => {
+    const handleProfileClick = async () => {
+      const input = {
+        cookieID: result,
+      };
+      input.cookieID = result;
+      if (input.cookieID != null) {
+        const ID = await axios.post('http://localhost:3001/app/getPersonalInfo', input);
+        if(ID.data[0].type !== 'PI'){
+          navigate('/login');
+        }
+        else{
+          input.ID = ID.data[0].ID;
+        }
+        console.log('Here is info:', ID.data);
+      }
+    };
+    handleProfileClick();
+  }, [result]);
 
   const handleDeadlineChange = (e) => {
     setDeadline(e.target.value);
@@ -18,7 +52,6 @@ function DeclareCall() {
     setDescription(e.target.value);
   };
 
-  const navigate = useNavigate();
   const handleSubmit =async (e) => {
     console.log("submit clicked")
     input.dateline = deadline;

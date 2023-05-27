@@ -79,4 +79,28 @@ export const getResearcherName = (req,res) =>{
     }
   })
 }
+
+export const getConnectedResearcher = (req,res) =>{
+  const ID = req.body.ID;
+  const querey = `select Teammates from bcsir.research where ResearcherID = ${ID};`;
+  db.query(querey,(err,data)=>{
+    if(err){
+      console.log("Err to get teammate");
+      return res.status(400).json('Error ');
+    }
+    else{
+      //console.log(data);
+      const uniqueNumbersSet = new Set();
+      for (const row of data) {
+        const numbers = row.Teammates.split(',');
+        for (const number of numbers) {
+          uniqueNumbersSet.add(Number(number));
+        }
+      }
+      const uniqueNumbersArray = Array.from(uniqueNumbersSet);
+      console.log(uniqueNumbersArray);
+
+    }
+  })
+}
   

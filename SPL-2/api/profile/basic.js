@@ -6,7 +6,7 @@ import { db } from "../db.js";
 export const getResearcher = (req,res) =>{
     const dept = req.body.dept;
     console.log("In get researcher",dept, req.body);
-    const qur = `select ID, Name, Photo,Designation from  bcsir.researcher, bcsir.department  where bcsir.researcher.departmentID = bcsir.department.DepartmentID and bcsir.department.DepartmentName ='${dept}' `;
+    const qur = `select ID, Name, Photo,Designation, type from  bcsir.researcher, bcsir.department  where bcsir.researcher.departmentID = bcsir.department.DepartmentID and bcsir.department.DepartmentName ='${dept}' `;
     db.query(qur,function(err,result){
       if(err){
         console.log("Something happend for check  personal info");
@@ -104,4 +104,13 @@ export const getResearcher = (req,res) =>{
         return res.status(200).send(result);
       }
     });
+  }
+
+
+  export const getDirector = (req,res)=>{
+    const querey = `select Name from bcsir.researcher where ID=${req.body.ID}`;
+    console.log(querey);
+    db.query(querey,(err,data)=>{
+      return res.status(200).send(data);
+    })
   }

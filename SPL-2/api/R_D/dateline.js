@@ -3,8 +3,10 @@ import {db} from '../db.js'
 export const declareCall =(req,res)=>{
     const date = req.body.dateline;
     const remark = req.body.description;
+    const ID = req.body.ID;
+    const currentDate = new Date();
 
-    const querey = `update bcsir.research_development set last_date = '${date}' , remark = '${remark}' where developmentID = 1;`
+    const querey = `update bcsir.research_development set start_dateline="${currentDate}", pi_id='${ID}'  last_date = '${date}' , remark = '${remark}' where developmentID = 1;`
     console.log(date, remark, querey);
 
     db.query(querey,(err,data)=>{
@@ -36,7 +38,7 @@ export const editdateline =(req,res)=>{
 }
 
 export const getDateline = (req,res)=>{
-    const querey = `select last_date from bcsir.research_development where session ='2019-20';`;
+    const querey = `select start_dateline, last_date from bcsir.research_development where developmentID =1;`;
 
     db.query(querey,(err,data)=>{
         if(err){

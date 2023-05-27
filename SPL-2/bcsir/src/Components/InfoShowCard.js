@@ -26,6 +26,7 @@ export default function InfoShowCard(props) {
         <div className="shade3 card-body">
             <h4 className=" m-2">{name}</h4>
             <small className="card-text">({designation})</small>
+            <h3>{props.type}</h3>
             <center>
               <a  href={`/profile/${ID}`} className="m-3 btn btn-outline-light" >Go to profile</a>
             </center>

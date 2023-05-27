@@ -145,7 +145,6 @@ export default function Profile(props) {
         //console.log(output.data[0].max_id,"///////////////////////");
         setNotificationRemain((output.data[0].max_id-profileArr[0].readNotification));
         setMaxID(output.data[0].max_id)
-        //console.log(notificationRemain,"///////////////////////");
     }
     setNotificationNumber();
   })
@@ -289,6 +288,13 @@ export default function Profile(props) {
                         <li>
                           <a className="dropdown-item" href="/changeDirector">
                             Change RDHead
+                          </a>
+                        </li>
+                      )}
+                      {(profileArr[0].type === 'PI' || profileArr[0].type === 'Director' || profileArr[0].type === 'admin') && (
+                        <li>
+                          <a className="dropdown-item" href="/sendNotification">
+                            Send a Notification
                           </a>
                         </li>
                       )}
