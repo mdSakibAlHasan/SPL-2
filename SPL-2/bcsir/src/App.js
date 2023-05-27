@@ -36,6 +36,7 @@ import AddRemoveResearcher from "./R_D/AddOrRemoveResearcher";
 import ChangeDirector from "./R_D/ChangeDirector";
 import CreateDepartment from "./R_D/CreateDepartment";
 import ApproveProposalPage from "./R_D/ApproveProposal";
+import ProjectList from "./R_D/ProjectList";
 
 
 //import { BrowserRouter as  Route } from 'react-router-dom';
@@ -160,6 +161,10 @@ const router = createBrowserRouter([
   {
     path: "/approveProposal",
     element: <ApproveProposalPage/>,
+  },
+  {
+    path: "/projectList",
+    element: <ProjectList/>,
   },
 
 
