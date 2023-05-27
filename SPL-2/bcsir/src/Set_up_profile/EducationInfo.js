@@ -64,7 +64,7 @@ function EducationInfo() {
   },[info]);
 
   const nextPage = async (e) => {     
-    navigate("/education");
+    navigate("/achievement");
   };
 
   const handleEducationInfoChange = (index, event) => {

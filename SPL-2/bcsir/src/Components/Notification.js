@@ -58,11 +58,12 @@ const NotificationShow = ({ notificationTitle, notificationDetails, time }) => {
   return (
     <div className="notification">
       <div className="notification-header" onClick={toggleExpand}>
-        <h3>{notificationTitle} </h3>
+        <p><strong>{notificationTitle}</strong> </p>
         <small>{time}</small>
         <span>{expanded ? '▲' : '▼'}</span>
       </div>
       {expanded && <p className="notification-details">{notificationDetails}</p>}
+      <br/>
     </div>
   );
 };

@@ -1,4 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useFetcher, useNavigate } from 'react-router-dom';
+import { getSetCookie } from './CookiesHandle';
+import axios from 'axios';
 
 const achievementTypes = [
   'Journal Article',
@@ -10,6 +13,7 @@ const achievementTypes = [
 ];
 
 function AchievementPublication() {
+  const [info,setInfo] = useState([]);
   const [achievements, setAchievements] = useState([
     {
       type: '',
@@ -17,6 +21,56 @@ function AchievementPublication() {
       description: '',
     },
   ]);
+
+  const navigate = useNavigate();
+  var result;
+  useEffect(() => {
+    function handleCookie() {
+      result = getSetCookie("my_cookies");
+      if (result == null) {
+        navigate("/login");
+      }
+    }
+    handleCookie();
+  }, []);
+
+  useEffect(() => {
+    const handleProfileClick = async () => {
+      const input = {
+        cookieID: result,
+      };
+      input.cookieID = result;
+      if (input.cookieID != null) {
+        const ID = await axios.post(
+          "http://localhost:3001/edit/getAchievementInfo",
+          input
+        );
+        setInfo(ID.data);
+        //console.log("Here is info:", ID.data);
+      }
+    };
+    handleProfileClick();
+  }, [result]);
+
+  useEffect(() => {
+    const setUpInfo = () => {
+      if (info !== undefined && info.length > 0) {
+        const AchArr = info.map((item) => ({
+          type: item.Type,
+          year: item.PublishYear,
+          description: item.Description,
+        }));
+        setAchievements(AchArr);
+      }
+    };
+  
+    setUpInfo();
+  }, [info]);
+  
+  
+//address
+
+
 
   const handleAchievementChange = (index, event) => {
     const values = [...achievements];
@@ -111,7 +165,7 @@ function AchievementPublication() {
             Add Achievement/Publication
           </button><br/><center>
           {/* @sakib  onlcick kore action/navigate korte hobe*/}
-          <button type="button" className="m-2 btn btn-outline-light">
+          <button type="button" className="m-2 btn btn-outline-light" onClick={handleSubmit}>
             Save Data
           </button>
           

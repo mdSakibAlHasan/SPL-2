@@ -75,23 +75,23 @@ export default function ChangePass() {
         <div className='full_page_normal p-5 shade1'>
         
             <div className='shade2 p-5 rounded'>
-            <center><h4>পাসওয়ার্ড পরিবর্তন</h4></center> <hr /> <br/>
+            <center><h3><strong>Change Password</strong></h3></center> <hr /> <br/>
                 <div className="mb-3 mt-3">
-                    <label htmlFor="OldPasswordInput" className="form-label">পূর্বের পাসওয়ার্ডঃ</label>
-                    <input type="password"   id="OldPasswordInput" placeholder="পূর্বের পাসওয়ার্ডটি দিন" name='oldPassword'  onChange={handleChange} /> 
+                    <label htmlFor="OldPasswordInput" className="form-label">Previous Password</label>
+                    <input type="password"   id="OldPasswordInput" placeholder="Your Password Here" name='oldPassword'  onChange={handleChange} /> 
               </div> <hr/>
 
                 <div className="mb-3 mt-3">
-                    <label htmlFor="PasswordInput" className="form-label">নতুন পাসওয়ার্ডঃ</label>
-                    <input type="password"   id="PasswordInput" placeholder="নতুন একটি পাসওয়ার্ড দিন" name='newPassword' onChange={handleChange} /><hr/>
+                    <label htmlFor="PasswordInput" className="form-label">New Password</label>
+                    <input type="password"   id="PasswordInput" placeholder="Type a new Password Here" name='newPassword' onChange={handleChange} /><hr/>
                 </div>
 
                 <div className="mb-3 mt-3">
-                    <label htmlFor="RetypePasswordInput" className="form-label">রিটাইপ পাসওয়ার্ডঃ</label>
-                    <input type="password"   id="RetypePasswordInput" placeholder="নতুন পাসওয়ার্ডটি পুরনরায় দিন" name='RetypePassword' onChange={handleChange} /><hr/>
+                    <label htmlFor="RetypePasswordInput" className="form-label">Retype New Password</label>
+                    <input type="password"   id="RetypePasswordInput" placeholder="Retype the new Password Here" name='RetypePassword' onChange={handleChange} /><hr/>
                 </div><br/><br/>
                 {err && <p>{err}</p>}
-                <input className='btn btn-outline-light'value="পাসওয়ার্ড পরিবর্তন করুন"  onClick={()=>update_password()}/> <br /><br />
+                <input className='btn btn-outline-light'value="Change Password"  onClick={()=>update_password()}/> <br /><br />
             </div>
        
         </div>

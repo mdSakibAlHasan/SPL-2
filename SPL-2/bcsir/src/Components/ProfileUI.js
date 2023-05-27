@@ -195,14 +195,14 @@ export default function Profile(props) {
               </span>
             </button>
 
-            {showPopup && (
+            {showPopup && isOwner &&(
               <div className="popup-box">
                 <button className="close-button" onClick={togglePopup}>
                   <i className="fas fa-times"></i>
                 </button>
 
                 <div className="popup-content">
-                  <h2>Notification</h2>
+                  <h4>Notification</h4><hr/>
                   <Notification ID={inputs.ID}  maxNotification ={ maxID }/>
                   {/* <button onClick={togglePopup}>Close</button> */}
                 </div>
@@ -222,9 +222,9 @@ export default function Profile(props) {
                   alt="Profile photo"
                 />{" "}
                 <br />
-                <h4>
+                <h3> <strong>
                   {profileArr.length > 0 && profileArr[0].Name} <hr/><br />
-                </h4>
+                 </strong></h3>
                 
                 {profileArr.length > 0 && profileArr[0].Designation} <br />
                 {profileArr.length > 0 && profileArr[0].DepartmentName} <br />
@@ -251,17 +251,51 @@ export default function Profile(props) {
                           Password Changes
                         </a>
                       </li>
-                      {isAddResearcher && (
+                       <li>    {/*  //check condition for declare call */}
+                        <a className="dropdown-item" href="/submitProposal">
+                          Proposal Submit
+                        </a>
+                      </li>
+                      {profileArr[0].type === 'PI' && (
                         <li>
-                          <a className="dropdown-item" href="/Register">
-                            Add Researcher
+                          <a className="dropdown-item" href="/declareCall">
+                            Declare a call
+                          </a>
+                        </li>
+                      )&&(<li>
+                        <a className="dropdown-item" href="/editdateline">
+                         Edit Dateline
+                        </a>
+                      </li>)}
+                      {profileArr[0].type === 'admin' && (
+                        <li>
+                          <a className="dropdown-item" href="/createDepartment">
+                            Create a Department
+                          </a>
+                        </li>
+                      )&&(<li>
+                        <a className="dropdown-item" href="/changeDirector">
+                         Change Director
+                        </a>
+                      </li>)}
+                      {(profileArr[0].type === 'admin' || profileArr[0].type === 'Director') && (
+                        <li>
+                          <a className="dropdown-item" href="/addRemoveResearcher">
+                            Add or Remove Researcher
                           </a>
                         </li>
                       )}
-                      {isAddResearcher && (
+                      {(profileArr[0].type === 'PI' || profileArr[0].type === 'Director') && (
                         <li>
-                          <a className="dropdown-item" href="/changepass">
-                            Remove Researcher
+                          <a className="dropdown-item" href="/changeDirector">
+                            Change RDHead
+                          </a>
+                        </li>
+                      )}
+                      {(profileArr[0].type === 'PI' || profileArr[0].type === 'Director' || profileArr[0].type === 'RDHead' )&& (
+                        <li>
+                          <a className="dropdown-item" href="/changeDirector">
+                            Change RDHead
                           </a>
                         </li>
                       )}
@@ -270,11 +304,11 @@ export default function Profile(props) {
                 )}
               </div>
               <div className="col">
-                <h4>নিজের সম্পর্কে</h4>
+                <h3> <strong>About Me </strong></h3>
                 <hr/>
                 <p>{profileArr.length > 0 && profileArr[0].AboutMe}</p>
 
-                <h4>অন্যান্য লিংকস</h4><hr/><br/>
+                <h3> <strong>Find me Also </strong></h3><hr/><br/>
                 
                 <a
                   href={profileArr.length > 0 && profileArr[0].ResearchGateLink}
@@ -297,7 +331,7 @@ export default function Profile(props) {
               </div>
             </div>
             <br />
-            <center><h4>অন্যান্য তথ্য</h4></center>
+            <center><h3> <strong>Other Information </strong></h3></center>
             <hr/>
             <br />
             <div className="row">

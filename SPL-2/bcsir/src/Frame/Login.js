@@ -21,7 +21,7 @@ export default function Login() {
         e.preventDefault();
         try {
           await login(inputs)
-          navigate("/personalInfo");
+          navigate("/home");
         } catch (err) {
           setError(err.response.data);
         }
@@ -31,20 +31,20 @@ export default function Login() {
         <div className='full_page_normal p-5 shade1'>
         
             <div className='shade2 p-5 rounded'>
-            <center><h4>লগ-ইন</h4></center> <hr /> <br/>
+            <center><h4><strong>Log In</strong></h4></center> <hr /> <br/>
                 <div className="mb-3 mt-3">
-                    <label for="EmailInput" className="form-label">ই-মেইলঃ </label><br/>
-                    <input type="email"  id="EmailInput" placeholder="আপনার ই-মেইল দিন" name='email' onChange={handleChange}/>
+                    <label for="EmailInput" className="form-label">Email: </label><br/>
+                    <input type="email"  id="EmailInput" placeholder="Your Email Here" name='email' onChange={handleChange}/>
                 </div><hr/>
                 <div className="mb-3 mt-3">
-                    <label for="PasswordInput" className="form-label">পাসওয়ার্ডঃ</label><br/>
-                    <input type="password" id="PasswordInput" placeholder="আপনার পাসওয়ার্ড দিন" name='password' onChange={handleChange}/>
+                    <label for="PasswordInput" className="form-label">Passsword:</label><br/>
+                    <input type="password" id="PasswordInput" placeholder="Your Password Here" name='password' onChange={handleChange}/>
                 </div><hr/><br/>
                 <center>
                   {err && <p>{err}</p>}
-                <input className='btn btn-outline-light' type="button" value="লগ-ইন করুন" onClick={handleSubmit}/>
+                <input className='btn btn-outline-light' type="button" value="Log IN" onClick={handleSubmit}/>
                 <br/><br/>
-                <a href='/forgotPass'>পাসওয়ার্ড ভুলে গেছেন? পুনরুদ্ধার করুন</a> <br/><br/>
+                <a href='/forgotPass'>Foget Password? Click here to recover</a> <br/><br/>
                 </center>
             </div>
        

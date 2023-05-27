@@ -21,12 +21,15 @@ export default function InfoShowCard(props) {
   
   return (
     <>
-        <div className="shade3 mx-3 card shadow p-3 mb-5 bg-body-tertiary rounded" style={{width:"18rem",float:"left"}}>
+        <div className="shade3 mx-3 shadow p-3 mb-5 rounded" style={{width:"18rem",float:"left"}}>
         <img style={{height:"300px" }} src={imageSrc} className="card-img-top" alt={`Photo of ${name}`}/>
         <div className="shade3 card-body">
-            <h5 className="card-title">{name}</h5>
-            <p className="card-text">{designation}</p>
-            <a  href={`/profile/${ID}`} className="btn btn-outline-info" >Go to profile</a>
+            <h4 className=" m-2">{name}</h4>
+            <small className="card-text">({designation})</small>
+            <center>
+              <a  href={`/profile/${ID}`} className="m-3 btn btn-outline-light" >Go to profile</a>
+            </center>
+            
         </div>
         </div>
     </>
