@@ -14,6 +14,7 @@ const achievementTypes = [
 
 function AchievementPublication() {
   const [info,setInfo] = useState([]);
+  const [personalInfo, setpersonalInfo] = useState([]);
   const [achievements, setAchievements] = useState([
     {
       type: '',
@@ -33,6 +34,21 @@ function AchievementPublication() {
     }
     handleCookie();
   }, []);
+
+  useEffect(() => {
+    const handleProfileClick = async () => {
+      const input = {
+        cookieID: result,
+      };
+      input.cookieID = result;
+      if (input.cookieID != null) {
+        const ID = await axios.post('http://localhost:3001/app/getPersonalInfo', input);
+        setpersonalInfo(ID.data);
+        //console.log('Here is info:', ID.data);
+      }
+    };
+    handleProfileClick();
+  }, [result]);
 
   useEffect(() => {
     const handleProfileClick = async () => {
@@ -97,7 +113,12 @@ function AchievementPublication() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log('Achievements:', achievements);
+    console.log('Achievements:', achievements);//setAchievement
+    axios.post(
+      "http://localhost:3001/edit/setAchievement",
+      {ID: personalInfo[0].ID,
+      achievements:achievements}
+    );
   };
 
   return (

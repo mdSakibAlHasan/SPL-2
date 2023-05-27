@@ -24,9 +24,11 @@ export const getAchievementInfo = async (req,res) =>{
 }
 
 
-export const setAchevementInfo = (req,res) =>{
-    const {ID,acheievementArr} = req.body;
-    acheievementArr.map((item)=>{
+export const setAchevementInfo = async (req,res) =>{
+    const {ID,achievements} = req.body;
+    //const ID = await getID(token);
+    //console.log(req.body);
+    achievements && achievements.map((item)=>{
         const querey = `INSERT INTO bcsir.achievement ( OwnerID, Type, PublishYear, Description)
         VALUES ('${ID}','${item.type}','${item.year}', '${item.description}')
         ON DUPLICATE KEY UPDATE OwnerID = VALUES(OwnerID), Type = VALUES(Type), PublishYear = VALUES(Description);`;
@@ -38,9 +40,10 @@ export const setAchevementInfo = (req,res) =>{
                 return res.status(400).json("Err to update education");
             }
             else{
-                return res.status(200).json("Successfully add education info");
+              console.log(item.type);
             }
-        })
-    })
+        });
+    });
+    return res.status(200).json("Successfully add education info");
     
 }

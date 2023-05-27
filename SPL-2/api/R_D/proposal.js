@@ -16,7 +16,7 @@ export const getProposalInfo =  (req,res)=>{
         and bcsir.researcher.ID= bcsir.research.ResearcherID;`;
     }
 
-    console.log(approval,"====================");
+    //console.log(approval,"====================");
     db.query(approval,(err,data)=>{
         if(err){
             console.log("Err to get data from research table");
