@@ -45,7 +45,7 @@ const ProjectList = () => {
         <div key={project.id} className="shade3 m-3 p-3 rounded">
           <h4>{project.title}</h4> <hr/>
           <p><strong>Project Leader: </strong>{project.leader}</p>
-          <p><strong>Team Mates: </strong>{project.teammates.join(', ')}</p>
+          <p><strong>Associates: </strong>{project.teammates.join(', ')}</p>
           <p><strong>Description: </strong>{project.description}</p>
           <p><strong>Progress: </strong>{project.progress}%</p>
           {isRCHead && (
