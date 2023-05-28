@@ -71,6 +71,7 @@ function ProposalForm() {
           input
         );
         setInfo(ID.data);
+        console.log(ID.data);
         const ProfessionalAff =
           info.length > 0 && info[0].ProfessionalAffiliation.replace("#$", ",");
         setProfessionalTraining(ProfessionalAff);

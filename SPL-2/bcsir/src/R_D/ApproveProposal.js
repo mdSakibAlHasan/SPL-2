@@ -110,6 +110,7 @@ function ApproveProposalPage(props) {
         (item) => item !== selectedProposal
       );
       setProposal(updatedProposals);
+      console.log(selectedProposal, "................");
       axios.post("http://localhost:3001/RD/approveProposal", {
         selectedProposal: selectedProposal,
         type: info[0].type,

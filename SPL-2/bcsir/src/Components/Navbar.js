@@ -32,14 +32,14 @@ export default function Navbar() {
       if (input.cookieID != null) {
         //console.log(input.cookieID," is get in profile cookie");
         const ID = await axios.post(
-          "http://localhost:3001/app/getProfileID",
+          "http://localhost:3001/app/getProfileID", //profile.getInfo
           input
         );
         //console.log("The ID id",ID.data['id']);
         setProfileID(ID.data["id"]);
       }
       const Name = await axios.post(
-        "http://localhost:3001/app/getResearcherName"
+        "http://localhost:3001/app/getResearcherName" //profile.getInfo
       );
       setInfo(Name.data);
     };

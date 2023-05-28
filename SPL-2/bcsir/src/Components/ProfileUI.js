@@ -63,32 +63,32 @@ export default function Profile(props) {
 
         //inputs.cookie = getCookie('my_cookies');
         result = await axios.post(
-          "http://localhost:3001/app/getProfileInfo",
+          "http://localhost:3001/app/getProfileInfo", //profile/basic
           inputs
         );
         console.log("getprofile ", result.data, "all print here");
         setprofileArr(result.data);
 
         result = await axios.post(
-          "http://localhost:3001/app/getEducationInfo",
+          "http://localhost:3001/app/getEducationInfo", //profile/basic
           inputs
         );
         //console.log("geteducation", result.data);
         seteducationArr(result.data);
         result = await axios.post(
-          "http://localhost:3001/app/getJobInfo",
+          "http://localhost:3001/app/getJobInfo", //profile/basic
           inputs
         );
         setjobArr(result.data);
         //console.log("getJob ",result.data);
         result = await axios.post(
-          "http://localhost:3001/app/getOtherInfo",
+          "http://localhost:3001/app/getOtherInfo", //profile/basic
           inputs
         );
         setOtherArr(result.data);
         console.log(otherArr, " here are all data");
         result = await axios.post(
-          "http://localhost:3001/app/cookieAuth",
+          "http://localhost:3001/app/cookieAuth", //profile/setInfo
           inputs
         );
         console.log(result.data.id, " in if statement");
@@ -97,7 +97,7 @@ export default function Profile(props) {
         }
 
         result = await axios.post(
-          "http://localhost:3001/app/cookieAuth",
+          "http://localhost:3001/app/cookieAuth", //profile/setInfo
           inputs
         );
         console.log("ekhane print ses ", result.data);
@@ -162,7 +162,7 @@ export default function Profile(props) {
   useEffect(() => {
     const setNotificationNumber = async () => {
       const output = await axios.post(
-        "http://localhost:3001/app/getMaxNotificationID",
+        "http://localhost:3001/app/getMaxNotificationID", //profile/notification
         { deptID: profileArr[0].departmentID }
       );
       //console.log(output.data[0].max_id,"///////////////////////");
@@ -565,15 +565,25 @@ export default function Profile(props) {
                       Research
                     </button>
                     <ul className="dropdown-menu">
-                      <li>
-                        <a className="dropdown-item" href="/">
-                          Research Interest
-                        </a>
+                      <li
+                        className="dropdown-item"
+                        data-bs-toggle="modal"
+                        data-bs-target="#exampleModal"
+                        onClick={() => {
+                          set_modal_title("Research Interest");
+                        }}
+                      >
+                        Research Interest
                       </li>
-                      <li>
-                        <a className="dropdown-item" href="/">
-                          Research Projects
-                        </a>
+                      <li
+                        className="dropdown-item"
+                        data-bs-toggle="modal"
+                        data-bs-target="#exampleModal"
+                        onClick={() => {
+                          set_modal_title("Research Experience");
+                        }}
+                      >
+                        Research Experience
                       </li>
                     </ul>
                   </div>

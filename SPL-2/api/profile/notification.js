@@ -16,16 +16,19 @@ export const getNotification = async (req, res) => {
   });
 };
 
-const getDepartmentID = async (dept, departmentID) => {
+const getDepartmentID = async (dept, DepartmentID) => {
+  console.log(dept, DepartmentID);
   if (dept === "All Department") {
     return 10;
+  } else if (dept.length < 5) {
+    return DepartmentID;
   } else {
     const query = `SELECT DepartmentID FROM bcsir.department WHERE DepartmentName = '${dept}';`;
     return new Promise((resolve, reject) => {
       db.query(query, (err, data) => {
         if (err) {
           console.log("Error getting department ID:", err);
-          reject(departmentID);
+          return DepartmentID;
         } else {
           console.log(data);
           console.log("Inside function");
@@ -38,7 +41,7 @@ const getDepartmentID = async (dept, departmentID) => {
 
 const sendNotificationByEmail = (Tittle, Body, deptID) => {
   var querey;
-  if (deptID === 10) {
+  if (deptID === 10 || deptID > 100) {
     querey = `select Email from bcsir.researcher;`;
   } else {
     querey = `select Email from bcsir.researcher where departmentID = ${deptID};`;
@@ -62,7 +65,7 @@ const sendNotificationByEmail = (Tittle, Body, deptID) => {
 
 export const sendNotification = async (req, res) => {
   const { ID, dept, DepartmentID, Email, Profile, Tittle, Body } = req.body;
-  console.log(req.body);
+  console.log(req.body, "///////////////////............");
   const deptID = await getDepartmentID(dept, DepartmentID);
   console.log(deptID);
 
@@ -98,6 +101,29 @@ export const sendNotification = async (req, res) => {
   if (Profile) {
     //sendNotification @update
   }
+};
+
+export const notificationDefine = (ID, DepartmentID, Tittle, Body) => {
+  const currentDate = new Date();
+  const year = currentDate.getFullYear();
+  const month = String(currentDate.getMonth() + 1).padStart(2, "0");
+  const day = String(currentDate.getDate()).padStart(2, "0");
+  const hours = String(currentDate.getHours()).padStart(2, "0");
+  const minutes = String(currentDate.getMinutes()).padStart(2, "0");
+  const seconds = String(currentDate.getSeconds()).padStart(2, "0");
+
+  const formattedDate = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+  console.log(formattedDate);
+
+  const querey = `INSERT INTO bcsir.notification (OwnerID,body, DateTime, ReceiverID, Tittle) VALUES ('${ID}', '${Body}', '${formattedDate}', '${DepartmentID}', '${Tittle}');`;
+  console.log(querey);
+  db.query(querey, (err, data) => {
+    if (err) {
+      console.log("Error to insert data into notificattion table");
+    } else {
+      console.log("Successfdully complete");
+    }
+  });
 };
 
 export const getMaxNotification = async (req, res) => {
