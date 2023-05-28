@@ -1,4 +1,5 @@
 import { db } from "../db.js";
+import { sendNotification } from "../profile/notification.js";
 
 export const getProposalInfo = (req, res) => {
   const { DepartmentID, type } = req.body;
@@ -97,6 +98,16 @@ export const approveProposal = (req, res) => {
       return res.status(400).json("err to set data in research table");
     } else {
       console.log("Complete set data");
+      sendNotification(req, res, {
+        ID: 0,
+        dept: " ",
+        DepartmentID: selectedProposal.ResearcherID,
+        Email: false,
+        Profile: true,
+        Tittle: "Approval Proposal",
+        Body: `${type} approve your proposal check it now`,
+      });
+
       return res.status(200).json("coplete set data");
     }
   });
@@ -113,6 +124,15 @@ export const declineProposal = (req, res) => {
       return res.status(400).json("err to delete row in research table");
     } else {
       console.log("Complete set data");
+      sendNotification(req, res, {
+        ID: 0,
+        dept: " ",
+        DepartmentID: selectedProposal.ResearcherID,
+        Email: false,
+        Profile: true,
+        Tittle: "Approval Proposal",
+        Body: "Your proposal is declined. Please check ther error",
+      });
       return res.status(200).json("coplete set data");
     }
   });

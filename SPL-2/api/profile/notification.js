@@ -3,7 +3,7 @@ import send_mail from "../control/sent_mail.js";
 
 export const getNotification = async (req, res) => {
   const ID = req.body.ID;
-  const querey = `select * from bcsir.notification where ReceiverID = 10 OR ReceiverID = (select departmentID from bcsir.researcher where ID=${ID}) ORDER BY NotificationID DESC;`;
+  const querey = `select * from bcsir.notification where ReceiverID = 10 OR ReceiverID = (select departmentID from bcsir.researcher where ID=${ID}) OR ReceiverID = ${ID} ORDER BY NotificationID DESC;`;
   console.log(querey); //ReceiverID =
   db.query(querey, (err, data) => {
     if (err) {
@@ -115,8 +115,7 @@ export const getMaxNotification = async (req, res) => {
   });
 };
 
-export const setNotificationStatus = (req,res)=>{
-  
+export const setNotificationStatus = (req, res) => {
   const ID = req.body.ID;
   const maxNotification = req.body.maxNotification;
   const querey = `update bcsir.researcher set readNotification=${maxNotification}`;
