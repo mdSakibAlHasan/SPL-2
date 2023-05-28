@@ -76,12 +76,6 @@ const AddRemoveResearcher = () => {
           input
         );
         setInfo(ID.data);
-        const ID2 = await axios.post(
-          "http://localhost:3001/app/getPersonalInfo",
-          input
-        );
-
-        //setSelectedDepartment(ID.data[0].departmentID);
         console.log("Here is info:", ID.data);
       }
     };
@@ -94,6 +88,14 @@ const AddRemoveResearcher = () => {
         "http://localhost:3001/api/getDepartment"
       );
       setDepartmentNames(result2.data);
+
+      const ID = await axios.post("http://localhost:3001/RD/getResearcher", {
+        dept: info[0].departmentID,
+      });
+      setResearchers(ID.data);
+      //setSelectedDepartment(ID.data[0].departmentID);
+      console.log("----------", ID.data);
+
       if (
         info &&
         (info[0].type === "admin" ||

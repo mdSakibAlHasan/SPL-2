@@ -179,13 +179,13 @@ function ViewProposal() {
             <label className="p-1" htmlFor="unitName">
               Name of the unit:
             </label>
-            {info[0].uniteName}
+            {info && info[0].uniteName}
           </div>
           <div className="form-group">
             <label className="p-1" htmlFor="projectTitle">
               Title of the proposed R &amp; D project:
             </label>
-            {info[0].Title}
+            {info && info[0].Title}
           </div>
           <div className="form-group">
             <label className="p-1" htmlFor="projectLeaderName">

@@ -10,7 +10,7 @@ export const getProfileInfo = async (req, res) => {
     //const ID = 10000;
     //console.log("ID: in personal ", ID);
 
-    const q = `SELECT ID, Name, FatherName, MotherName,BirthDate, Gender, NationalID, ResearchExperience, ThesisSupervision, ProfessionalAffiliation,Orchidlink,GoogleScholarlink,ResearchGateLink  FROM bcsir.researcher WHERE ID = '${ID}';`;
+    const q = `SELECT ID, Name, FatherName,departmentID,Designation, MotherName,BirthDate, Gender, NationalID, ResearchExperience, ThesisSupervision, ProfessionalAffiliation,Orchidlink,GoogleScholarlink,ResearchGateLink  FROM bcsir.researcher WHERE ID = '${ID}';`;
     //console.log(q,"-------------------");
     db.query(q, (err, data) => {
       if (err) {
