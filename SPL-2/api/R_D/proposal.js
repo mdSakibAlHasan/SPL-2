@@ -119,9 +119,9 @@ export const declineProposal = (req, res) => {
 };
 
 export const getWholeProposal = (req, res) => {
-  const ResearchID = req.res.ResearchID;
+  const ResearchID = req.body.ResearchID;
   const querey = `select * from bcsir.research where ResearchID= ${ResearchID};`;
-
+  console.log(querey);
   db.query(querey, (err, data) => {
     if (err) {
       console.log("Err ot get data");

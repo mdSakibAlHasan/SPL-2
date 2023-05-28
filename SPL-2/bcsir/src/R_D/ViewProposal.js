@@ -7,9 +7,11 @@ import { getSetCookie } from "../Set_up_profile/CookiesHandle";
 function ViewProposal() {
   const location = useLocation();
   const segments = location.pathname.split("/");
-  const ProposalID = segments[segments.length - 1];
-  console.log(ProposalID);
+  var ProposalID = segments[segments.length - 1];
+
+  // console.log(ProposalID, segments, ",,,,,,,,,,,,,,,///////////");
   const [info, setInfo] = useState([]);
+  const [personalInfo, setpersonalInfo] = useState([]);
   const [researcher, setResearchers] = useState([]);
   const [unitName, setUnitName] = useState("");
   const [projectTitle, setProjectTitle] = useState("");
@@ -53,42 +55,28 @@ function ViewProposal() {
   const navigate = useNavigate();
   useEffect(() => {
     function handleCookie() {
+      const segments = location.pathname.split("/");
+      ProposalID = segments[segments.length - 1];
       result = getSetCookie("my_cookies");
-      // if (result == null) {
-      //   navigate("/login");
-      // }
+      if (result == null) {
+        navigate("/login");
+      }
     }
     handleCookie();
   }, []);
 
   useEffect(() => {
     const handleProfileClick = async () => {
-      const input = {
-        cookieID: result,
-      };
-      input.cookieID = result;
-      console.log(input, "==========");
-      if (input.cookieID != null) {
-        const ID = await axios.post(
-          "http://localhost:3001/RD/getWholeProposal",
-          { ResearchID: ProposalID }
-        );
-        setInfo(ID.data);
-        //console.log(" Here is info ", ID.data);
-
-        // const result2 = await axios.post(
-        //   "http://localhost:3001/RD/getResearcher",
-        //   { dept: ID.data[0].departmentID }
-        // ); //RD/authority.js
-        // setResearchers(result2.data, "-------------");
-        // console.log("cool");
-        //  const result3 = await axios.post(
-        //   "http://localhost:3001/RD/getProposalInfo",
-        //   { dept: ID.data[0].ID }
-        // ); //profile/basic.js
-      } else {
-        console.log("Here are all done");
-      }
+      const ID = await axios.post("http://localhost:3001/RD/getWholeProposal", {
+        ResearchID: ProposalID,
+      });
+      setInfo(ID.data);
+      const ID2 = await axios.post(
+        "http://localhost:3001/app/getPersonalInfo",
+        { cookieID: result }
+      );
+      //inputs.ID = ID.data['id'];
+      setpersonalInfo(ID2.data);
     };
     handleProfileClick();
   }, [result]);
@@ -133,31 +121,6 @@ function ViewProposal() {
     setAvailableResearchers(updatedAvailableResearchers);
   };
 
-  // const handleSubmit = async (event) => {
-  //   event.preventDefault();
-  //   const form = formRef.current;
-
-  //   // Capture form field values
-  //   const formData = new FormData(form);
-  //   const formValues = Object.fromEntries(formData.entries());
-
-  //   console.log("Generating PDF...");
-
-  //   // Perform backend submission with the selected researchers
-  //   console.log(selectedResearchers, "-------------");
-  //   const output = await axios.post(
-  //     "http://localhost:3001/RD/storeProposalInfo",
-  //     {
-  //       ID: info[0].ID,
-  //       Tittle: projectTitle,
-  //       Proposal: "proposal.pdf",
-  //       Teammate: selectedResearchers,
-  //     }
-  //   );
-
-  //   console.log(output.data);
-  // };
-
   return (
     <div className="full_page_normal p-5 shade1">
       <div className="shade2 p-5 rounded">
@@ -179,19 +142,20 @@ function ViewProposal() {
             <label className="p-1" htmlFor="unitName">
               Name of the unit:
             </label>
-            {info && info[0].uniteName}
+            {info.length > 0 && info[0].uniteName}
           </div>
           <div className="form-group">
             <label className="p-1" htmlFor="projectTitle">
               Title of the proposed R &amp; D project:
             </label>
-            {info && info[0].Title}
+            {info.length > 0 && info[0].Title}
           </div>
           <div className="form-group">
             <label className="p-1" htmlFor="projectLeaderName">
               Name and designation of Project Leader:
             </label>
-            {projectLeaderName}, ({projectLeaderDesignation})
+            {personalInfo.length > 0 && personalInfo[0].Name}, (
+            {personalInfo.length > 0 && personalInfo[0].Designation})
           </div>
           <br />
           <br />
@@ -226,52 +190,52 @@ function ViewProposal() {
             <label className="p-1" htmlFor="projectType">
               Type/ Nature of the proposed R &amp; D project:
             </label>
-            {projectType}
+            {info.length > 0 && info[0].projectNature}
           </div>
           <div className="form-group">
             <label className="p-1" htmlFor="projectBackground">
               Introduction/ Background of the proposed R &amp; D project:
             </label>
-            {projectBackground}
+            {info.length > 0 && info[0].bckground}
           </div>
           <div className="form-group">
             <label className="p-1" htmlFor="projectObjective">
               Objective:
             </label>
-            {projectObjective}
+            {info.length > 0 && info[0].objective}
           </div>
           <div className="form-group">
             <label className="p-1" htmlFor="socioEconomicImportance">
               Socio-economic importance of the project:
             </label>
-            {socioEconomicImportance}
+            {info.length > 0 && info[0].socioEconomic}
           </div>
           <div className="form-group">
             <label className="p-1" htmlFor="professionalTraining">
               Previous Professional Training/ Experience of the project leader
               relevant to the proposed R&amp;D Project:
             </label>
-            {professionalTraining}
+            {info.length > 0 && info[0].training.split("#$")}
           </div>
           <div className="form-group">
             <label className="p-1" htmlFor="budgetInfo">
               Budget Information:
             </label>
-            {budgetInfo}
+            {info.length > 0 && info[0].budget}
           </div>
           <div className="form-group">
             <label className="p-1" htmlFor="otherProjects">
               Name and Progress of another ongoing project of the project (As
               Project leader/ Associate):
             </label>
-            {otherProjects}
+            {info.length > 0 && info[0].ongoingProject}
           </div>
           <div className="form-group">
             <label className="p-1" htmlFor="previousPrograms">
               What other R &amp; D program in the related field has already been
               implemented in the BCSIR or elsewhere in the Country or Abroad?:
             </label>
-            {previousPrograms}
+            {info.length > 0 && info[0].anotherPrograme}
           </div>
           <br />
           <br />
@@ -288,31 +252,31 @@ function ViewProposal() {
             <label className="p-1" htmlFor="workPlan">
               Work Plan/ Work Packages of the proposed R&amp;D Project:
             </label>
-            {workPlan}
+            {info.length > 0 && info[0].workPlan}
           </div>
           <div className="form-group">
             <label className="p-1" htmlFor="expectedOutcome">
               The expected outcome of the project:
             </label>
-            {expectedOutcome}
+            {info.length > 0 && info[0].outCome}
           </div>
           <div className="form-group">
             <label className="p-1" htmlFor="timeBoundActionPlan">
               Quarterly time-bound action plan for the proposed project:
             </label>
-            {timeBoundActionPlan}
+            {info.length > 0 && info[0].timeBound}
           </div>
           <div className="form-group">
             <label className="p-1" htmlFor="implementationPeriod">
               Implementation period:
             </label>
-            {implementationPeriod}
+            {info.length > 0 && info[0].implementationPeriod}
           </div>
           <div className="form-group">
             <label className="p-1" htmlFor="projectProgress">
               Progress of the project:
             </label>
-            {projectProgress}
+            {0}
           </div>
           <br />
           <br />
@@ -329,14 +293,14 @@ function ViewProposal() {
             <label className="p-1" htmlFor="researchFacilities">
               Research facilities available in BCSIR:
             </label>
-            {researchFacilities}
+            {info.length > 0 && info[0].facilities}
           </div>
           <div className="form-group">
             <label className="p-1" htmlFor="requiredFacilities">
               A list of facilities ( Equipment/Instrument) will be required in
               addition to the implementation of the R&amp;D projects:
             </label>
-            {requiredFacilities}
+            {info.length > 0 && info[0].requiredfacilities}
           </div>
 
           <div className="form-group">
@@ -344,7 +308,7 @@ function ViewProposal() {
               Any other Information Relevant to the R&amp;D Project Proposal and
               its Execution:
             </label>
-            {additionalInfo}
+            {info.length > 0 && info[0].others}
           </div>
           <br />
           <br />
