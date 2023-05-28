@@ -158,7 +158,6 @@ function ProposalForm() {
       "http://localhost:3001/RD/storeProposalInfo",
       {
         ID: info[0].ID,
-        Tittle: projectTitle,
         Teammate: selectedResearchers,
         deptID: info[0].departmentID,
         uniteName: unitName,
