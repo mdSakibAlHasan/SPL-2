@@ -121,6 +121,10 @@ function AchievementPublication() {
     );
   };
 
+  const nextPage = () =>{
+    navigate('/');
+  }
+
   return (
     <div className='full_page_normal p-5 shade1'>
     <div className="shade2 p-5 rounded">
@@ -191,7 +195,7 @@ function AchievementPublication() {
           </button>
           
           
-          <button type="submit" className="m-2 btn btn-outline-light">
+          <button type="submit" className="m-2 btn btn-outline-light" onClick={nextPage}>
             Go to Next Page
           </button>
         </center>
