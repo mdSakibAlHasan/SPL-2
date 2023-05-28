@@ -1,5 +1,6 @@
 .my_body{
-    font-family: 'CharukolaUltraLight', Arial, sans-serif !important;
+    /* font-family: , Arial, sans-serif !important; */
+    font-family: Noto Sans,sans-serif,'CharukolaUltraLight';
     color: white;
 }
 
