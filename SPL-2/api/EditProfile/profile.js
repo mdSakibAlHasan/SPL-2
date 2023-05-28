@@ -29,7 +29,10 @@ export const getProfileInfo = async (req, res) => {
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, "F:\\5th semister\\5th Semister\\SPL-2\\SPL-2\\api\\Photo");
+    cb(
+      null,
+      "F:\\5th semister\\5th Semister\\SPL-2\\SPL-2\\bcsir\\src\\Components\\photo"
+    );
   },
   filename: function (req, file, cb) {
     const fileExtension = file.originalname.split(".").pop(); // Extract the file extension
@@ -44,10 +47,23 @@ const upload = multer({ storage: storage });
 export const setProfileInfo = async (req, res, next) => {
   try {
     upload.single("file")(req, res, (err) => {
-      
-      const {ID,Name,fatherName,motherName, birthDate,gender,nationalId,researchExperienceList, thesisSupervisionList, professionalAffiliationList,Orchidlink,GoogleScholarlink,ResearchGateLink} = req.body;
+      const {
+        ID,
+        Name,
+        fatherName,
+        motherName,
+        birthDate,
+        gender,
+        nationalId,
+        researchExperienceList,
+        thesisSupervisionList,
+        professionalAffiliationList,
+        Orchidlink,
+        GoogleScholarlink,
+        ResearchGateLink,
+      } = req.body;
       //console.log(Name,fatherName,motherName, birthDate,gender,nationalId,researchExperienceList, thesisSupervisionList, professionalAffiliationList,Orchidlink,GoogleScholarlink,ResearchGateLink);
-     
+
       if (err instanceof multer.MulterError) {
         console.log(err);
         return res.status(400).json({ error: "Multer error" });
@@ -56,8 +72,8 @@ export const setProfileInfo = async (req, res, next) => {
         console.log(err);
         return res.status(500).json({ error: "Internal server error" });
       }
-      const path = req.file.path;
-      console.log(req.file.path);
+      const path = req.file.filename;
+      console.log(req.file);
       const querey = `UPDATE bcsir.researcher
       SET Name = '${Name}',
           fatherName = '${fatherName}',
@@ -74,15 +90,15 @@ export const setProfileInfo = async (req, res, next) => {
           Photo = '${path}'
       WHERE ID = ${ID};`;
       console.log(querey);
-      db.query(querey,(err,data)=>{
-        if(err){
+      db.query(querey, (err, data) => {
+        if (err) {
           console.log("Err to update data");
           return res.status(400).json("Something happend to update data");
         }
         // else{
         //   return res.status(200).json("data update successfully")
         // }
-      })
+      });
 
       //res.status(200).json({ message: "Data stored successfully" });
     });
@@ -91,4 +107,3 @@ export const setProfileInfo = async (req, res, next) => {
     res.status(500).json({ error: "Internal server error" });
   }
 };
-
