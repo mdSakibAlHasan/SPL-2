@@ -9,13 +9,13 @@ function ShowResearcherList() {
   });
   const [researcherArr, setresearcherArr] = useState([]);
   const [selectedDepartment, setSelectedDepartment] = useState();
-  const [director,setDirector] = useState();
+  const [director, setDirector] = useState();
 
   useEffect(() => {
     const handleDepartment = async () => {
       try {
         const result = await axios.post(
-          "http://localhost:3001/api/getDepartment"   //controll/auth.js
+          "http://localhost:3001/api/getDepartment" //controll/auth.js
         );
         setdepartmentsArr(result.data);
       } catch (err) {
@@ -28,16 +28,14 @@ function ShowResearcherList() {
   const handleResearcher = async () => {
     try {
       const result = await axios.post(
-        "http://localhost:3001/app/getResearcher",        //profile/basic.js
+        "http://localhost:3001/app/getResearcher", //profile/basic.js
         { dept: selectedDepartment }
       );
       setresearcherArr(result.data);
       console.log(researcherArr);
-      
     } catch (err) {
       console.log(err);
     }
-    
   };
 
   const handleDepartmentChange = (event) => {
@@ -46,15 +44,15 @@ function ShowResearcherList() {
 
   useEffect(() => {
     if (selectedDepartment) {
-      const setDIrectorName = async ()=>{
+      const setDIrectorName = async () => {
         const result2 = await axios.post(
-          "http://localhost:3001/app/getConnectedResearcher",        //profile/basic.js
+          "http://localhost:3001/app/getConnectedResearcher", //profile/basic.js
           { ID: 11003 }
         );
         setDirector(result2.data);
-        console.log()
-      }   
-      
+        console.log();
+      };
+
       handleResearcher();
       setDIrectorName();
     }
@@ -64,11 +62,15 @@ function ShowResearcherList() {
     <div className="full_page_normal p-5 shade1">
       <div className="shade2 p-5 rounded">
         <center>
-          <h3><strong>Department wise Info</strong></h3>
+          <h3>
+            <strong>Department wise Info</strong>
+          </h3>
         </center>
         <hr />
         <div className="form-group">
-          <label htmlFor="departmentSelect" className="m-1">Select a Department</label>
+          <label htmlFor="departmentSelect" className="m-1">
+            Select a Department
+          </label>
           <select
             id="departmentSelect"
             value={selectedDepartment}
@@ -76,7 +78,7 @@ function ShowResearcherList() {
           >
             <option value="">--</option>
             {departmentArr.map((option) => (
-              <option key={option} value={option}>
+              <option key={option} value={option} style={{ color: "black" }}>
                 {option}
               </option>
             ))}

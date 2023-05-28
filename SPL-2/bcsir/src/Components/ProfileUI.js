@@ -188,7 +188,7 @@ export default function Profile(props) {
           <div>
             {isOwner && (
               <div
-                className="dropdown mx-5 mt-5"
+                className="dropdown mx-5 "
                 style={{
                   position: "fixed",
                   top: "80px",
@@ -325,7 +325,7 @@ export default function Profile(props) {
             )}
             {isOwner && (
               <button
-                className="mt-5"
+                className=""
                 onClick={togglePopup}
                 style={{
                   position: "fixed",

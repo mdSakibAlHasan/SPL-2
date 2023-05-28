@@ -171,7 +171,7 @@ function ApproveProposalPage(props) {
                   </p>
                   <div className="text-center mb-3">
                     <a
-                      href={selectedProposal.Proposal}
+                      href={`/viewProposal/${selectedProposal.ResearchID}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="btn btn-outline-light m-2"

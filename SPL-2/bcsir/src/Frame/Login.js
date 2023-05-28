@@ -22,7 +22,7 @@ export default function Login() {
     e.preventDefault();
     try {
       await login(inputs);
-      <Navbar />;
+      // <Navbar />;
       navigate("/home");
     } catch (err) {
       setError(err.response.data);
