@@ -140,6 +140,25 @@ export default function Profile(props) {
     console.log(arr);
   };
 
+  const handleLogout = async (e) => {
+    e.preventDefault();
+    try {
+      document.cookie.split(";").forEach((c) => {
+        document.cookie = c
+          .replace(/^ +/, "")
+          .replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
+      });
+
+      // setIsLogin(false);
+      handleRefresh();
+    } catch (err) {
+      console.log("here error in navbar");
+    }
+  };
+  const handleRefresh = () => {
+    window.location.reload();
+  };
+
   useEffect(() => {
     const setNotificationNumber = async () => {
       const output = await axios.post(
@@ -167,39 +186,178 @@ export default function Profile(props) {
       <div className="full_page_normal p-5 shade1">
         <div className="shade2 p-2 rounded">
           <div>
-            <button
-              onClick={togglePopup}
-              style={{
-                position: "fixed",
-                top: "80px",
-                right: "20px",
-                padding: "10px",
-                backgroundColor: "#fff",
-                color: "#333",
-                borderRadius: "50%",
-                border: "1px solid #ccc",
-                outline: "none",
-                cursor: "pointer",
-                zIndex: "999",
-              }}
-            >
-              <i className="fas fa-bell"></i>
-              <span
+            {isOwner && (
+              <div
+                className="dropdown mx-5 mt-5"
                 style={{
-                  position: "absolute",
-                  top: "2px",
-                  right: "5px",
-                  backgroundColor: "#f00",
-                  color: "#fff",
+                  position: "fixed",
+                  top: "80px",
+                  right: "20px",
+                  padding: "10px",
+                  // backgroundColor: "#fff",
+                  color: "#333",
                   borderRadius: "50%",
-                  padding: "2px 5px",
-                  fontSize: "12px",
+                  // border: "1px solid #ccc",
+                  outline: "none",
+                  cursor: "pointer",
+                  zIndex: "999",
                 }}
               >
-                {notificationRemain}
-              </span>
-            </button>
+                <button
+                  className="btn btn-primary dropdown-toggle"
+                  type="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  {profileArr.length > 0 && profileArr[0].Name}
+                </button>
+                <ul className="dropdown-menu">
+                  <li>
+                    <a
+                      onClick={handleLogout}
+                      className="dropdown-item"
+                      href="/personalInfo"
+                    >
+                      Log Out
+                    </a>
+                  </li>
+                  <li>
+                    <a className="dropdown-item" href="/personalInfo">
+                      Edit Profile
+                    </a>
+                  </li>
+                  <li>
+                    <a className="dropdown-item" href="/changepass">
+                      Password Changes
+                    </a>
+                  </li>
+                  <li>
+                    {" "}
+                    {/*  //check condition for declare call */}
+                    <a className="dropdown-item" href="/submitProposal">
+                      Proposal Submit
+                    </a>
+                  </li>
+                  <li>
+                    {" "}
+                    {/*  //check condition for declare call */}
+                    <a className="dropdown-item" href="/projectList">
+                      Ongoing Project List
+                    </a>
+                  </li>
+                  {profileArr[0].type === "PI" && (
+                    <>
+                      <li>
+                        <a className="dropdown-item" href="/declareCall">
+                          Declare a call
+                        </a>
+                      </li>
 
+                      <li>
+                        <a className="dropdown-item" href="/editdateline">
+                          Edit Dateline
+                        </a>
+                      </li>
+
+                      <li>
+                        <a className="dropdown-item" href="/finalApprove">
+                          Approve Final project
+                        </a>
+                      </li>
+                    </>
+                  )}
+                  {profileArr[0].type === "admin" && (
+                    <>
+                      <li>
+                        <a className="dropdown-item" href="/createDepartment">
+                          Create a Department
+                        </a>
+                      </li>
+
+                      <li>
+                        <a className="dropdown-item" href="/changeDirector">
+                          Change Director
+                        </a>
+                      </li>
+                      <li>
+                        <a className="dropdown-item" href="/setcommittee">
+                          Add RC Head
+                        </a>
+                      </li>
+                    </>
+                  )}
+                  {(profileArr[0].type === "admin" ||
+                    profileArr[0].type === "Director") && (
+                    <li>
+                      <a className="dropdown-item" href="/addRemoveResearcher">
+                        Add or Remove Researcher
+                      </a>
+                    </li>
+                  )}
+                  {(profileArr[0].type === "PI" ||
+                    profileArr[0].type === "Director") && (
+                    <li>
+                      <a className="dropdown-item" href="/setcommittee">
+                        Change RDHead
+                      </a>
+                    </li>
+                  )}
+                  {(profileArr[0].type === "PI" ||
+                    profileArr[0].type === "Director" ||
+                    profileArr[0].type === "admin") && (
+                    <li>
+                      <a className="dropdown-item" href="/sendNotification">
+                        Send a Notification
+                      </a>
+                    </li>
+                  )}
+                  {(profileArr[0].type === "PI" ||
+                    profileArr[0].type === "Director" ||
+                    profileArr[0].type === "RDHead") && (
+                    <li>
+                      <a className="dropdown-item" href="/approveProposal">
+                        Approve Proposal
+                      </a>
+                    </li>
+                  )}
+                </ul>
+              </div>
+            )}
+            {isOwner && (
+              <button
+                className="mt-5"
+                onClick={togglePopup}
+                style={{
+                  position: "fixed",
+                  top: "80px",
+                  right: "20px",
+                  padding: "10px",
+                  backgroundColor: "#fff",
+                  color: "#333",
+                  borderRadius: "50%",
+                  border: "1px solid #ccc",
+                  outline: "none",
+                  cursor: "pointer",
+                  zIndex: "999",
+                }}
+              >
+                <i className="fas fa-bell"></i>
+                <span
+                  style={{
+                    position: "absolute",
+                    top: "2px",
+                    right: "5px",
+                    backgroundColor: "#f00",
+                    color: "#fff",
+                    borderRadius: "50%",
+                    padding: "2px 5px",
+                    fontSize: "12px",
+                  }}
+                >
+                  {notificationRemain}
+                </span>
+              </button>
+            )}
             {showPopup && isOwner && (
               <div className="popup-box">
                 <button className="close-button" onClick={togglePopup}>
@@ -216,15 +374,12 @@ export default function Profile(props) {
             )}
           </div>
           {/* <Navbar/> */} <br />
-          <br />
-          <br />
-          <br />
-          <div className="container">
-            <div className="row">
-              <div className="col">
+          <div>
+            <div className="row" style={{ height: "700px" }}>
+              <div className="col p-5">
                 <img
                   src={imageSrc}
-                  style={{ width: "40%", height: "60%" }}
+                  style={{ width: "330px", height: "400px" }}
                   alt="Profile photo"
                 />{" "}
                 <br />
@@ -239,116 +394,6 @@ export default function Profile(props) {
                 {profileArr.length > 0 && profileArr[0].DepartmentName} <br />
                 {/* {isOwner && <a  href="/personalInfo" className="btn btn-outline-info" >Edit profile</a>} */}
                 <br />
-                {isOwner && (
-                  <div className="dropdown">
-                    <button
-                      className="btn btn-primary dropdown-toggle"
-                      type="button"
-                      data-bs-toggle="dropdown"
-                      aria-expanded="false"
-                    >
-                      Settings
-                    </button>
-                    <ul className="dropdown-menu">
-                      <li>
-                        <a className="dropdown-item" href="/personalInfo">
-                          Edit Profile
-                        </a>
-                      </li>
-                      <li>
-                        <a className="dropdown-item" href="/changepass">
-                          Password Changes
-                        </a>
-                      </li>
-                      <li>
-                        {" "}
-                        {/*  //check condition for declare call */}
-                        <a className="dropdown-item" href="/submitProposal">
-                          Proposal Submit
-                        </a>
-                      </li>
-                      <li>
-                        {" "}
-                        {/*  //check condition for declare call */}
-                        <a className="dropdown-item" href="/projectList">
-                          Ongoing Project List
-                        </a>
-                      </li>
-                      {profileArr[0].type === "PI" && (
-                          <li>
-                            <a className="dropdown-item" href="/declareCall">
-                              Declare a call
-                            </a>
-                          </li>
-                        ) && (
-                          <li>
-                            <a className="dropdown-item" href="/editdateline">
-                              Edit Dateline
-                            </a>
-                          </li>
-                        ) && (
-                          <li>
-                            <a className="dropdown-item" href="/finalApprove">
-                              Approve Final project
-                            </a>
-                          </li>
-                        )}
-                      {profileArr[0].type === "admin" && (
-                          <li>
-                            <a
-                              className="dropdown-item"
-                              href="/createDepartment"
-                            >
-                              Create a Department
-                            </a>
-                          </li>
-                        ) && (
-                          <li>
-                            <a className="dropdown-item" href="/changeDirector">
-                              Change Director
-                            </a>
-                          </li>
-                        )}
-                      {(profileArr[0].type === "admin" ||
-                        profileArr[0].type === "Director") && (
-                        <li>
-                          <a
-                            className="dropdown-item"
-                            href="/addRemoveResearcher"
-                          >
-                            Add or Remove Researcher
-                          </a>
-                        </li>
-                      )}
-                      {(profileArr[0].type === "PI" ||
-                        profileArr[0].type === "Director") && (
-                        <li>
-                          <a className="dropdown-item" href="/changeDirector">
-                            Change RDHead
-                          </a>
-                        </li>
-                      )}
-                      {(profileArr[0].type === "PI" ||
-                        profileArr[0].type === "Director" ||
-                        profileArr[0].type === "admin") && (
-                        <li>
-                          <a className="dropdown-item" href="/sendNotification">
-                            Send a Notification
-                          </a>
-                        </li>
-                      )}
-                      {(profileArr[0].type === "PI" ||
-                        profileArr[0].type === "Director" ||
-                        profileArr[0].type === "RDHead") && (
-                        <li>
-                          <a className="dropdown-item" href="/approveProposal">
-                            Approve Proposal
-                          </a>
-                        </li>
-                      )}
-                    </ul>
-                  </div>
-                )}
               </div>
               <div className="col">
                 <h3>
@@ -399,7 +444,6 @@ export default function Profile(props) {
                 </a>
               </div>
             </div>
-            <br />
             <center>
               <h3>
                 {" "}

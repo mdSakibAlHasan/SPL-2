@@ -42,8 +42,8 @@ export default function HomeMain() {
   return (
     <>
       <div className="shade1 full_page_normal">
-        <div className="p-5 shade2">
-          <div className="row m-5 p-3 shade3">
+        <div className="p-5 shade1">
+          <div className="row m-5 p-3 shade2">
             <center>
               <p className="display-6">Welcome to BCSIR</p>
             </center>

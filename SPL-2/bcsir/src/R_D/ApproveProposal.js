@@ -56,8 +56,12 @@ function ApproveProposalPage(props) {
       setProposal(result2.data);
       // console.log(result2.data, "=========", proposals);
       // setUserType("admin");
-      if (info && (info[0].type === "RDHead" || info[0].type === "Director" || info[0].type === "PI")) {
-        
+      if (
+        info &&
+        (info[0].type === "RDHead" ||
+          info[0].type === "Director" ||
+          info[0].type === "PI")
+      ) {
       } else {
         navigate("/login");
       }
@@ -67,22 +71,24 @@ function ApproveProposalPage(props) {
 
   const handleProposalClick = (proposal) => {
     setSelectedProposal(proposal);
-    console.log(selectedProposal,"-----")
+    console.log(selectedProposal, "-----");
   };
 
   const handleDeclineProposal = async () => {
     setShowModal(true);
     const result = await axios.post("http://localhost:3001/RD/conformation", {
-           ID: info[0].ID,
-           pass: password
+      ID: info[0].ID,
+      pass: password,
     });
-    if(result.data === "Password matches"){
+    if (result.data === "Password matches") {
       const updatedProposals = proposals.filter(
         (item) => item !== selectedProposal
       );
       setProposal(updatedProposals);
-      axios.post("http://localhost:3001/RD/approveProposal",{selectedProposal: selectedProposal });
-      
+      axios.post("http://localhost:3001/RD/approveProposal", {
+        selectedProposal: selectedProposal,
+      });
+
       setSelectedProposal(null);
       setShowModal(false);
       setPassword("");
@@ -96,22 +102,19 @@ function ApproveProposalPage(props) {
   const handleApproveProposal = async () => {
     const result = await axios.post("http://localhost:3001/RD/conformation", {
       ID: info[0].ID,
-      pass: password
+      pass: password,
     });
 
-    if(result.data === "Password matches"){
+    if (result.data === "Password matches") {
       const updatedProposals = proposals.filter(
         (item) => item !== selectedProposal
-      ); 
-      setProposal(updatedProposals);
-      axios.post(
-        "http://localhost:3001/RD/approveProposal",
-        {
-          selectedProposal: selectedProposal,
-          type: info[0].type,
-        }
       );
-      
+      setProposal(updatedProposals);
+      axios.post("http://localhost:3001/RD/approveProposal", {
+        selectedProposal: selectedProposal,
+        type: info[0].type,
+      });
+
       setApprovedProposals([...approvedProposals, selectedProposal]);
       setSelectedProposal(null);
       setShowModal(false);
@@ -125,125 +128,131 @@ function ApproveProposalPage(props) {
   };
 
   return (
-    <div  className='full_page_normal p-5 shade1'>
-    <div className="shade2 p-5 rounded">
-      <center><h4>Approve Proposal</h4></center> <hr /> <br/>
-      
-      <div className="row">
-        {proposals.map((proposal) => (
-          <div key={proposal.ID} className="col-sm-4 mb-4">
-            <div className="shade3" onClick={() => handleProposalClick(proposal)}>
-              <div className="card-body">
-                <h5 className="card-title">{proposal.Title}</h5>
-                <p className="card-text">
-                  <strong>Author:</strong> {proposal.Name}
-                </p>
-                <p className="card-text">
-                  <strong>Department:</strong> {proposal.DepartmentName}
-                </p>
+    <div className="full_page_normal p-5 shade1">
+      <div className="shade2 p-5 rounded">
+        <center>
+          <h4>Approve Proposal</h4>
+        </center>{" "}
+        <hr /> <br />
+        <div className="row">
+          {proposals.map((proposal) => (
+            <div key={proposal.ID} className="col-sm-4 mb-4">
+              <div
+                className="shade3"
+                onClick={() => handleProposalClick(proposal)}
+              >
+                <div className="card-body p-2 rounded">
+                  <h5 className="card-title">{proposal.Title}</h5>
+                  <hr />
+                  <p className="card-text">
+                    <strong>Author:</strong> {proposal.Name}
+                  </p>
+                  <p className="card-text">
+                    <strong>Department:</strong> {proposal.DepartmentName}
+                  </p>
+                </div>
               </div>
             </div>
+          ))}
+        </div>
+        {selectedProposal && (
+          <div className="row">
+            <div className="col-sm-8 mb-4 ">
+              <div>
+                <div className="shade3 card-body p-2">
+                  <h5 className=" card-title">{selectedProposal.Title}</h5>
+                  <hr />
+                  <p className=" card-text">
+                    <strong>Author:</strong> {selectedProposal.Name}
+                  </p>
+                  <p className=" card-text">
+                    <strong>Department:</strong>{" "}
+                    {selectedProposal.DepartmentName}
+                  </p>
+                  <div className="text-center mb-3">
+                    <a
+                      href={selectedProposal.Proposal}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="btn btn-outline-light m-2"
+                    >
+                      View Proposal
+                    </a>
+                    <div
+                      className="btn btn-success m-2"
+                      onClick={() => setShowModal(true)}
+                    >
+                      Approve
+                    </div>
+                    <div
+                      className="btn btn-danger m-2"
+                      onClick={handleDeclineProposal}
+                    >
+                      Decline
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {/* <h3 className="shade3 card-text">Approved Proposal: {approvedProposals.Title}</h3> */}
           </div>
-        ))}
-      </div>
-
-      {selectedProposal && (
-        <div className="row">
-          <div className="col-sm-8 mb-4">
-            <div>
-              <div className="card-body">
-                <h5 className="shade3 card-title">{selectedProposal.Title}</h5>
-                <p className="shade3 card-text">
-                  <strong>Author:</strong> {selectedProposal.Name}
-                </p>
-                <p className="shade3 card-text">
-                  <strong>Department:</strong> {selectedProposal.DepartmentName}
-                </p>
-                <div className="text-center mb-3">
-                  <a
-                    href={selectedProposal.Proposal}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="btn btn-primary mr-2"
+        )}
+        {showModal && (
+          <div
+            className="modal"
+            tabIndex="-1"
+            role="dialog"
+            style={{ display: "block" }}
+          >
+            <div className="modal-dialog" role="document">
+              <div className="modal-content">
+                <div className="modal-header">
+                  <h5 className="modal-title">Confirm Approval</h5>
+                  <button
+                    type="button"
+                    className="close"
+                    data-dismiss="modal"
+                    aria-label="Close"
+                    onClick={handleCancelAction}
                   >
-                    View Proposal
-                  </a>
-                  <div
-                    className="btn btn-success mr-2"
-                    onClick={() => setShowModal(true)}
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div className="modal-body">
+                  <p>Are you sure you want to approve this proposal?</p>
+                  <div className="form-group">
+                    <label htmlFor="password">Enter password to confirm:</label>
+                    <input
+                      type="password"
+                      className="form-control"
+                      id="password"
+                      value={password}
+                      onChange={handlePasswordChange}
+                    />
+                  </div>
+                </div>
+                <div className="modal-footer">
+                  <button
+                    type="button"
+                    className="btn btn-secondary"
+                    data-dismiss="modal"
+                    onClick={handleCancelAction}
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="button"
+                    className="btn btn-primary"
+                    onClick={handleApproveProposal}
                   >
                     Approve
-                  </div>
-                  <div
-                    className="btn btn-danger"
-                    onClick={handleDeclineProposal}
-                  >
-                    Decline
-                  </div>
+                  </button>
                 </div>
               </div>
             </div>
           </div>
-          {/* <h3 className="shade3 card-text">Approved Proposal: {approvedProposals.Title}</h3> */}
-        </div>
-      )}
-
-      {showModal && (
-        <div
-          className="modal"
-          tabIndex="-1"
-          role="dialog"
-          style={{ display: "block" }}
-        >
-          <div className="modal-dialog" role="document">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h5 className="modal-title">Confirm Approval</h5>
-                <button
-                  type="button"
-                  className="close"
-                  data-dismiss="modal"
-                  aria-label="Close"
-                  onClick={handleCancelAction}
-                >
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div className="modal-body">
-                <p>Are you sure you want to approve this proposal?</p>
-                <div className="form-group">
-                  <label htmlFor="password">Enter password to confirm:</label>
-                  <input
-                    type="password"
-                    className="form-control"
-                    id="password"
-                    value={password}
-                    onChange={handlePasswordChange}
-                  />
-                </div>
-              </div>
-              <div className="modal-footer">
-                <button
-                  type="button"
-                  className="btn btn-secondary"
-                  data-dismiss="modal"
-                  onClick={handleCancelAction}
-                >
-                  Cancel
-                </button>
-                <button
-                  type="button"
-                  className="btn btn-primary"
-                  onClick={handleApproveProposal}
-                >
-                  Approve
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-    </div>
+        )}
+      </div>
     </div>
   );
 }

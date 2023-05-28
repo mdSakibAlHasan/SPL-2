@@ -101,31 +101,46 @@ export default function Navbar() {
     <>
       <nav className="row nav shade3 p-3">
         <div className="row justify-content-between">
-                    <div class="col-8" style={{fontSize:"15pt"}}><strong><big><big><big><big>BCSIR</big></big></big></big> (Bangladesh Council of Scientific and Industrial Research)</strong></div>
+          <div class="col-8" style={{ fontSize: "15pt" }}>
+            <strong>
+              <big>
+                <big>
+                  <big>
+                    <big>BCSIR</big>
+                  </big>
+                </big>
+              </big>{" "}
+              (Bangladesh Council of Scientific and Industrial Research)
+            </strong>
+          </div>
 
           <div className="col-3">
-              <div
-                className="shade3"
-                style={{ display: "inline-block", color:"white", width:"100%",border:"0.1px solid white"}}
-              >
-                <div>
-                  
-                  <Autosuggest
-                    suggestions={suggestions}
-                    onSuggestionsFetchRequested={onSuggestionsFetchRequested}
-                    onSuggestionsClearRequested={onSuggestionsClearRequested}
-                    getSuggestionValue={(suggestion) => suggestion}
-                    renderSuggestion={(suggestion) => (
-                      <div>
-                        <a href={`/profile/${suggestion.ID}`}>
-                          {suggestion.Name}
-                        </a>
-                      </div>
-                    )}
-                    inputProps={inputProps}
-                  />
-                </div>
+            <div
+              className="shade3"
+              style={{
+                display: "inline-block",
+                color: "white",
+                width: "100%",
+                border: "0.1px solid white",
+              }}
+            >
+              <div>
+                <Autosuggest
+                  suggestions={suggestions}
+                  onSuggestionsFetchRequested={onSuggestionsFetchRequested}
+                  onSuggestionsClearRequested={onSuggestionsClearRequested}
+                  getSuggestionValue={(suggestion) => suggestion}
+                  renderSuggestion={(suggestion) => (
+                    <div>
+                      <a href={`/profile/${suggestion.ID}`}>
+                        {suggestion.Name}
+                      </a>
+                    </div>
+                  )}
+                  inputProps={inputProps}
+                />
               </div>
+            </div>
           </div>
           {/* <div className="col-1 fa fa-search"></div> */}
         </div>
@@ -140,24 +155,12 @@ export default function Navbar() {
           Department Info
         </a>
         <a className="col mb-1 my-nav-link">
-          {isLogin && (
-            <a href={`/profile/${profileID}`}>
-              Profile
-            </a>
-          )}
+          {isLogin && <a href={`/profile/${profileID}`}>Profile</a>}
         </a>
 
         <a className="col mb-1 my-nav-link">
-          {!isLogin && (
-            <a href="/Login">
-              User Login
-            </a>
-          )}
-          {isLogin && (
-            <button onClick={handleLogout}>
-              Logout
-            </button>
-          )}
+          {!isLogin && <a href="/Login">User Login</a>}
+          {isLogin && <button onClick={handleLogout}>Logout</button>}
         </a>
       </nav>
       {/* <div className="my_body">
