@@ -99,9 +99,12 @@ function SetCommittee(props) {
 
       //code for check confirm password
       if (info[0].type === "admin") {
-        axios.post("http://localhost:3001/RD/setPI", inputs);
+        axios.post("http://localhost:3001/RD/setPI", { ID: researcherID });
       } else if (info[0].type === "Director" || info[0].type === "PI") {
-        axios.post("http://localhost:3001/RD/setRDHead", inputs);
+        axios.post("http://localhost:3001/RD/setRDHead", {
+          ID: researcherID,
+          dept: info[0].departmentID,
+        });
       }
     } else {
       setErrorMessage("Confirmation password not match");

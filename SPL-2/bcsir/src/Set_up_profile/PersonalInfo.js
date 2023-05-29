@@ -107,9 +107,17 @@ function PersonalInfoForm() {
             return { value: item };
           });
         setProfessionalAffiliationList(ProfessionalAffArr);
-        setGoogleScholar(info.length > 0 && (info.GoogleScholarlink?info.GoogleScholarlink: " "));
-        setOrchidProfile(info.length > 0 && (info.Orchidlink?info.Orchidlink: ""));
-        setResearchGate(info.length > 0 && (info.ResearchGateLink?info.ResearchGateLink:""));
+        setGoogleScholar(
+          info.length > 0 &&
+            (info.GoogleScholarlink ? info.GoogleScholarlink : " ")
+        );
+        setOrchidProfile(
+          info.length > 0 && (info.Orchidlink ? info.Orchidlink : "")
+        );
+        setResearchGate(
+          info.length > 0 &&
+            (info.ResearchGateLink ? info.ResearchGateLink : "")
+        );
       }
     };
     setUpInfo();
@@ -160,49 +168,54 @@ function PersonalInfoForm() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-  
-    const researchArray = researchExperienceList.map((item) => item.value).join('#$');
+
+    const researchArray = researchExperienceList
+      .map((item) => item.value)
+      .join("#$");
     //console.log(researchArray);
-    const thesisSupArray = thesisSupervisionList.map((item) => item.value).join('#$');
-    const proAffArray = professionalAffiliationList.map((item) => item.value).join('#$');
-  
+    const thesisSupArray = thesisSupervisionList
+      .map((item) => item.value)
+      .join("#$");
+    const proAffArray = professionalAffiliationList
+      .map((item) => item.value)
+      .join("#$");
+
     const formData = new FormData();
-    formData.append('ID',info[0].ID);
-    formData.append('file', photo); // Assuming you have the file stored in the 'file' variable
-    formData.append('Name', name);
-    formData.append('fatherName', fatherName);
-    formData.append('motherName', motherName);
-    formData.append('birthDate', birthDate);
-    formData.append('gender', gender);
-    formData.append('nationalId', nationalId);
-    formData.append('researchExperienceList', researchArray);
-    formData.append('thesisSupervisionList', thesisSupArray);
-    formData.append('professionalAffiliationList',proAffArray);
-    formData.append('Orchidlink', orchidProfile);
-    formData.append('GoogleScholarlink', googleScholar);
-    formData.append('ResearchGateLink', researchGate);
-  
+    formData.append("ID", info[0].ID);
+    formData.append("file", photo); // Assuming you have the file stored in the 'file' variable
+    formData.append("Name", name);
+    formData.append("fatherName", fatherName);
+    formData.append("motherName", motherName);
+    formData.append("birthDate", birthDate);
+    formData.append("gender", gender);
+    formData.append("nationalId", nationalId);
+    formData.append("researchExperienceList", researchArray);
+    formData.append("thesisSupervisionList", thesisSupArray);
+    formData.append("professionalAffiliationList", proAffArray);
+    formData.append("Orchidlink", orchidProfile);
+    formData.append("GoogleScholarlink", googleScholar);
+    formData.append("ResearchGateLink", researchGate);
+
     try {
       const response = await axios.post(
-        "http://localhost:3001/edit/setProfileInfo",      //editProfile/profile.js
+        "http://localhost:3001/edit/setProfileInfo", //editProfile/profile.js
         formData,
         {
           headers: {
-            'Content-Type': 'multipart/form-data'
-          }
+            "Content-Type": "multipart/form-data",
+          },
         }
       );
-  
+
       console.log(response.data);
     } catch (error) {
       console.error(error);
     }
   };
-  
 
   const nextPage = async (e) => {
-      e.preventDefault();
-      navigate("/education");  
+    e.preventDefault();
+    navigate("/education");
   };
 
   return (
@@ -266,8 +279,12 @@ function PersonalInfoForm() {
               onChange={(e) => setGender(e.target.value)}
             >
               <option value="">--Select--</option>
-              <option value="male">Male</option>
-              <option value="female">Female</option>
+              <option style={{ color: "black" }} value="male">
+                Male
+              </option>
+              <option style={{ color: "black" }} value="female">
+                Female
+              </option>
             </select>
           </div>
           <div className="form-group m-2">
@@ -398,7 +415,11 @@ function PersonalInfoForm() {
             >
               Save Data
             </button>
-            <button type="submit" className="m-2 btn btn-outline-light" onClick={nextPage}>
+            <button
+              type="submit"
+              className="m-2 btn btn-outline-light"
+              onClick={nextPage}
+            >
               Go to Next Page
             </button>
           </center>

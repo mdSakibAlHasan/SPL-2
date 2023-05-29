@@ -68,9 +68,9 @@ function getRandomInt(max) {
 
 export const removeResearcher = (req, res) => {
   const ID = req.body.ID;
-  console.log(req.body.ID, ID);
+  console.log(req.body, "..........", ID);
 
-  const querey = `DELETE FROM bcsir.researcher WHERE ID = ${ID};`;
+  const querey = `DELETE FROM bcsir.researcher WHERE ID = ${req.body.ID};`;
   console.log(querey);
   db.query(querey, (err, data) => {
     if (err) {

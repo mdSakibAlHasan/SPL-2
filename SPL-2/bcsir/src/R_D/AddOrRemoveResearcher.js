@@ -50,6 +50,7 @@ const AddRemoveResearcher = () => {
   const handleSelectedResearcherChange = (event) => {
     setSelectedResearcher(event.target.value);
     setisSelectedResearcherSet(true);
+    getResearcherID();
   };
 
   var result;
@@ -131,14 +132,42 @@ const AddRemoveResearcher = () => {
         if (option.Name === selectedResearcher) {
           inputs.ID = option.ID;
           setResearcherID(option.ID);
-          //console.log(selectedResearcher," ------- ", option,"---------",inputs)
+          console.log(
+            selectedResearcher,
+            " -------++++++ ",
+            option,
+            "---------",
+            researcherID
+          );
         }
       });
     };
     getResearcherID();
-  }, [selectedResearcher]);
+  }, []);
+
+  const getResearcherID = () => {
+    researchers.map((option) => {
+      console.log(option);
+      if (option.Name === selectedResearcher) {
+        inputs.ID = option.ID;
+        setResearcherID(option.ID);
+        console.log(
+          selectedResearcher,
+          " -------++++++ ",
+          option,
+          "---------",
+          researcherID
+        );
+      }
+    });
+  };
 
   const handleSubmit = async (event) => {
+    // console.log(
+    //   "Director removing researcher:::::::::::::::",
+    //   selectedResearcher,
+    //   researcherID
+    // );
     event.preventDefault();
     const input = {
       email: newResearcherEmail,
@@ -165,11 +194,16 @@ const AddRemoveResearcher = () => {
             await axios.post("http://localhost:3001/api/register", input);
             console.log("Successfully added researcher");
           } else if (actionType === "remove") {
-            //console.log('Admin removing researcher:', inputs, researcherID);
+            console.log("Admin removing researcher:", inputs, researcherID);
+            console.log(
+              "Director removing researcher:",
+              selectedResearcher,
+              researcherID
+            );
             await axios.post("http://localhost:3001/app/removeResearcher", {
               ID: researcherID,
             });
-            // Perform remove researcher logic addResearcherByDirector
+            //Perform remove researcher logic addResearcherByDirector
           }
         } else if (userType === "Director") {
           if (actionType === "add") {
@@ -184,10 +218,10 @@ const AddRemoveResearcher = () => {
             );
             console.log("Successfully added researcher");
           } else if (actionType === "remove") {
-            //console.log('Director removing researcher:', selectedResearcher, info[0].departmentID);
             await axios.delete("http://localhost:3001/app/removeResearcher", {
               ID: researcherID,
             });
+
             // Perform remove researcher logic
           }
         }
@@ -210,7 +244,7 @@ const AddRemoveResearcher = () => {
 
   // Generate options for department selection
   const departmentOptions = departmentNames.map((departmentName, index) => (
-    <option key={index} value={departmentName}>
+    <option style={{ color: "black" }} key={index} value={departmentName}>
       {departmentName}
     </option>
   ));

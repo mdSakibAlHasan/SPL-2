@@ -31,7 +31,7 @@ const CreateDepartment = () => {
 
   const handleDepartmentNameChange = (event) => {
     setNewDepartmentName(event.target.value);
-    setisNewDepartmentNameSet(true)
+    setisNewDepartmentNameSet(true);
   };
 
   const handleResearcherSelection = (event) => {
@@ -102,8 +102,6 @@ const CreateDepartment = () => {
     setResearcher();
   }, [selectedDepartment]);
 
-  
-
   const handleSubmit = async (event) => {
     event.preventDefault();
     const result = await axios.post("http://localhost:3001/RD/conformation", {
@@ -157,8 +155,8 @@ const CreateDepartment = () => {
               onClick={() => setisProccedToNextSet(true)}
             />
           </div>
-          {isNewDepartmentNameSet && isProccedToNextSet &&(
-            <div className="m-2 p-5" >
+          {isNewDepartmentNameSet && isProccedToNextSet && (
+            <div className="m-2 p-5">
               <center>
                 <h5>Select A New Director for the Department</h5>
               </center>{" "}
@@ -172,91 +170,114 @@ const CreateDepartment = () => {
                 >
                   <option value="">Select</option>
                   {departmentNames.map((departmentName, index) => (
-                    <option key={index} value={departmentName}>
+                    <option
+                      key={index}
+                      style={{ color: "black" }}
+                      value={departmentName}
+                    >
                       {departmentName}
                     </option>
                   ))}
                 </select>
-              </div> <hr/>
-              
+              </div>{" "}
+              <hr />
             </div>
           )}
         </form>
         <div className="container">
-                {selectedDepartment && (
-                  <div className="row">
-                    <div style={{ display: "flex" }}>
-                      {researchers.map((user) => (
-                        <ProfileCard
-                          key={user.ID}
-                          name={user.Name}
-                          designation={user.Designation}
-                          photo={user.Photo}
-                          ID={user.ID}
-                          dept={selectedDepartment}
-                          onClick={handleResearcherSelect}
-                        />
-                      ))}
-                    </div>
-                  </div>
-                )}
+          {selectedDepartment && (
+            <div className="row">
+              <div style={{ display: "flex" }}>
+                {researchers.map((user) => (
+                  <ProfileCard
+                    key={user.ID}
+                    name={user.Name}
+                    designation={user.Designation}
+                    photo={user.Photo}
+                    ID={user.ID}
+                    dept={selectedDepartment}
+                    onClick={handleResearcherSelect}
+                  />
+                ))}
               </div>
-              {setResearcherID && isNewDepartmentNameSet && isProccedToNextSet &&(
-                <div className="p-5">
-                <p>
-                  {selectedResearcher} is set as Director of{" "}
-                  {newDepartmentName}{" "}
-                </p>
-              
-             
-                <input className='m-2 btn btn-outline-light' type="button" value="Create Department" onClick={() => setShowConfirmationModal(true)} />
+            </div>
+          )}
+        </div>
+        {setResearcherID && isNewDepartmentNameSet && isProccedToNextSet && (
+          <div className="p-5">
+            <p>
+              {selectedResearcher} is set as Director of {newDepartmentName}{" "}
+            </p>
 
-
-              </div>)}
-
-              {showConfirmationModal && (
-        <div className="modal" tabIndex="-1" role="dialog" style={{ display: 'block', color:"black"}}>
-          <div className="modal-dialog" role="document">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h5 className="modal-title">Confirm Action</h5>
-                <button
-                  type="button"
-                  className="close"
-                  data-dismiss="modal"
-                  aria-label="Close"
-                  onClick={() => setShowConfirmationModal(false)}
-                >
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div className="modal-body">
-                <p>
-                  Are you sure you want to change the director of {selectedDepartment} to {selectedResearcher}?
-                </p>
-                <div>
-                  <label>Admin Password:</label>
-                  <input type="password" style={{border:"1px solid black"}} value={adminPassword} onChange={handleAdminPasswordChange} required />
+            <input
+              className="m-2 btn btn-outline-light"
+              type="button"
+              value="Create Department"
+              onClick={() => setShowConfirmationModal(true)}
+            />
+          </div>
+        )}
+        {showConfirmationModal && (
+          <div
+            className="modal"
+            tabIndex="-1"
+            role="dialog"
+            style={{ display: "block", color: "black" }}
+          >
+            <div className="modal-dialog" role="document">
+              <div className="modal-content">
+                <div className="modal-header">
+                  <h5 className="modal-title">Confirm Action</h5>
+                  <button
+                    type="button"
+                    className="close"
+                    data-dismiss="modal"
+                    aria-label="Close"
+                    onClick={() => setShowConfirmationModal(false)}
+                  >
+                    <span aria-hidden="true">&times;</span>
+                  </button>
                 </div>
-              </div>
-              <div className="modal-footer">
-                <button
-                  type="button"
-                  className="btn btn-secondary"
-                  data-dismiss="modal"
-                  onClick={() => setShowConfirmationModal(false)}
-                >
-                  Cancel
-                </button>
-                <button type="button" className="btn btn-primary" onClick={handleSubmit}>
-                  Confirm
-                </button>
+                <div className="modal-body">
+                  <p>
+                    Are you sure you want to change the director of{" "}
+                    {selectedDepartment} to {selectedResearcher}?
+                  </p>
+                  <div>
+                    <label>Admin Password:</label>
+                    <input
+                      type="password"
+                      style={{ border: "1px solid black" }}
+                      value={adminPassword}
+                      onChange={handleAdminPasswordChange}
+                      required
+                    />
+                  </div>
+                </div>
+                <div className="modal-footer">
+                  <button
+                    type="button"
+                    className="btn btn-secondary"
+                    data-dismiss="modal"
+                    onClick={() => setShowConfirmationModal(false)}
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="button"
+                    className="btn btn-primary"
+                    onClick={handleSubmit}
+                  >
+                    Confirm
+                  </button>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      )}
-      {showConfirmationModal && <div className="modal-backdrop fade show"></div>}
+        )}
+        {showConfirmationModal && (
+          <div className="modal-backdrop fade show"></div>
+        )}
       </div>
     </div>
   );
